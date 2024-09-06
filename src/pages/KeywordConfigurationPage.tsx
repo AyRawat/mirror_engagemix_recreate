@@ -5,8 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function KeywordConfigurationPage() {
+  const navigate = useNavigate();
   const steps = [
     "Create account",
     "Product analysis",
@@ -97,14 +99,40 @@ export function KeywordConfigurationPage() {
                   }
                 }}
               />
-              <Button onClick={addKeyword}>Add</Button>
+              <Button
+                style={{
+                  background:
+                    "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+                  border: "transparent",
+                  borderRadius: "10px",
+                }}
+                className="text-white"
+                onClick={addKeyword}
+              >
+                Add
+              </Button>
             </div>
           </div>
           <div className="flex space-x-4">
-            <Button variant="secondary" className="w-full">
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => navigate("/search-configuration")}
+            >
               Go back
             </Button>
-            <Button className="w-full">Save & continue</Button>
+            <Button
+              style={{
+                background:
+                  "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+                border: "transparent",
+                borderRadius: "10px",
+              }}
+              className="text-white w-full"
+              onClick={() => navigate("/dashboard")}
+            >
+              Save & continue
+            </Button>
           </div>
         </div>
       </div>

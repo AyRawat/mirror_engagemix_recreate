@@ -1,4 +1,3 @@
-import React from "react";
 import Navbar from "@/components/blocks/Navbar";
 import Hero from "@/components/blocks/Hero";
 import UserAvatars from "@/components/blocks/Avatar";

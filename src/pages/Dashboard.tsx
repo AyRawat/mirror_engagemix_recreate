@@ -1,243 +1,225 @@
+import React from "react";
 import {
   Bell,
-  CircleUser,
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
-  Users,
-  Link,
+  ChevronDown,
+  ExternalLink,
+  FileText,
+  LayoutDashboard,
+  MessageSquare,
+  PieChart,
+  Settings,
+  MoreHorizontal,
 } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import StatsComponent from "@/components/blocks/StatsComponent";
+import ProjectManagement from "@/pages/ProjectManagment";
 
-export const description =
-  "A products dashboard with a sidebar navigation and a main content area. The dashboard has a header with a search input and a user menu. The sidebar has a logo, navigation links, and a card with a call to action. The main content area shows an empty state with a call to action.";
-
-export function Dashboard() {
-  return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
-        <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-            <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6" />
-              <span className="">Acme Inc</span>
-            </Link>
-            <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-              <Bell className="h-4 w-4" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
-          </div>
-          <div className="flex-1">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Home className="h-4 w-4" />
-                Dashboard
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <ShoppingCart className="h-4 w-4" />
-                Orders
-                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  6
-                </Badge>
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
-              >
-                <Package className="h-4 w-4" />
-                Products{" "}
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Users className="h-4 w-4" />
-                Customers
-              </Link>
-              <Link
-                href="#"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <LineChart className="h-4 w-4" />
-                Analytics
-              </Link>
-            </nav>
-          </div>
-          <div className="mt-auto p-4">
-            <Card x-chunk="dashboard-02-chunk-0">
-              <CardHeader className="p-2 pt-0 md:p-4">
-                <CardTitle>Upgrade to Pro</CardTitle>
-                <CardDescription>
-                  Unlock all features and get unlimited access to our support
-                  team.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
-                <Button size="sm" className="w-full">
-                  Upgrade
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+const Sidebar = () => (
+  <div className="w-64 bg-[#1c2536] text-white p-4 h-screen flex flex-col rounded-xl overflow-hidden">
+    <div className="text-2xl font-bold mb-8 text-left">EM</div>
+    <nav className="space-y-1 flex-grow">
+      <Button
+        variant="ghost"
+        className="w-full justify-start text-white hover:bg-[#2a3548]"
+      >
+        <LayoutDashboard className="mr-2 h-5 w-5" />
+        Dashboard
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start text-white hover:bg-[#2a3548]"
+      >
+        <FileText className="mr-2 h-5 w-5" />
+        Projects
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start text-white hover:bg-[#2a3548]"
+      >
+        <MessageSquare className="mr-2 h-5 w-5" />
+        Social media
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start text-white hover:bg-[#2a3548]"
+      >
+        <PieChart className="mr-2 h-5 w-5" />
+        Analytics
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start text-white hover:bg-[#2a3548]"
+      >
+        <Settings className="mr-2 h-5 w-5" />
+        Settings
+      </Button>
+      <Button
+        variant="ghost"
+        className="w-full justify-start text-white hover:bg-[#2a3548]"
+      >
+        <Bell className="mr-2 h-5 w-5" />
+        Notifications
+      </Button>
+    </nav>
+    <Card className="mt-auto bg-[#2a3548] text-white border-none">
+      <CardContent className="p-4">
+        <h3 className="font-semibold mb-2">Upgrade your plan to unlock</h3>
+        <p className="text-sm mb-4">
+          You are now using the free plan. Upgrade plan to continue using...
+        </p>
+        <p className="text-sm mb-2">Free plan</p>
+        <div className="w-full bg-gray-700 rounded-full h-2.5">
+          <div className="bg-blue-600 h-2.5 rounded-full w-1/3"></div>
         </div>
+        <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
+          Upgrade now
+        </Button>
+      </CardContent>
+    </Card>
+  </div>
+);
+
+const Header = () => (
+  <header className="flex justify-between items-center mb-8">
+    <h1 className="text-2xl font-bold">Welcome, Juwon.</h1>
+    <div className="flex items-center space-x-4">
+      <Bell className="h-5 w-5 text-gray-500" />
+      <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+        + New project
+      </Button>
+      <Avatar>
+        <AvatarImage src="/placeholder-avatar.jpg" />
+        <AvatarFallback>JW</AvatarFallback>
+      </Avatar>
+    </div>
+  </header>
+);
+
+const Banner = () => (
+  <div className="bg-[#e8eeff] rounded-lg p-6 mb-8 flex justify-between items-center">
+    <div>
+      <h2 className="text-2xl font-bold mb-2">
+        Track Keywords, Generate Responses, Boost Sales
+      </h2>
+      <p className="text-gray-600">
+        We help you grow sales by mentioning your business when your keywords
+        are mentioned
+      </p>
+    </div>
+    <img
+      src="/placeholder-banner-image.png"
+      alt="Banner illustration"
+      className="w-1/3"
+    />
+  </div>
+);
+
+const Stats = () => (
+  <div className="grid grid-cols-6 gap-4 mb-8">
+    {[
+      { label: "Projects", value: "0" },
+      { label: "Keywords Tracked", value: "0" },
+      { label: "Mentions", value: "0" },
+      { label: "Leads", value: "0" },
+      { label: "Link Clicks", value: "0" },
+      { label: "Impressions", value: "0" },
+    ].map((stat, index) => (
+      <div
+        key={index}
+        className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm"
+      >
+        <span className="text-3xl font-bold text-gray-800 mb-2">
+          {stat.value}
+        </span>
+        <span className="text-sm text-gray-500">{stat.label}</span>
       </div>
-      <div className="flex flex-col">
-        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0 md:hidden"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col">
-              <nav className="grid gap-2 text-lg font-medium">
-                <Link
-                  href="#"
-                  className="flex items-center gap-2 text-lg font-semibold"
-                >
-                  <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Acme Inc</span>
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Home className="h-5 w-5" />
-                  Dashboard
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Orders
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
-                  </Badge>
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Package className="h-5 w-5" />
-                  Products
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Users className="h-5 w-5" />
-                  Customers
-                </Link>
-                <Link
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <LineChart className="h-5 w-5" />
-                  Analytics
-                </Link>
-              </nav>
-              <div className="mt-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Upgrade to Pro</CardTitle>
-                    <CardDescription>
-                      Unlock all features and get unlimited access to our
-                      support team.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
+    ))}
+  </div>
+);
+
+const ProjectList = () => (
+  <div>
+    <div className="flex justify-between items-start mb-4">
+      <div className="w-1/2 items-start">
+        <h2 className="text-xl font-semibold mb-2 text-left">Projects</h2>
+        <Tabs defaultValue="active" className="w-full text-left">
+          <TabsList>
+            <TabsTrigger value="active">Active</TabsTrigger>
+            <TabsTrigger value="archived">Archived</TabsTrigger>
+          </TabsList>
+        </Tabs>
+      </div>
+      <div className="flex justify-end items-center space-x-4 mb-4 w-1/2">
+        <Button variant="outline">
+          All platforms <ChevronDown className="ml-2 h-4 w-4" />
+        </Button>
+        <Button variant="outline">
+          Last 24 hours <ChevronDown className="ml-2 h-4 w-4" />
+        </Button>
+        <Button variant="outline">
+          Import/export <ChevronDown className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+    {[1, 2, 3].map((_, index) => (
+      <Card key={index} className="mb-4">
+        <CardContent className="p-4">
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="flex items-center space-x-2 mb-2">
+                <ExternalLink className="h-4 w-4" />
+                <span className="font-semibold">www.Homelade.io</span>
               </div>
-            </SheetContent>
-          </Sheet>
-          <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                />
+              <div className="flex space-x-2">
+                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  8 keywords
+                </span>
+                <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
+                  Brand voice:Jovial
+                </span>
               </div>
-            </form>
-          </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex -space-x-2">
+                <Avatar className="border-2 border-white w-8 h-8">
+                  <AvatarImage src="/placeholder-avatar-1.jpg" />
+                  <AvatarFallback>U1</AvatarFallback>
+                </Avatar>
+                <Avatar className="border-2 border-white w-8 h-8">
+                  <AvatarImage src="/placeholder-avatar-2.jpg" />
+                  <AvatarFallback>U2</AvatarFallback>
+                </Avatar>
+                <Avatar className="border-2 border-white w-8 h-8">
+                  <AvatarImage src="/placeholder-avatar-3.jpg" />
+                  <AvatarFallback>U3</AvatarFallback>
+                </Avatar>
+              </div>
+              <div className="text-sm text-gray-500">1 | 15</div>
+              <div className="text-sm text-gray-500">Mar 23</div>
+              <Button variant="ghost" size="icon">
+                <MoreHorizontal className="h-4 w-4" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div className="flex items-center">
-            <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
-          </div>
-          <div
-            className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
-            x-chunk="dashboard-02-chunk-1"
-          >
-            <div className="flex flex-col items-center gap-1 text-center">
-              <h3 className="text-2xl font-bold tracking-tight">
-                You have no products
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                You can start selling as soon as you add a product.
-              </p>
-              <Button className="mt-4">Add Product</Button>
             </div>
           </div>
-        </main>
-      </div>
+        </CardContent>
+      </Card>
+    ))}
+  </div>
+);
+
+export default function Component() {
+  return (
+    <div className="flex bg-gray-50 min-h-screen">
+      <Sidebar />
+      <main className="flex-1 p-8">
+        <Header />
+        <Banner />
+        <StatsComponent />
+        <ProjectManagement />
+      </main>
     </div>
   );
 }

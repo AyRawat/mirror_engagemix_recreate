@@ -3,8 +3,10 @@ import KeywordCard from "@/components/blocks/KeywordCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SocialSignupButton } from "@/components/blocks/SocialSignUpButton";
+import { useNavigate } from "react-router-dom";
 
 export function CreateAccountPage() {
+  const navigate = useNavigate();
   const steps = [
     "Create account",
     "Website analysis",
@@ -31,10 +33,26 @@ export function CreateAccountPage() {
               <Input id="email" type="email" placeholder="Enter email here" />
             </div>
             <div className="flex space-x-4">
-              <Button variant="secondary" className="w-full">
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={() => navigate("/")}
+              >
                 Go back
               </Button>
-              <Button className="w-full">Sign up</Button>
+              <Button
+                style={{
+                  background:
+                    "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+                  border: "transparent",
+                  borderRadius: "10px",
+                }}
+                className="text-white w-full"
+                variant="outline"
+                onClick={() => navigate("/product-analysis")}
+              >
+                Sign up
+              </Button>
             </div>
           </form>
           <p className="text-sm text-center my-4">

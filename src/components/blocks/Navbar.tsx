@@ -6,8 +6,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
     <nav className="flex justify-between items-center p-4">
       <div className="flex space-x-4 bg-white p-2 rounded-[20px]">
@@ -51,10 +54,11 @@ const Navbar = () => {
           background:
             "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
           border: "transparent",
-          borderRadius: "20px",
+          borderRadius: "10px",
         }}
         className="text-white"
         variant="outline"
+        onClick={() => navigate("/create-account")}
       >
         Create project
       </Button>

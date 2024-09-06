@@ -3,8 +3,10 @@ import KeywordCard from "@/components/blocks/KeywordCard";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useNavigate } from "react-router-dom";
 
 export function ProductAnalysisPage() {
+  const navigate = useNavigate();
   const steps = [
     "Create account",
     "Product analysis",
@@ -83,10 +85,26 @@ export function ProductAnalysisPage() {
               </div>
             </div>
             <div className="flex space-x-4">
-              <Button variant="secondary" className="w-full">
+              <Button
+                variant="secondary"
+                className="w-full"
+                onClick={() => navigate("/create-account")}
+              >
                 Go back
               </Button>
-              <Button className="w-full">Continue</Button>
+              <Button
+                variant="outline"
+                style={{
+                  background:
+                    "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+                  border: "transparent",
+                  borderRadius: "10px",
+                }}
+                className="text-white w-full"
+                onClick={() => navigate("/search-configuration")}
+              >
+                Continue
+              </Button>
             </div>
           </form>
         </div>
