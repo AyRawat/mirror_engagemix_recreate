@@ -58,7 +58,7 @@ const Navbar = () => {
         }}
         className="text-white"
         variant="outline"
-        onClick={() => navigate("/create-account")}
+        onClick={() => navigate("/app")}
       >
         Create project
       </Button>
