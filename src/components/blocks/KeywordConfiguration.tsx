@@ -30,14 +30,17 @@ const KeywordConfiguration = ({
   const removeKeyword = (keywordToRemove: string) => {
     setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
   };
+  const isHandleNextStep = onNext.name === "handleNextStep";
+  const projectNameText = "Project Name";
+  const keywordsText =
+    "After analysing business info, here are some keywords you should track. Feel free to add more";
 
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">
-        {onNext.name === "handleNextStep"
-          ? "Project Name"
-          : "After analysing business info, here are some keywords you should track.\n Feel free to add more"}
+        {isHandleNextStep ? projectNameText : keywordsText}
       </h1>
+      <p>{isHandleNextStep ? keywordsText : ""}</p>
       <div className="mb-6">
         <h2 className="text-sm font-medium text-gray-700 mb-2">
           Suggested keywords
