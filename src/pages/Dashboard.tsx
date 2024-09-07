@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Bell,
   ChevronDown,
@@ -13,9 +13,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import StatsComponent from "@/components/blocks/StatsComponent";
+import StatsComponent from "@/components/Custom/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
+import ProductAnalysis from "@/components/blocks/ProductAnalysis";
+import CustomSheet from "@/components/Custom/CustomSheet";
+import { config } from "process";
 
 const Sidebar = () => (
   <div className="w-64 bg-[#1c2536] text-white p-4 h-screen flex flex-col rounded-xl overflow-hidden">
@@ -82,12 +84,15 @@ const Sidebar = () => (
   </div>
 );
 
-const Header = () => (
+const Header = ({ onNewProjectClick }: { onNewProjectClick: () => void }) => (
   <header className="flex justify-between items-center mb-8">
     <h1 className="text-2xl font-bold">Welcome, Juwon.</h1>
     <div className="flex items-center space-x-4">
       <Bell className="h-5 w-5 text-gray-500" />
-      <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+      <Button
+        onClick={onNewProjectClick}
+        className="bg-blue-600 hover:bg-blue-700 text-white"
+      >
         + New project
       </Button>
       <Avatar>
@@ -117,109 +122,28 @@ const Banner = () => (
   </div>
 );
 
-const Stats = () => (
-  <div className="grid grid-cols-6 gap-4 mb-8">
-    {[
-      { label: "Projects", value: "0" },
-      { label: "Keywords Tracked", value: "0" },
-      { label: "Mentions", value: "0" },
-      { label: "Leads", value: "0" },
-      { label: "Link Clicks", value: "0" },
-      { label: "Impressions", value: "0" },
-    ].map((stat, index) => (
-      <div
-        key={index}
-        className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm"
-      >
-        <span className="text-3xl font-bold text-gray-800 mb-2">
-          {stat.value}
-        </span>
-        <span className="text-sm text-gray-500">{stat.label}</span>
-      </div>
-    ))}
-  </div>
-);
-
-const ProjectList = () => (
-  <div>
-    <div className="flex justify-between items-start mb-4">
-      <div className="w-1/2 items-start">
-        <h2 className="text-xl font-semibold mb-2 text-left">Projects</h2>
-        <Tabs defaultValue="active" className="w-full text-left">
-          <TabsList>
-            <TabsTrigger value="active">Active</TabsTrigger>
-            <TabsTrigger value="archived">Archived</TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-      <div className="flex justify-end items-center space-x-4 mb-4 w-1/2">
-        <Button variant="outline">
-          All platforms <ChevronDown className="ml-2 h-4 w-4" />
-        </Button>
-        <Button variant="outline">
-          Last 24 hours <ChevronDown className="ml-2 h-4 w-4" />
-        </Button>
-        <Button variant="outline">
-          Import/export <ChevronDown className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    </div>
-    {[1, 2, 3].map((_, index) => (
-      <Card key={index} className="mb-4">
-        <CardContent className="p-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <div className="flex items-center space-x-2 mb-2">
-                <ExternalLink className="h-4 w-4" />
-                <span className="font-semibold">www.Homelade.io</span>
-              </div>
-              <div className="flex space-x-2">
-                <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                  8 keywords
-                </span>
-                <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
-                  Brand voice:Jovial
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="flex -space-x-2">
-                <Avatar className="border-2 border-white w-8 h-8">
-                  <AvatarImage src="/placeholder-avatar-1.jpg" />
-                  <AvatarFallback>U1</AvatarFallback>
-                </Avatar>
-                <Avatar className="border-2 border-white w-8 h-8">
-                  <AvatarImage src="/placeholder-avatar-2.jpg" />
-                  <AvatarFallback>U2</AvatarFallback>
-                </Avatar>
-                <Avatar className="border-2 border-white w-8 h-8">
-                  <AvatarImage src="/placeholder-avatar-3.jpg" />
-                  <AvatarFallback>U3</AvatarFallback>
-                </Avatar>
-              </div>
-              <div className="text-sm text-gray-500">1 | 15</div>
-              <div className="text-sm text-gray-500">Mar 23</div>
-              <Button variant="ghost" size="icon">
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    ))}
-  </div>
-);
-
 export default function Component() {
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
+
+  const handleNewProjectClick = () => {
+    setIsSheetOpen(true);
+  };
+
+  function handleNextStep(config: any): void {
+    // Implement the logic for the next step here
+    // For example, you can navigate to the next page or update some state
+    console.log("Handling next step", config);
+  }
   return (
     <div className="flex bg-gray-50 min-h-screen">
       <Sidebar />
       <main className="flex-1 p-8">
-        <Header />
+        <Header onNewProjectClick={handleNewProjectClick} />
         <Banner />
         <StatsComponent />
         <ProjectManagement />
       </main>
+      <CustomSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
     </div>
   );
 }

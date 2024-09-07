@@ -34,8 +34,9 @@ const KeywordConfiguration = ({
   return (
     <div>
       <h1 className="text-3xl font-bold mb-6">
-        After analysing business info, here are some keywords you should track.
-        Feel free to add more
+        {onNext.name === "handleNextStep"
+          ? "Project Name"
+          : "After analysing business info, here are some keywords you should track.\n Feel free to add more"}
       </h1>
       <div className="mb-6">
         <h2 className="text-sm font-medium text-gray-700 mb-2">

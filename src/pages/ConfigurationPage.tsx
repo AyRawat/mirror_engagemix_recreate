@@ -2,8 +2,8 @@ import { useState } from "react";
 import CreateAccount from "@/components/blocks/CreateAccount";
 import ProductAnalysis from "@/components/blocks/ProductAnalysis";
 import SearchConfiguration from "@/components/blocks/SearchConfiguration";
-import KeywordConfiguration from "@/components/blocks/KeyworkConfiguration";
-import { StepIndicator } from "@/components/blocks/StepIndicator";
+import KeywordConfiguration from "@/components/blocks/KeywordConfiguration";
+import { StepIndicator } from "@/components/Custom/StepIndicator";
 import KeywordCard from "@/components/blocks/KeywordCard";
 import { useNavigate } from "react-router-dom";
 

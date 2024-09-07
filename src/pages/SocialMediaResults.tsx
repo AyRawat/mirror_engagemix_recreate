@@ -14,7 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import InviteMemberModal from "@/components/blocks/InviteMember";
-import Reply from "@/components/blocks/Reply"; // Import the Reply component
+import Reply from "@/components/Custom/Reply"; // Import the Reply component
 import { useNavigate } from "react-router-dom";
 
 const Header = ({ onInviteClick }: { onInviteClick: () => void }) => {
