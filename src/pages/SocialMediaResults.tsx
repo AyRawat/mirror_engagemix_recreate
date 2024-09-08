@@ -16,6 +16,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import InviteMemberModal from "@/components/blocks/InviteMember";
 import Reply from "@/components/Custom/Reply"; // Import the Reply component
 import { useNavigate } from "react-router-dom";
+import ReplySent from "@/components/Custom/ReplySent";
 
 const Header = ({ onInviteClick }: { onInviteClick: () => void }) => {
   const navigate = useNavigate();
@@ -201,6 +202,7 @@ export default function SocialMediaResults() {
               content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
               onReplyClick={handleReplyClick}
             />
+            <ReplySent />
           </div>
           <div className="border border-gray-300 rounded p-2 mb-2">
             <TwitterPost
