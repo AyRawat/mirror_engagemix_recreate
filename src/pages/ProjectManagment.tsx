@@ -14,7 +14,7 @@ export default function ProjectManagement() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full max-w-5xl">
       <h2 className="text-2xl font-bold mb-4 text-left">Projects</h2>
       <div className="flex justify-between items-center mb-3">
         <Tabs defaultValue="active" className="w-[400px] text-left">
@@ -45,8 +45,8 @@ export default function ProjectManagement() {
           </Button>
         </div>
       </div>
-      <ScrollArea>
-        <div className="max-h-72 max-w-4xl">
+      <ScrollArea className="border border-gray-300 rounded-lg">
+        <div className="max-h-72 w-full p-3">
           {[...Array(5)].map((_, index) => (
             <ProjectCard key={index} onClick={handleCardClick} />
           ))}

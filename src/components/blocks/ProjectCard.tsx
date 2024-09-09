@@ -24,7 +24,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ onClick }) => {
   };
 
   return (
-    <Card className="mb-4 cursor-pointer">
+    <Card className="mb-4 cursor-pointer border border-gray-300 rounded-lg">
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center">
