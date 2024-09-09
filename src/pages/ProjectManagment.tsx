@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Maximize2, Filter, Calendar, Download } from "lucide-react";
+import { Filter, Calendar, Download } from "lucide-react";
 import FilterButton from "@/components/Custom/FilterButton";
 import ProjectCard from "@/components/blocks/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -14,10 +13,10 @@ export default function ProjectManagement() {
   };
 
   return (
-    <div className="w-full max-w-5xl">
+    <div className="w-full max-w-7xl">
       <h2 className="text-2xl font-bold mb-4 text-left">Projects</h2>
       <div className="flex justify-between items-center mb-3">
-        <Tabs defaultValue="active" className="w-[400px] text-left">
+        <Tabs defaultValue="active" className="w-[600px] text-left">
           <TabsList>
             <TabsTrigger value="active" className="flex-1">
               Active
@@ -40,12 +39,9 @@ export default function ProjectManagement() {
             <Download className="mr-2 h-4 w-4" />
             Import/export
           </FilterButton>
-          <Button variant="outline" size="icon">
-            <Maximize2 className="h-4 w-4" />
-          </Button>
         </div>
       </div>
-      <ScrollArea className="border border-gray-300 rounded-lg">
+      <ScrollArea className="border border-gray-300 rounded-lg max-w-[73rem] w-[73rem]">
         <div className="max-h-72 w-full p-3">
           {[...Array(5)].map((_, index) => (
             <ProjectCard key={index} onClick={handleCardClick} />

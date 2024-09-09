@@ -42,7 +42,7 @@ const KeywordConfiguration = ({
 
   return (
     <div className="text-left">
-      <h1 className="text-lg text-gray-700 mb-6">
+      <h1 className="text-xl text-[#344054] font-bold mb-6">
         {isHandleNextStep ? projectNameText : keywordsText}
       </h1>
       <p>{isHandleNextStep ? keywordsText : ""}</p>

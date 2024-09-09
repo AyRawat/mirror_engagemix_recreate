@@ -45,7 +45,7 @@ export function ConfigurationPage() {
   return (
     <>
       <div className="h-[96vh] flex py-10 justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-[1712px] max-h-screen overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-screen-3xl max-h-screen overflow-hidden">
           {/* Left Column - Social Media Post Card */}
           <div
             className="bg-gradient-to-br p-4 rounded-lg shadow-lg relative"
@@ -66,14 +66,14 @@ export function ConfigurationPage() {
                 <StepIndicator
                   steps={[
                     "Create account",
-                    "Website analysis",
+                    "Product analysis",
                     "Search configuration",
                     "Keyword configuration",
                   ]}
                   currentStep={currentStep}
                 />
               </div>
-              <div className="py-20 -mt-16 mx-52 px-16 max-w-3xl">
+              <div className="py-20 -mt-16 mx-36 px-16 max-w-3xl">
                 {renderStepContent()}
               </div>
             </div>

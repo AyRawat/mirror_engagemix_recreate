@@ -1,14 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Bell,
-  FileText,
-  LayoutDashboard,
-  MessageSquare,
-  PieChart,
-  Settings,
-} from "lucide-react";
-import { Card, CardContent } from "../ui/card";
 import UpgradePlan from "@/components/blocks/UpgradeNow";
 import DashboardLogo from "@/assets/Dashboard/DashboardLogo.svg";
 import ProjectLogo from "@/assets/Dashboard/ProjectLogo.svg";
