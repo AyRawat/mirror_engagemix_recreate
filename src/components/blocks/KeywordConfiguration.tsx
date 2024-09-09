@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { X, Info } from "lucide-react";
 
 const KeywordConfiguration = ({
   onNext,
@@ -36,8 +36,8 @@ const KeywordConfiguration = ({
     "After analysing business info, here are some keywords you should track. Feel free to add more";
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">
+    <div className="text-left">
+      <h1 className="text-lg text-gray-700 mb-6">
         {isHandleNextStep ? projectNameText : keywordsText}
       </h1>
       <p>{isHandleNextStep ? keywordsText : ""}</p>
@@ -50,27 +50,14 @@ const KeywordConfiguration = ({
             <Badge
               key={keyword}
               variant="secondary"
-              className="px-3 py-1 pr-1 flex items-center"
+              className="px-3 py-1 pr-1 p-2 flex items-center rounded-full bg-transparent border border-gray-300 text-gray-500"
             >
-              <svg
-                className="w-4 h-4 mr-1 inline"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              {keyword}
+              <Info className="size-4" />
+              <span className="px-1">{keyword}</span>
               <Button
                 variant="ghost"
                 size="sm"
-                className="ml-1 h-auto p-0 hover:bg-transparent"
+                className="ml-2 h-auto p-0 hover:bg-transparent"
                 onClick={() => removeKeyword(keyword)}
               >
                 <X className="h-4 w-4" />
@@ -83,6 +70,7 @@ const KeywordConfiguration = ({
         <h2 className="text-sm font-medium text-gray-700 mb-2">Add keyword</h2>
         <div className="flex space-x-2">
           <Input
+            className="w-full h-[56px] bg-gray-100"
             placeholder="Type keyword here"
             value={newKeyword}
             onChange={(e) => setNewKeyword(e.target.value)}
@@ -99,7 +87,7 @@ const KeywordConfiguration = ({
               border: "transparent",
               borderRadius: "10px",
             }}
-            className="text-white"
+            className="text-white h-[56px] w-24"
             onClick={addKeyword}
           >
             Add
@@ -107,17 +95,22 @@ const KeywordConfiguration = ({
         </div>
       </div>
       <div className="flex space-x-4">
-        <Button variant="secondary" className="w-full" onClick={onBack}>
+        <Button
+          variant="secondary"
+          className="w-full h-12 bg-[#E8E8E8]"
+          onClick={onBack}
+        >
           Go back
         </Button>
         <Button
+          variant="secondary"
           style={{
             background:
-              "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+              "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
             border: "transparent",
             borderRadius: "10px",
           }}
-          className="text-white w-full"
+          className="text-white w-full h-12"
           onClick={onNext}
         >
           Save & continue

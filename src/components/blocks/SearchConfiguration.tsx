@@ -172,11 +172,22 @@ const SearchConfiguration = ({
         </div>
       </div>
       <div className="flex space-x-4 mt-8">
-        <Button variant="secondary" className="w-full h-12" onClick={onBack}>
+        <Button
+          variant="secondary"
+          className="w-full h-12 bg-[#E8E8E8]"
+          onClick={onBack}
+        >
           Go back
         </Button>
         <Button
-          className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white"
+          variant="secondary"
+          style={{
+            background:
+              "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+            border: "transparent",
+            borderRadius: "10px",
+          }}
+          className="text-white w-full h-12"
           onClick={onNext}
         >
           Save & continue
