@@ -36,7 +36,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex bg-gray-50 min-h-screen overflow-hidden">
+    <div className="flex bg-gray-50 h-[96vh]">
       <Sidebar onNavClick={setActiveSection} activeSection={activeSection} />
       <main className="flex-1 p-8 max-w-7xl mx-auto overflow-hidden">
         {renderContent()}

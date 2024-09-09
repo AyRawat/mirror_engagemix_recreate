@@ -16,7 +16,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onNavClick, activeSection }) => (
-  <div className="w-64 bg-[#1c2536] text-white p-4 h-screen flex flex-col rounded-xl overflow-hidden">
+  <div className="w-64 bg-[#1c2536] text-white p-4 flex flex-col rounded-xl overflow-hidden max-h-screen">
     <div className="text-2xl font-bold mb-8 text-left">EM</div>
     <nav className="space-y-1 flex-grow">
       <Button
