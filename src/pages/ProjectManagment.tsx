@@ -5,7 +5,13 @@ import FilterButton from "@/components/Custom/FilterButton";
 import ProjectCard from "@/components/blocks/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-export default function ProjectManagement() {
+interface ProjectManagementProps {
+  isProjectsSection: boolean;
+}
+
+export default function ProjectManagement({
+  isProjectsSection,
+}: ProjectManagementProps) {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -42,7 +48,11 @@ export default function ProjectManagement() {
         </div>
       </div>
       <ScrollArea className="border border-gray-300 rounded-lg max-w-[73rem] w-[73rem]">
-        <div className="max-h-72 w-full p-3">
+        <div
+          className={`w-full p-3 ${
+            isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-72"
+          }`}
+        >
           {[...Array(5)].map((_, index) => (
             <ProjectCard key={index} onClick={handleCardClick} />
           ))}

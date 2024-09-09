@@ -19,6 +19,18 @@ export default function Dashboard() {
     switch (activeSection) {
       case "social-media":
         return <SocialMedia />;
+      case "projects":
+        return (
+          <>
+            <Header
+              title="Welcome, Juwon."
+              buttonText="+ New project"
+              onButtonClick={handleNewProjectClick}
+            />
+            <StatsComponent />
+            <ProjectManagement isProjectsSection={true} />
+          </>
+        );
       default:
         return (
           <>
@@ -29,7 +41,7 @@ export default function Dashboard() {
             />
             <Banner />
             <StatsComponent />
-            <ProjectManagement />
+            <ProjectManagement isProjectsSection={false} />
           </>
         );
     }
