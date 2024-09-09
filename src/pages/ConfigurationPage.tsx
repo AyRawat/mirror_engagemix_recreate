@@ -25,14 +25,14 @@ export function ConfigurationPage() {
         );
       case 3:
         return (
-          <SearchConfiguration
+          <KeywordConfiguration
             onNext={() => setCurrentStep(4)}
             onBack={() => setCurrentStep(2)}
           />
         );
       case 4:
         return (
-          <KeywordConfiguration
+          <SearchConfiguration
             onNext={() => setCurrentStep(5)}
             onBack={() => setCurrentStep(3)}
           />
@@ -45,10 +45,10 @@ export function ConfigurationPage() {
   return (
     <>
       <div className="h-[96vh] flex py-10 justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-[1412px] max-h-screen overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-[1812px] max-h-screen overflow-hidden">
           {/* Left Column - Social Media Post Card */}
           <div
-            className="bg-gradient-to-br p-4 rounded-lg shadow-lg"
+            className="bg-gradient-to-br p-4 rounded-lg shadow-lg relative"
             style={{
               backgroundImage: `url(${KeywordCardBackground})`,
               backgroundSize: "cover",
@@ -59,7 +59,7 @@ export function ConfigurationPage() {
           </div>
 
           {/* Right Column - Create Account Form with Progress Indicator */}
-          <div className="bg-white p-2 rounded-lg">
+          <div className="bg-white p-2 rounded-lg max-h-96">
             {/* Placeholder for Create Account Form */}
             <div>
               <div className="px-2">
@@ -67,7 +67,8 @@ export function ConfigurationPage() {
                   steps={[
                     "Create account",
                     "Website analysis",
-                    "Keyword & Search configuration",
+                    "Search configuration",
+                    "Keyword configuration",
                   ]}
                   currentStep={currentStep}
                 />

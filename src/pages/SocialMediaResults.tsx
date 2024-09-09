@@ -17,6 +17,7 @@ import InviteMemberModal from "@/components/blocks/InviteMember";
 import Reply from "@/components/Custom/Reply"; // Import the Reply component
 import { useNavigate } from "react-router-dom";
 import ReplySent from "@/components/Custom/ReplySent";
+import ConfigurationSettings from "@/components/blocks/ConfigurationSettings"; // Import ConfigurationSettings
 
 const Header = ({ onInviteClick }: { onInviteClick: () => void }) => {
   const navigate = useNavigate();
@@ -61,8 +62,18 @@ const Header = ({ onInviteClick }: { onInviteClick: () => void }) => {
   );
 };
 
-const Navigation = () => (
-  <Tabs defaultValue="results" className="mb-6 text-left">
+const Navigation = ({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}) => (
+  <Tabs
+    value={activeTab}
+    onValueChange={onTabChange}
+    className="mb-6 text-left"
+  >
     <TabsList>
       <TabsTrigger value="results" className="px-4 py-2">
         Results
@@ -170,6 +181,7 @@ const TwitterPost = ({
 export default function SocialMediaResults() {
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [isReplyOpen, setReplyOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("results");
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -187,33 +199,40 @@ export default function SocialMediaResults() {
     setReplyOpen(false);
   };
 
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+  };
+
   return (
     <div className="mx-auto p-6">
       <Header onInviteClick={handleInviteClick} />
-      <Navigation />
-      <div>
-        <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
-        <SocialMediaCounts />
-        <div className="border border-gray-300 rounded p-2 mb-2">
+      <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
+      {activeTab === "results" && (
+        <div>
+          <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
+          <SocialMediaCounts />
           <div className="border border-gray-300 rounded p-2 mb-2">
-            <TwitterPost
-              username="@AlienKing04"
-              time="12 minutes ago"
-              content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
-              onReplyClick={handleReplyClick}
-            />
-            <ReplySent />
-          </div>
-          <div className="border border-gray-300 rounded p-2 mb-2">
-            <TwitterPost
-              username="@AlienKing04"
-              time="12 minutes ago"
-              content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
-              onReplyClick={handleReplyClick}
-            />
+            <div className="border border-gray-300 rounded p-2 mb-2">
+              <TwitterPost
+                username="@AlienKing04"
+                time="12 minutes ago"
+                content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
+                onReplyClick={handleReplyClick}
+              />
+              <ReplySent />
+            </div>
+            <div className="border border-gray-300 rounded p-2 mb-2">
+              <TwitterPost
+                username="@AlienKing04"
+                time="12 minutes ago"
+                content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
+                onReplyClick={handleReplyClick}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {activeTab === "configuration" && <ConfigurationSettings />}
       {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
       {isReplyOpen && <Reply onClose={handleCloseReply} />}
     </div>

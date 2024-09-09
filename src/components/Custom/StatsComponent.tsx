@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 
 const StatItem = ({ label, value }: { label: string; value: string }) => (
   <div className="flex flex-col items-center">
-    <span className="text-5xl font-semibold text-gray-700">{value}</span>
+    <span className="text-5xl font-light text-gray-600">{value}</span>
     <span className="text-xs text-gray-500 mt-1">{label}</span>
   </div>
 );
@@ -25,7 +25,7 @@ export default function StatsComponent() {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 flex items-center justify-between mb-2">
+    <div className="bg-white rounded-2xl shadow-sm p-6 flex items-center justify-between mb-2 border border-gray-300">
       {stats.map((stat, index) => (
         <React.Fragment key={stat.label}>
           <StatItem label={stat.label} value={stat.value} />

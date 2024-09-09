@@ -9,6 +9,13 @@ import {
   Settings,
 } from "lucide-react";
 import { Card, CardContent } from "../ui/card";
+import UpgradePlan from "@/components/blocks/UpgradeNow";
+import DashboardLogo from "@/assets/Dashboard/DashboardLogo.svg";
+import ProjectLogo from "@/assets/Dashboard/ProjectLogo.svg";
+import SocialMediaLogo from "@/assets/Dashboard/SocialLogo.svg";
+import AnalyticsLogo from "@/assets/Dashboard/AnalyticsLogo.svg";
+import SettingsLogo from "@/assets/Dashboard/SettingsLogo.svg";
+import NotificationLogo from "@/assets/Dashboard/NotificationLogo.svg";
 
 interface SidebarProps {
   onNavClick: (section: string) => void;
@@ -16,82 +23,81 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onNavClick, activeSection }) => (
-  <div className="w-64 bg-[#1c2536] text-white p-4 flex flex-col rounded-xl overflow-hidden max-h-screen">
+  <div className="w-72 bg-[#101928] text-white p-4 flex flex-col rounded-xl overflow-hidden max-h-screen">
     <div className="text-2xl font-bold mb-8 text-left">EM</div>
     <nav className="space-y-1 flex-grow">
       <Button
         variant="ghost"
-        className={`w-full justify-start text-white hover:bg-[#2a3548] ${
-          activeSection === "dashboard" ? "bg-[#2a3548]" : ""
+        className={`w-full justify-start text-[#98A2B3] hover:bg-[#2a3548] hover:text-white ${
+          activeSection === "dashboard" ? "bg-[#2a3548] text-white" : ""
         }`}
         onClick={() => onNavClick("dashboard")}
       >
-        <LayoutDashboard className="mr-2 h-5 w-5" />
+        <img src={DashboardLogo} alt="Dashboard" className="mr-2 h-5 w-5" />
         Dashboard
       </Button>
       <Button
         variant="ghost"
-        className={`w-full justify-start text-white hover:bg-[#2a3548] ${
-          activeSection === "projects" ? "bg-[#2a3548]" : ""
+        className={`w-full justify-start text-[#98A2B3] hover:bg-[#2a3548] hover:text-white ${
+          activeSection === "projects" ? "bg-[#2a3548] text-white" : ""
         }`}
         onClick={() => onNavClick("projects")}
       >
-        <FileText className="mr-2 h-5 w-5" />
+        <img src={ProjectLogo} alt="Projects" className="mr-2 h-5 w-5" />
         Projects
       </Button>
       <Button
         variant="ghost"
-        className={`w-full justify-start text-white hover:bg-[#2a3548] ${
-          activeSection === "social-media" ? "bg-[#2a3548]" : ""
+        className={`w-full justify-start text-[#98A2B3] hover:bg-[#2a3548] hover:text-white ${
+          activeSection === "social-media" ? "bg-[#2a3548] text-white" : ""
         }`}
         onClick={() => onNavClick("social-media")}
       >
-        <MessageSquare className="mr-2 h-5 w-5" />
+        <img
+          src={SocialMediaLogo}
+          alt="Social media"
+          className="mr-2 h-5 w-5"
+        />
         Social media
       </Button>
       <Button
         variant="ghost"
-        className={`w-full justify-start text-white hover:bg-[#2a3548] ${
-          activeSection === "analytics" ? "bg-[#2a3548]" : ""
+        className={`w-full justify-start text-[#98A2B3] hover:bg-[#2a3548] hover:text-white ${
+          activeSection === "analytics" ? "bg-[#2a3548] text-white" : ""
         }`}
         onClick={() => onNavClick("analytics")}
       >
-        <PieChart className="mr-2 h-5 w-5" />
+        <img src={AnalyticsLogo} alt="Analytics" className="mr-2 h-5 w-5" />
         Analytics
       </Button>
       <Button
         variant="ghost"
-        className={`w-full justify-start text-white hover:bg-[#2a3548] ${
-          activeSection === "settings" ? "bg-[#2a3548]" : ""
+        className={`w-full justify-start text-[#98A2B3] hover:bg-[#2a3548] hover:text-white ${
+          activeSection === "settings" ? "bg-[#2a3548] text-white" : ""
         }`}
         onClick={() => onNavClick("settings")}
       >
-        <Settings className="mr-2 h-5 w-5" />
+        <img src={SettingsLogo} alt="Settings" className="mr-2 h-5 w-5" />
         Settings
       </Button>
       <Button
         variant="ghost"
-        className="w-full justify-start text-white hover:bg-[#2a3548]"
+        className={`w-full justify-start text-[#98A2B3] hover:bg-[#2a3548] hover:text-white ${
+          activeSection === "notification"
+            ? "bg-[#2a3548] hover:text-white"
+            : ""
+        }`}
+        onClick={() => onNavClick("notification")}
       >
-        <Bell className="mr-2 h-5 w-5" />
+        <img
+          src={NotificationLogo}
+          alt="Notification"
+          className="mr-2 h-5 w-5"
+        />
         Notifications
       </Button>
     </nav>
-    <Card className="mt-auto bg-[#2a3548] text-white border-none">
-      <CardContent className="p-4">
-        <h3 className="font-semibold mb-2">Upgrade your plan to unlock</h3>
-        <p className="text-sm mb-4">
-          You are now using the free plan. Upgrade plan to continue using...
-        </p>
-        <p className="text-sm mb-2">Free plan</p>
-        <div className="w-full bg-gray-700 rounded-full h-2.5">
-          <div className="bg-blue-600 h-2.5 rounded-full w-1/3"></div>
-        </div>
-        <Button className="w-full mt-4 bg-blue-600 hover:bg-blue-700">
-          Upgrade now
-        </Button>
-      </CardContent>
-    </Card>
+    <UpgradePlan />
   </div>
 );
 

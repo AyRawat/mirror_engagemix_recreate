@@ -14,6 +14,10 @@ export default {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+		backgroundImage: {
+			'custom-radial': 'radial-gradient(circle, #ADE1FF 70%, #EFD4FF 100%)',
+			'custom-linear': 'linear-gradient(90deg, #ADE1FF 0%, #EFD4FF 100%)'
+		},
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

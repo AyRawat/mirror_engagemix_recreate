@@ -1,5 +1,6 @@
 import BrandNameCard from "@/assets/BrandNameCard.svg";
 import KeywordReplyCard from "@/assets/KeywordReplyCard.svg";
+import CustomBackground from "@/assets//Background/CustomBackground.svg";
 
 const KeywordCard = () => {
   return (
@@ -7,13 +8,13 @@ const KeywordCard = () => {
       <img
         src={KeywordReplyCard}
         alt="Keyword Reply Card"
-        className="absolute top-0 left-0 w-full h-full transform rotate-[1.5deg] origin-top-left mt-72"
+        className="absolute top-10 w-full h-full transform  origin-top-left"
       />
-      <img
+      {/* <img
         src={BrandNameCard}
         alt="Brand Name Card"
         className="absolute top-10 left-10 w-full h-full transform rotate-[1.5deg] origin-top-left"
-      />
+      /> */}
     </div>
   );
 };

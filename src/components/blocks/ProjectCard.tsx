@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ExternalLink, MoreHorizontal } from "lucide-react";
+import { ExternalLink, MoreHorizontal, Archive, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatusBar from "../Custom/Statusbar";
 import DropdownMenuItems from "@/components/blocks/DropDownMenu";
@@ -22,6 +22,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ onClick }) => {
   const handleCloseDropdown = () => {
     setIsDropdownOpen(false);
   };
+
+  const handleArchive = () => {
+    console.log("Archive clicked");
+  };
+
+  const handleDelete = () => {
+    console.log("Delete clicked");
+  };
+
+  const options = [
+    { label: "Archive", icon: Archive, onClick: handleArchive },
+    { label: "Delete", icon: Trash, onClick: handleDelete },
+  ];
 
   return (
     <Card className="mb-4 cursor-pointer border border-gray-300 rounded-lg">
@@ -44,6 +57,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ onClick }) => {
             <DropdownMenuItems
               isOpen={isDropdownOpen}
               onClose={handleCloseDropdown}
+              options={options}
             />
           </div>
         </div>
