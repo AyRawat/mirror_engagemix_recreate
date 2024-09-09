@@ -2,21 +2,22 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SocialSignupButton } from "@/components/blocks/SocialSignUpButton";
 import { useNavigate } from "react-router-dom";
+import { Label } from "@/components/ui/label";
 
 const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="px-12 w-full py-24">
+    <div className="w-full ">
       <h1 className="text-3xl text-left font-bold mb-7">Create account</h1>
       <form className="space-y-4">
         <div>
-          <label
+          <Label
             htmlFor="email"
             className="block text-sm text-left font-medium text-gray-700 mb-1"
           >
             Email
-          </label>
+          </Label>
           <Input
             className="w-full h-[56px] bg-gray-100"
             id="email"
