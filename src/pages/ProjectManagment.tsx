@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Maximize2, Filter, Calendar, Download } from "lucide-react";
 import FilterButton from "@/components/Custom/FilterButton";
 import ProjectCard from "@/components/blocks/ProjectCard";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function ProjectManagement() {
   const navigate = useNavigate();
@@ -44,11 +45,13 @@ export default function ProjectManagement() {
           </Button>
         </div>
       </div>
-      <div className="overflow-y-auto max-h-96 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-        {[...Array(5)].map((_, index) => (
-          <ProjectCard key={index} onClick={handleCardClick} />
-        ))}
-      </div>
+      <ScrollArea>
+        <div className="max-h-72 max-w-4xl">
+          {[...Array(5)].map((_, index) => (
+            <ProjectCard key={index} onClick={handleCardClick} />
+          ))}
+        </div>
+      </ScrollArea>
     </div>
   );
 }
