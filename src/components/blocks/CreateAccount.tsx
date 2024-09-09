@@ -7,22 +7,27 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Create account</h1>
+    <div className="px-12 w-full py-24">
+      <h1 className="text-3xl text-left font-bold mb-7">Create account</h1>
       <form className="space-y-4">
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm text-left font-medium text-gray-700 mb-1"
           >
             Email
           </label>
-          <Input id="email" type="email" placeholder="Enter email here" />
+          <Input
+            className="w-full h-[56px] bg-gray-100"
+            id="email"
+            type="email"
+            placeholder="Enter email here"
+          />
         </div>
         <div className="flex space-x-4">
           <Button
             variant="secondary"
-            className="w-full"
+            className="w-full h-12 bg-[#E8E8E8]"
             onClick={() => navigate("/")}
           >
             Go back
@@ -31,11 +36,11 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             variant="secondary"
             style={{
               background:
-                "linear-gradient(0deg, #1D77E1, #1D77E1), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+                "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
               border: "transparent",
               borderRadius: "10px",
             }}
-            className="text-white w-full"
+            className="text-white w-full h-12"
             onClick={() => onNext()}
           >
             Sign up

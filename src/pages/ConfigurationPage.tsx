@@ -6,6 +6,7 @@ import KeywordConfiguration from "@/components/blocks/KeywordConfiguration";
 import { StepIndicator } from "@/components/Custom/StepIndicator";
 import KeywordCard from "@/components/blocks/KeywordCard";
 import { useNavigate } from "react-router-dom";
+import KeywordCardBackground from "@/assets/KeywordCardBackground.svg";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -32,7 +33,7 @@ export function ConfigurationPage() {
       case 4:
         return (
           <KeywordConfiguration
-            onNext={() => setCurrentStep(5)}
+            onNext={() => setCurrentStep(4)}
             onBack={() => setCurrentStep(3)}
           />
         );
@@ -42,22 +43,40 @@ export function ConfigurationPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-8">
-      <StepIndicator
-        steps={[
-          "Create account",
-          "Product analysis",
-          "Search configuration",
-          "Keyword configuration",
-        ]}
-        currentStep={currentStep}
-      />
-      <div className="max-w-4xl mx-auto grid grid-cols-2 gap-12">
-        <div className="relative">
-          <KeywordCard />
+    <>
+      <div className="min-h-screen flex items-center justify-center p-4 ">
+        <div className="grid grid-cols-1 lg:grid-cols-[3fr_5fr] gap-8 w-[1384px] h-[1024px]">
+          {/* Left Column - Social Media Post Card */}
+          <div
+            className="bg-gradient-to-br  p-4 rounded-lg shadow-lg"
+            style={{
+              backgroundImage: `url(${KeywordCardBackground})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <KeywordCard />
+          </div>
+
+          {/* Right Column - Create Account Form with Progress Indicator */}
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            {/* Placeholder for Create Account Form */}
+            <div>
+              <div className="">
+                <StepIndicator
+                  steps={[
+                    "Create account",
+                    "Website analysis",
+                    "Keyword & Search configuration",
+                  ]}
+                  currentStep={currentStep}
+                />
+              </div>
+              {renderStepContent()}
+            </div>
+          </div>
         </div>
-        <div>{renderStepContent()}</div>
       </div>
-    </div>
+    </>
   );
 }
