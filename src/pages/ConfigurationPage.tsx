@@ -72,7 +72,9 @@ export function ConfigurationPage() {
                   currentStep={currentStep}
                 />
               </div>
-              <div className="py-10 px-24 max-w-3xl">{renderStepContent()}</div>
+              <div className="py-20 -mt-10 px-24 max-w-3xl">
+                {renderStepContent()}
+              </div>
             </div>
           </div>
         </div>

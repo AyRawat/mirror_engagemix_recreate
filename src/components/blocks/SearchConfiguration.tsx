@@ -5,24 +5,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
-const SearchFrequencyOptions = [
-  {
-    value: "realtime",
-    label: "Real time",
-    description: "Monitor for new content as its published",
-  },
-  {
-    value: "daily",
-    label: "Daily",
-    description: "Search once a day",
-  },
-  {
-    value: "weekly",
-    label: "Weekly",
-    description: "Search once a week",
-  },
-];
-
 const BrandToneOptions = [
   {
     value: "professional",

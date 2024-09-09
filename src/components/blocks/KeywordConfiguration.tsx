@@ -19,17 +19,22 @@ const KeywordConfiguration = ({
     "Itinerary",
   ]);
   const [newKeyword, setNewKeyword] = useState("");
+  const [helpText, setHelpText] = useState("");
 
   const addKeyword = () => {
     if (newKeyword && !keywords.includes(newKeyword)) {
       setKeywords([...keywords, newKeyword]);
       setNewKeyword("");
+      setHelpText("");
+    } else {
+      setHelpText(`Keyword ${newKeyword} is already present`);
     }
   };
 
   const removeKeyword = (keywordToRemove: string) => {
     setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
   };
+
   const isHandleNextStep = onNext.name === "handleNextStep";
   const projectNameText = "Project Name";
   const keywordsText =
@@ -45,25 +50,27 @@ const KeywordConfiguration = ({
         <h2 className="text-sm font-medium text-gray-700 mb-2">
           Suggested keywords
         </h2>
-        <div className="flex flex-wrap gap-2">
-          {keywords.map((keyword) => (
-            <Badge
-              key={keyword}
-              variant="secondary"
-              className="px-3 py-1 pr-1 p-2 flex items-center rounded-full bg-transparent border border-gray-300 text-gray-500"
-            >
-              <Info className="size-4" />
-              <span className="px-1">{keyword}</span>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="ml-2 h-auto p-0 hover:bg-transparent"
-                onClick={() => removeKeyword(keyword)}
+        <div className="overflow-auto max-h-32">
+          <div className="flex flex-wrap gap-2">
+            {keywords.map((keyword) => (
+              <Badge
+                key={keyword}
+                variant="secondary"
+                className="px-3 py-1 pr-1 p-2 flex items-center rounded-full bg-transparent border border-gray-300 text-gray-500"
               >
-                <X className="h-4 w-4" />
-              </Button>
-            </Badge>
-          ))}
+                <Info className="size-4" />
+                <span className="px-1">{keyword}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="ml-2 h-auto p-0 hover:bg-transparent"
+                  onClick={() => removeKeyword(keyword)}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </Badge>
+            ))}
+          </div>
         </div>
       </div>
       <div className="mb-6">
@@ -93,6 +100,7 @@ const KeywordConfiguration = ({
             Add
           </Button>
         </div>
+        {helpText && <p className="text-red-500 text-sm mt-2">{helpText}</p>}
       </div>
       <div className="flex space-x-4">
         <Button

@@ -88,7 +88,7 @@ const ProductAnalysis = ({
           Go back
         </Button>
         <Button
-          variant="outline"
+          variant="secondary"
           style={{
             background:
               "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
