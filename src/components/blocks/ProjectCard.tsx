@@ -7,12 +7,14 @@ import StatusBar from "../Custom/Statusbar";
 import DropdownMenuItems from "@/components/blocks/DropDownMenu";
 import FacebookIcon from "@/assets/icons/facebook";
 import TwitterIcon from "@/assets/icons/twitter";
+import { ProjectDto } from "@/apis/types";
 
 interface ProjectCardProps {
+  project: ProjectDto;
   onClick: () => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ onClick }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleDropdownToggle = () => {
@@ -43,7 +45,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ onClick }) => {
           <div className="flex items-center">
             <ExternalLink className="h-4 w-4 mr-2 text-gray-500" />
             <span className="font-semibold" onClick={onClick}>
-              www.Homelade.io
+              {project.companyDomain}
             </span>
           </div>
           <div className="relative">
@@ -63,7 +65,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ onClick }) => {
         </div>
         <div className="flex space-x-2 mb-2">
           <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-            8 keywords
+            {project.keywords.length} keywords
           </span>
           <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">
             Brand voice: Jovial

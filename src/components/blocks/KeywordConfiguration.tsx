@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,11 +7,13 @@ import { X, Info } from "lucide-react";
 const KeywordConfiguration = ({
   onNext,
   onBack,
+  setKeywords,
 }: {
   onNext: () => void;
   onBack: () => void;
+  setKeywords: (keywords: string[]) => void;
 }) => {
-  const [keywords, setKeywords] = useState<string[]>([
+  const [keywords, setLocalKeywords] = useState<string[]>([
     "Travel",
     "Travel insurance",
     "Group trip",
@@ -21,9 +23,13 @@ const KeywordConfiguration = ({
   const [newKeyword, setNewKeyword] = useState("");
   const [helpText, setHelpText] = useState("");
 
+  useEffect(() => {
+    setKeywords(keywords);
+  }, [keywords, setKeywords]);
+
   const addKeyword = () => {
     if (newKeyword && !keywords.includes(newKeyword)) {
-      setKeywords([...keywords, newKeyword]);
+      setLocalKeywords([...keywords, newKeyword]);
       setNewKeyword("");
       setHelpText("");
     } else {
@@ -32,7 +38,7 @@ const KeywordConfiguration = ({
   };
 
   const removeKeyword = (keywordToRemove: string) => {
-    setKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
+    setLocalKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
   };
 
   const isHandleNextStep = onNext.name === "handleNextStep";

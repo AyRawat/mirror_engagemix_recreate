@@ -4,13 +4,16 @@ import { Filter, Calendar, Download } from "lucide-react";
 import FilterButton from "@/components/Custom/FilterButton";
 import ProjectCard from "@/components/blocks/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ProjectDto } from "@/apis/types";
 
 interface ProjectManagementProps {
   isProjectsSection: boolean;
+  projects: ProjectDto[];
 }
 
 export default function ProjectManagement({
   isProjectsSection,
+  projects,
 }: ProjectManagementProps) {
   const navigate = useNavigate();
 
@@ -27,9 +30,8 @@ export default function ProjectManagement({
             <TabsTrigger value="active" className="flex-1">
               Active
             </TabsTrigger>
-            <TabsTrigger value="archived" className="flex-1">
-              Archived
-            </TabsTrigger>
+            <TabsTrigger value="archived" className="flex-1"></TabsTrigger>
+            Archived
           </TabsList>
         </Tabs>
         <div className="flex space-x-2">
@@ -53,8 +55,12 @@ export default function ProjectManagement({
             isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-72"
           }`}
         >
-          {[...Array(5)].map((_, index) => (
-            <ProjectCard key={index} onClick={handleCardClick} />
+          {projects.map((project) => (
+            <ProjectCard
+              key={project._id}
+              project={project}
+              onClick={handleCardClick}
+            />
           ))}
         </div>
       </ScrollArea>

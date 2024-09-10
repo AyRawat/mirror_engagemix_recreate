@@ -7,20 +7,68 @@ import { StepIndicator } from "@/components/Custom/StepIndicator";
 import KeywordCard from "@/components/blocks/KeywordCard";
 import { useNavigate } from "react-router-dom";
 import KeywordCardBackground from "@/assets/KeywordCardBackground.svg";
+import { api } from "@/apis";
+
+type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
 
+  const [accountData, setAccountData] = useState({ email: "", password: "" });
+  const [productData, setProductData] = useState({
+    companyName: "",
+    companyDomain: "",
+    companyDescription: "",
+  });
+  const [keywords, setKeywords] = useState<string[]>([]);
+  const [searchConfig, setSearchConfig] = useState<{ platforms: Source[] }>({
+    platforms: [],
+  });
+
+  const handleNext = async () => {
+    if (currentStep === 4) {
+      // Collect all data and make the API call
+      const projectData = {
+        name: "Get Leads", // Hardcoded name
+        companyDomain: productData.companyDomain,
+        companyDescription: productData.companyDescription,
+        companyName: productData.companyName,
+        keywords,
+        sources: searchConfig.platforms.map(
+          (str) => str.toLowerCase() as Source
+        ),
+      };
+      console.log(projectData);
+
+      try {
+        const createdProject = await api.projects.create(projectData);
+        console.log("Created Project", createdProject);
+
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Failed to create project:", error);
+      }
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <CreateAccount onNext={() => setCurrentStep(2)} />;
+        return (
+          <CreateAccount
+            onNext={() => setCurrentStep(2)}
+            setAccountData={setAccountData}
+          />
+        );
       case 2:
         return (
           <ProductAnalysis
             onNext={() => setCurrentStep(3)}
             onBack={() => setCurrentStep(1)}
+            setProductData={setProductData}
           />
         );
       case 3:
@@ -28,13 +76,15 @@ export function ConfigurationPage() {
           <KeywordConfiguration
             onNext={() => setCurrentStep(4)}
             onBack={() => setCurrentStep(2)}
+            setKeywords={setKeywords}
           />
         );
       case 4:
         return (
           <SearchConfiguration
-            onNext={() => setCurrentStep(5)}
+            onNext={handleNext}
             onBack={() => setCurrentStep(3)}
+            setSearchConfig={setSearchConfig}
           />
         );
       default:
@@ -67,8 +117,8 @@ export function ConfigurationPage() {
                   steps={[
                     "Create account",
                     "Product analysis",
-                    "Search configuration",
                     "Keyword configuration",
+                    "Search configuration",
                   ]}
                   currentStep={currentStep}
                 />

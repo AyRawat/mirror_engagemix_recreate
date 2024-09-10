@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+
+type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
 const BrandToneOptions = [
   {
@@ -22,16 +24,31 @@ const BrandToneOptions = [
     emoji: "😐",
   },
 ];
-
 const SearchConfiguration = ({
   onNext,
   onBack,
+  setSearchConfig,
 }: {
   onNext: () => void;
   onBack: () => void;
+  setSearchConfig: React.Dispatch<
+    React.SetStateAction<{ platforms: Source[] }>
+  >;
 }) => {
+  const [platforms, setPlatforms] = useState<Source[]>([]);
   const [searchFrequency, setSearchFrequency] = useState("daily");
   const [brandTone, setBrandTone] = useState("professional");
+  useEffect(() => {
+    setSearchConfig({ platforms });
+  }, [platforms, setSearchConfig]);
+
+  const handlePlatformChange = (platform: Source) => {
+    setPlatforms((prev) =>
+      prev.includes(platform)
+        ? prev.filter((p) => p !== platform)
+        : [...prev, platform]
+    );
+  };
 
   return (
     <div className="max-w-2xl text-left mx-auto">
@@ -61,6 +78,10 @@ const SearchConfiguration = ({
                 <Checkbox
                   id={platform}
                   className="text-blue-600 focus:ring-0 focus:outline-none"
+                  checked={platforms.includes(platform as Source)}
+                  onCheckedChange={() =>
+                    handlePlatformChange(platform as Source)
+                  }
                 />
               </div>
             ))}

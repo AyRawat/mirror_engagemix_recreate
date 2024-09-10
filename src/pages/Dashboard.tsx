@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProjects } from "@/store/projectsSlice";
+import { RootState } from "@/store/store";
 import StatsComponent from "@/components/Custom/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
 import CustomSheet from "@/components/Custom/CustomSheet";
@@ -10,6 +13,20 @@ import Sidebar from "@/components/blocks/Sidebar";
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
+  const dispatch = useDispatch();
+  const projects = useSelector((state: RootState) => state.projects.projects);
+  const projectsStatus = useSelector(
+    (state: RootState) => state.projects.status
+  );
+  const token = useSelector((state: RootState) => state.auth.token);
+
+  useEffect(() => {
+    console.log("Token", token);
+
+    if (projectsStatus === "idle") {
+      dispatch(fetchProjects());
+    }
+  }, [projectsStatus, dispatch]);
 
   const handleNewProjectClick = () => {
     setIsSheetOpen(true);
@@ -28,7 +45,7 @@ export default function Dashboard() {
               onButtonClick={handleNewProjectClick}
             />
             <StatsComponent />
-            <ProjectManagement isProjectsSection={true} />
+            <ProjectManagement isProjectsSection={true} projects={projects} />
           </>
         );
       default:
@@ -41,7 +58,7 @@ export default function Dashboard() {
             />
             <Banner />
             <StatsComponent />
-            <ProjectManagement isProjectsSection={false} />
+            <ProjectManagement isProjectsSection={false} projects={projects} />
           </>
         );
     }
