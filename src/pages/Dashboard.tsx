@@ -1,3 +1,4 @@
+// Dashboard.tsx
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/store/projectsSlice";
@@ -9,6 +10,8 @@ import SocialMedia from "@/components/Custom/SocialMedia";
 import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import Sidebar from "@/components/blocks/Sidebar";
+import { useAuth } from "@/components/Contexts/auth/AuthContext";
+import { TokenManager } from "@/components/Contexts/auth/TokenManager";
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -18,15 +21,18 @@ export default function Dashboard() {
   const projectsStatus = useSelector(
     (state: RootState) => state.projects.status
   );
-  const token = useSelector((state: RootState) => state.auth.token);
+  const { user } = useAuth();
+  const accountData = useSelector((state: RootState) => state.form.accountData);
 
   useEffect(() => {
-    console.log("Token", token);
+    console.log("User", user);
+    console.log("Account Data", accountData);
+    console.log("Token", TokenManager.getAccessToken());
 
     if (projectsStatus === "idle") {
       dispatch(fetchProjects());
     }
-  }, [projectsStatus, dispatch]);
+  }, [projectsStatus, dispatch, user, accountData]);
 
   const handleNewProjectClick = () => {
     setIsSheetOpen(true);
@@ -40,7 +46,7 @@ export default function Dashboard() {
         return (
           <>
             <Header
-              title="Welcome, Juwon."
+              title={`Welcome, ${user?.name || "User"}.`}
               buttonText="+ New project"
               onButtonClick={handleNewProjectClick}
             />
@@ -52,7 +58,7 @@ export default function Dashboard() {
         return (
           <>
             <Header
-              title="Welcome, Juwon."
+              title={`Welcome, ${user?.name || "User"}.`}
               buttonText="+ New project"
               onButtonClick={handleNewProjectClick}
             />

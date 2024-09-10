@@ -1,61 +1,105 @@
-// src/pages/CreateAccount.tsx
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SocialSignupButton } from "@/components/blocks/SocialSignUpButton";
 import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { api } from "@/apis";
 import { setUser, setToken } from "@/store/authSlice";
+import { useMutation } from "@tanstack/react-query";
+import { setAccountData } from "@/store/formSlice";
+import { RootState } from "@/store/store";
+import {
+  RegisterRequestDto,
+  TokenDto,
+  UserDto,
+  LoginRequestDto,
+} from "@/apis/types";
+import { useAuth } from "@/components/Contexts/auth/AuthContext";
+import { auth } from "@/apis/auth";
 
-const CreateAccount = ({
-  onNext,
-  setAccountData,
-}: {
-  onNext: () => void;
-  setAccountData: (data: { email: string; password: string }) => void;
-}) => {
+const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const authContext = useAuth();
+  const accountData = useSelector((state: RootState) => state.form.accountData);
+  const [email, setEmail] = useState(accountData.email);
+  const [password, setPassword] = useState(accountData.password);
+  const [firstName, setFirstName] = useState(accountData.firstName);
+  const [lastName, setLastName] = useState(accountData.lastName);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isLoginMode, setIsLoginMode] = useState(false);
 
-  const handleRegister = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setEmailError(!email);
-    setPasswordError(!password);
+  const validateEmail = (email: string): string | null => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      return "Email is required";
+    } else if (!emailRegex.test(email)) {
+      return "Invalid email address";
+    }
+    return null;
+  };
 
-    if (!email || !password) {
+  const validatePassword = (password: string): string | null => {
+    if (!password) {
+      return "Password is required";
+    } else if (password.length < 6) {
+      return "Password must be at least 6 characters long";
+    }
+    return null;
+  };
+
+  const { mutate: register } = useMutation({
+    mutationKey: ["register"],
+    mutationFn: async (requestDto: RegisterRequestDto | LoginRequestDto) => {
+      if (isLoginMode) {
+        return await authContext.login(requestDto as LoginRequestDto);
+      } else {
+        return await api.user.register(requestDto as RegisterRequestDto);
+      }
+    },
+    onSuccess: (data) => {
+      if (isLoginMode) {
+        console.log("Login data ", data);
+        onNext();
+      } else {
+        const userData = data as UserDto;
+        dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
+        dispatch(setToken({ accessToken: "", user: userData }));
+        setIsLoginMode(true);
+      }
+    },
+    onError: (error) => {
+      console.error("Error:", error);
+    },
+  });
+
+  useEffect(() => {
+    dispatch(setAccountData({ email, password, firstName, lastName }));
+  }, [email, password, firstName, lastName, dispatch]);
+
+  const handleRegister = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const emailValidationError = validateEmail(email);
+    const passwordValidationError = validatePassword(password);
+
+    setEmailError(emailValidationError);
+    setPasswordError(passwordValidationError);
+
+    if (emailValidationError || passwordValidationError) {
       return;
     }
 
-    try {
-      if (isLoginMode) {
-        const requestDto = { email, password };
-        const token = await api.auth.login(requestDto);
-        console.log("User logged in:", token);
-        dispatch(setToken(token));
-        dispatch(setUser({ email }));
-        navigate("/dashboard");
-      } else {
-        const requestDto = {
-          email,
-          password,
-          name: "Ritesh Behera", // Hardcoded name
-        };
-        const user = await api.user.register(requestDto);
-        console.log("User registered:", user);
-        dispatch(setUser({ email, name: "Ritesh Behera" }));
-      }
-      setAccountData({ email, password });
-      onNext();
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    const requestDto = {
+      email,
+      password,
+      ...(isLoginMode ? {} : { name: `${firstName} ${lastName}` }),
+    };
+
+    register(requestDto);
   };
 
   return (
@@ -64,6 +108,42 @@ const CreateAccount = ({
         {isLoginMode ? "Log in" : "Create account"}
       </h1>
       <form className="space-y-4" onSubmit={handleRegister}>
+        {!isLoginMode && (
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <Label
+                htmlFor="firstName"
+                className="block text-sm text-left font-medium text-gray-700 mb-1"
+              >
+                First Name
+              </Label>
+              <Input
+                className="w-full h-[56px] bg-gray-100"
+                id="firstName"
+                type="text"
+                placeholder="Enter first name here"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div className="flex-1">
+              <Label
+                htmlFor="lastName"
+                className="block text-sm text-left font-medium text-gray-700 mb-1"
+              >
+                Last Name
+              </Label>
+              <Input
+                className="w-full h-[56px] bg-gray-100"
+                id="lastName"
+                type="text"
+                placeholder="Enter last name here"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
         <div>
           <Label
             htmlFor="email"
@@ -80,7 +160,7 @@ const CreateAccount = ({
             onChange={(e) => setEmail(e.target.value)}
           />
           {emailError && (
-            <p className="text-red-500 text-left text-sm">Email is required</p>
+            <p className="text-red-500 text-left text-sm">{emailError}</p>
           )}
         </div>
         <div>
@@ -99,9 +179,7 @@ const CreateAccount = ({
             onChange={(e) => setPassword(e.target.value)}
           />
           {passwordError && (
-            <p className="text-red-500 text-left text-sm">
-              Password is required
-            </p>
+            <p className="text-red-500 text-left text-sm">{passwordError}</p>
           )}
         </div>
         <div className="flex space-x-4">
@@ -137,12 +215,12 @@ const CreateAccount = ({
           {isLoginMode ? "Sign up" : "Log in"}
         </a>
       </p>
-      <div className="text-center text-sm text-gray-500 my-4">Or</div>
+      {/* <div className="text-center text-sm text-gray-500 my-4">Or</div>
       <div className="space-y-2">
         <SocialSignupButton provider="google" onClick={() => {}} />
         <SocialSignupButton provider="facebook" onClick={() => {}} />
         <SocialSignupButton provider="instagram" onClick={() => {}} />
-      </div>
+      </div> */}
     </div>
   );
 };

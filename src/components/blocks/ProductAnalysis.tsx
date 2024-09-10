@@ -2,29 +2,32 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setProductData } from "@/store/formSlice";
+import { RootState } from "@/store/store";
 
 const ProductAnalysis = ({
   onNext,
   onBack,
-  setProductData,
 }: {
   onNext: () => void;
   onBack: () => void;
-  setProductData: (data: {
-    companyName: string;
-    companyDomain: string;
-    companyDescription: string;
-  }) => void;
 }) => {
-  const [companyName, setCompanyName] = useState("");
-  const [companyDomain, setCompanyDomain] = useState("");
+  const dispatch = useDispatch();
+  const productData = useSelector((state: RootState) => state.form.productData);
+  const [companyName, setCompanyName] = useState(productData.companyName);
+  const [companyDomain, setCompanyDomain] = useState(productData.companyDomain);
   const [companyDescription, setCompanyDescription] = useState(
-    "Travelcoup specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kaijago aims to make travel planning hassle-free and enjoyable..."
+    productData.companyDescription ||
+      "Travelcoup specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kaijago aims to make travel planning hassle-free and enjoyable..."
   );
 
+  useEffect(() => {
+    dispatch(setProductData({ companyName, companyDomain, companyDescription }));
+  }, [companyName, companyDomain, companyDescription, dispatch]);
+
   const handleNext = () => {
-    setProductData({ companyName, companyDomain, companyDescription });
     onNext();
   };
 

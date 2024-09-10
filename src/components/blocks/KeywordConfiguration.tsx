@@ -3,29 +3,26 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, Info } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { setKeywords } from "@/store/formSlice";
+import { RootState } from "@/store/store";
 
 const KeywordConfiguration = ({
   onNext,
   onBack,
-  setKeywords,
 }: {
   onNext: () => void;
   onBack: () => void;
-  setKeywords: (keywords: string[]) => void;
 }) => {
-  const [keywords, setLocalKeywords] = useState<string[]>([
-    "Travel",
-    "Travel insurance",
-    "Group trip",
-    "Group ticket",
-    "Itinerary",
-  ]);
+  const dispatch = useDispatch();
+  const keywordsData = useSelector((state: RootState) => state.form.keywords);
+  const [keywords, setLocalKeywords] = useState<string[]>(keywordsData);
   const [newKeyword, setNewKeyword] = useState("");
   const [helpText, setHelpText] = useState("");
 
   useEffect(() => {
-    setKeywords(keywords);
-  }, [keywords, setKeywords]);
+    dispatch(setKeywords(keywords));
+  }, [keywords, dispatch]);
 
   const addKeyword = () => {
     if (newKeyword && !keywords.includes(newKeyword)) {

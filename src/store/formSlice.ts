@@ -1,8 +1,11 @@
+// src/store/formSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AccountData {
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
 }
 
 interface ProductData {
@@ -26,7 +29,7 @@ interface FormState {
 }
 
 const initialState: FormState = {
-  accountData: { email: '', password: '' },
+  accountData: { email: '', password: '', firstName: '', lastName: '' },
   productData: { companyName: '', companyDomain: '', companyDescription: '' },
   keywords: [],
   searchConfig: { platforms: [] },

@@ -8,6 +8,8 @@ import KeywordCard from "@/components/blocks/KeywordCard";
 import { useNavigate } from "react-router-dom";
 import KeywordCardBackground from "@/assets/KeywordCardBackground.svg";
 import { api } from "@/apis";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
@@ -15,16 +17,12 @@ export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
 
-  const [accountData, setAccountData] = useState({ email: "", password: "" });
-  const [productData, setProductData] = useState({
-    companyName: "",
-    companyDomain: "",
-    companyDescription: "",
-  });
-  const [keywords, setKeywords] = useState<string[]>([]);
-  const [searchConfig, setSearchConfig] = useState<{ platforms: Source[] }>({
-    platforms: [],
-  });
+  const productData = useSelector((state: RootState) => state.form.productData);
+  const keywordsData = useSelector((state: RootState) => state.form.keywords);
+  const [keywords, setKeywords] = useState<string[]>(keywordsData);
+  const searchConfig = useSelector(
+    (state: RootState) => state.form.searchConfig
+  );
 
   const handleNext = async () => {
     if (currentStep === 4) {
@@ -57,18 +55,12 @@ export function ConfigurationPage() {
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return (
-          <CreateAccount
-            onNext={() => setCurrentStep(2)}
-            setAccountData={setAccountData}
-          />
-        );
+        return <CreateAccount onNext={() => setCurrentStep(2)} />;
       case 2:
         return (
           <ProductAnalysis
             onNext={() => setCurrentStep(3)}
             onBack={() => setCurrentStep(1)}
-            setProductData={setProductData}
           />
         );
       case 3:
@@ -76,7 +68,6 @@ export function ConfigurationPage() {
           <KeywordConfiguration
             onNext={() => setCurrentStep(4)}
             onBack={() => setCurrentStep(2)}
-            setKeywords={setKeywords}
           />
         );
       case 4:
@@ -84,7 +75,6 @@ export function ConfigurationPage() {
           <SearchConfiguration
             onNext={handleNext}
             onBack={() => setCurrentStep(3)}
-            setSearchConfig={setSearchConfig}
           />
         );
       default:

@@ -4,6 +4,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchConfig } from "@/store/formSlice";
+import { RootState } from "@/store/store";
 
 type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
@@ -24,23 +27,27 @@ const BrandToneOptions = [
     emoji: "😐",
   },
 ];
+
 const SearchConfiguration = ({
   onNext,
   onBack,
-  setSearchConfig,
 }: {
   onNext: () => void;
   onBack: () => void;
-  setSearchConfig: React.Dispatch<
-    React.SetStateAction<{ platforms: Source[] }>
-  >;
 }) => {
-  const [platforms, setPlatforms] = useState<Source[]>([]);
+  const dispatch = useDispatch();
+  const searchConfigData = useSelector(
+    (state: RootState) => state.form.searchConfig
+  );
+  const [platforms, setPlatforms] = useState<Source[]>(
+    searchConfigData.platforms
+  );
   const [searchFrequency, setSearchFrequency] = useState("daily");
   const [brandTone, setBrandTone] = useState("professional");
+
   useEffect(() => {
-    setSearchConfig({ platforms });
-  }, [platforms, setSearchConfig]);
+    dispatch(setSearchConfig({ platforms }));
+  }, [platforms, dispatch]);
 
   const handlePlatformChange = (platform: Source) => {
     setPlatforms((prev) =>
@@ -60,31 +67,26 @@ const SearchConfiguration = ({
             <span className="text-gray-400">(You can select all)</span>
           </h2>
           <div className="grid grid-cols-3 gap-2">
-            {[
-              "Facebook",
-              "Twitter",
-              "LinkedIn",
-              "Reddit",
-              "Quora",
-              "Blogs",
-            ].map((platform) => (
-              <div
-                key={platform}
-                className="flex items-center justify-between bg-gray-100 border border-gray-300 rounded-lg h-10 px-4 hover:bg-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
-              >
-                <Label className="text-sm text-gray-700" htmlFor={platform}>
-                  {platform}
-                </Label>
-                <Checkbox
-                  id={platform}
-                  className="text-blue-600 focus:ring-0 focus:outline-none"
-                  checked={platforms.includes(platform as Source)}
-                  onCheckedChange={() =>
-                    handlePlatformChange(platform as Source)
-                  }
-                />
-              </div>
-            ))}
+            {["hackernews", "reddit", "linkedin", "twitter", "quora"].map(
+              (platform) => (
+                <div
+                  key={platform}
+                  className="flex items-center justify-between bg-gray-100 border border-gray-300 rounded-lg h-10 px-4 hover:bg-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
+                >
+                  <Label className="text-sm text-gray-700" htmlFor={platform}>
+                    {platform}
+                  </Label>
+                  <Checkbox
+                    id={platform}
+                    className="text-blue-600 focus:ring-0 focus:outline-none"
+                    checked={platforms.includes(platform as Source)}
+                    onCheckedChange={() =>
+                      handlePlatformChange(platform as Source)
+                    }
+                  />
+                </div>
+              )
+            )}
           </div>
         </div>
         <div>
