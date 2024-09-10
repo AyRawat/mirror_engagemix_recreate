@@ -1,5 +1,5 @@
 // src/axiosInstance.ts
-import { TokenManager } from '@/components/Contexts/TokenManager';
+import { TokenManager } from '@/components/Contexts/auth/TokenManager';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
