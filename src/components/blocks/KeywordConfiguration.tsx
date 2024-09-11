@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, Info } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setKeywords } from "@/store/formSlice";
+import { setKeywords, setProjectName } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 
 const KeywordConfiguration = ({
@@ -16,13 +16,21 @@ const KeywordConfiguration = ({
 }) => {
   const dispatch = useDispatch();
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
+  const projectNameData = useSelector(
+    (state: RootState) => state.form.projectName
+  );
   const [keywords, setLocalKeywords] = useState<string[]>(keywordsData);
   const [newKeyword, setNewKeyword] = useState("");
   const [helpText, setHelpText] = useState("");
+  const [projectName, setLocalProjectName] = useState(projectNameData);
 
   useEffect(() => {
     dispatch(setKeywords(keywords));
   }, [keywords, dispatch]);
+
+  useEffect(() => {
+    dispatch(setProjectName(projectName));
+  }, [projectName, dispatch]);
 
   const addKeyword = () => {
     if (newKeyword && !keywords.includes(newKeyword)) {
@@ -38,17 +46,20 @@ const KeywordConfiguration = ({
     setLocalKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
   };
 
-  const isHandleNextStep = onNext.name === "handleNextStep";
-  const projectNameText = "Project Name";
-  const keywordsText =
-    "After analysing business info, here are some keywords you should track. Feel free to add more";
-
   return (
     <div className="text-left">
       <h1 className="text-xl text-[#344054] font-bold mb-6">
-        {isHandleNextStep ? projectNameText : keywordsText}
+        Keyword Configuration
       </h1>
-      <p>{isHandleNextStep ? keywordsText : ""}</p>
+      <div className="mb-6">
+        <h2 className="text-sm font-medium text-gray-700 mb-2">Project Name</h2>
+        <Input
+          className="w-full h-[56px] bg-gray-100"
+          placeholder="Enter project name"
+          value={projectName}
+          onChange={(e) => setLocalProjectName(e.target.value)}
+        />
+      </div>
       <div className="mb-6">
         <h2 className="text-sm font-medium text-gray-700 mb-2">
           Suggested keywords

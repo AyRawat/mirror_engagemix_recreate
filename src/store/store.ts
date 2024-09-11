@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import formReducer from './formSlice';
 import projectsReducer from './projectsSlice';
 import authReducer from './authSlice';
+import postReducer from './postSlice';
 
 
 
@@ -11,6 +12,7 @@ const store = configureStore({
     form: formReducer,
     projects: projectsReducer,
     auth: authReducer,
+    posts: postReducer
   },
 });
 

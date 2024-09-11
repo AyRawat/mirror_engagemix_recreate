@@ -8,12 +8,14 @@ interface CustomSheetProps {
   isOpen: boolean;
   onClose: () => void;
   component?: React.ComponentType<any | null>;
+  onReset: () => void; // Add onReset prop
 }
 
 export default function CustomSheet({
   isOpen,
   onClose,
   component: Component,
+  onReset,
 }: CustomSheetProps) {
   const [step, setStep] = useState(1);
 
@@ -25,6 +27,12 @@ export default function CustomSheet({
     setStep(step - 1);
   };
 
+  const handleClose = () => {
+    setStep(1); // Reset step to 1
+    onReset(); // Call the reset function
+    onClose(); // Close the sheet
+  };
+
   return (
     <div
       className={
@@ -33,15 +41,15 @@ export default function CustomSheet({
           : ""
       }
     >
-      <Sheet open={isOpen} onOpenChange={onClose}>
+      <Sheet open={isOpen} onOpenChange={handleClose}>
         <SheetContent className="rounded-lg shadow-lg p-6 bg-white m-6 w-full max-w-3xl">
           <div className="m-2 mt-6">
             {Component ? (
-              <Component onClose={onClose} />
+              <Component onClose={handleClose} />
             ) : (
               <>
                 {step === 1 && (
-                  <ProductAnalysis onNext={handleNextStep} onBack={onClose} />
+                  <ProductAnalysis onNext={handleNextStep} onBack={handleClose} />
                 )}
                 {step === 2 && (
                   <KeywordConfiguration
@@ -51,10 +59,7 @@ export default function CustomSheet({
                 )}
                 {step === 3 && (
                   <SearchConfiguration
-                    onNext={() => {
-                      setStep(1);
-                      onClose();
-                    }}
+                    onNext={handleClose}
                     onBack={handleBackStep}
                   />
                 )}

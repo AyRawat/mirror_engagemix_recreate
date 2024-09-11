@@ -1,4 +1,3 @@
-// Dashboard.tsx
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProjects } from "@/store/projectsSlice";
@@ -10,8 +9,15 @@ import SocialMedia from "@/components/Custom/SocialMedia";
 import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import Sidebar from "@/components/blocks/Sidebar";
-import { useAuth } from "@/components/Contexts/auth/AuthContext";
-import { TokenManager } from "@/components/Contexts/auth/TokenManager";
+import { useAuth } from "@/components/contexts/auth/AuthContext";
+import { TokenManager } from "@/components/contexts/auth/TokenManager";
+import {
+  setAccountData,
+  setProductData,
+  setKeywords,
+  setSearchConfig,
+  setProjectName,
+} from "@/store/formSlice"; // Import actions
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -22,6 +28,7 @@ export default function Dashboard() {
     (state: RootState) => state.projects.status
   );
   const { user } = useAuth();
+  const authContext = useAuth();
   const accountData = useSelector((state: RootState) => state.form.accountData);
 
   useEffect(() => {
@@ -36,6 +43,22 @@ export default function Dashboard() {
 
   const handleNewProjectClick = () => {
     setIsSheetOpen(true);
+  };
+
+  const handleResetForms = () => {
+    dispatch(
+      setAccountData({ email: "", password: "", firstName: "", lastName: "" })
+    );
+    dispatch(
+      setProductData({
+        companyName: "",
+        companyDomain: "",
+        companyDescription: "",
+      })
+    );
+    dispatch(setKeywords([]));
+    dispatch(setSearchConfig({ platforms: [] }));
+    dispatch(setProjectName(""));
   };
 
   const renderContent = () => {
@@ -76,7 +99,11 @@ export default function Dashboard() {
       <main className="flex-1 p-8 max-w-7xl mx-auto overflow-hidden">
         {renderContent()}
       </main>
-      <CustomSheet isOpen={isSheetOpen} onClose={() => setIsSheetOpen(false)} />
+      <CustomSheet
+        isOpen={isSheetOpen}
+        onClose={() => setIsSheetOpen(false)}
+        onReset={handleResetForms} // Pass the reset function
+      />
     </div>
   );
 }

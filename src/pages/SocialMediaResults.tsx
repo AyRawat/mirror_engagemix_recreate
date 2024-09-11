@@ -1,4 +1,7 @@
+// src/pages/SocialMediaResults.tsx
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 import {
   ArrowLeft,
   Twitter,
@@ -18,6 +21,8 @@ import Reply from "@/components/Custom/Reply"; // Import the Reply component
 import { useNavigate } from "react-router-dom";
 import ReplySent from "@/components/Custom/ReplySent";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings"; // Import ConfigurationSettings
+import { PostResponseDto } from "@/apis/types";
+import { formatDistanceToNow } from "date-fns";
 
 const Header = ({ onInviteClick }: { onInviteClick: () => void }) => {
   const navigate = useNavigate();
@@ -129,59 +134,82 @@ const TwitterPost = ({
   time: string;
   content: string;
   onReplyClick: () => void;
-}) => (
-  <div className="border-b border-gray-200 py-4">
-    <div className="flex justify-between items-start mb-2">
-      <div>
-        <div className="flex items-center">
-          <Twitter className="h-4 w-4 text-blue-400 mr-2" />
-          <span className="font-semibold">{username}</span>
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const contentToShow = isExpanded ? content : content.slice(0, 250);
+
+  return (
+    <div className="border-b border-gray-200 py-4">
+      <div className="flex justify-between items-start mb-2">
+        <div>
+          <div className="flex items-center">
+            <Twitter className="h-4 w-4 text-blue-400 mr-2" />
+            <span className="font-semibold">{username}</span>
+          </div>
+          <span className="text-sm text-gray-500">{time}</span>
         </div>
-        <span className="text-sm text-gray-500">{time}</span>
+        <div className="flex space-x-2">
+          <Button variant="outline" size="sm" onClick={onReplyClick}>
+            Reply
+          </Button>
+          <Button variant="outline" size="icon" className="h-8 w-8">
+            <Share2 className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="icon" className="h-8 w-8">
+            <ExternalLink className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
-      <div className="flex space-x-2">
-        <Button variant="outline" size="sm" onClick={onReplyClick}>
-          Reply
+      <div className="text-sm mb-2 text-left max-h-40 overflow-auto">
+        {contentToShow}
+        {content.length > 250 && (
+          <Button
+            variant="link"
+            size="sm"
+            className="text-blue-500 p-0"
+            onClick={toggleExpand}
+          >
+            {isExpanded ? "Show less" : "Show more"}
+          </Button>
+        )}
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {[
+          "Group ticket",
+          "Group ticket",
+          "Group ticket",
+          "Group ticket",
+          "Group ticket",
+          "Group ticket",
+        ].map((label, index) => (
+          <span
+            key={index}
+            className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+          >
+            {label}
+          </span>
+        ))}
+      </div>
+      <div className="flex justify-between items-center mt-2">
+        <Button variant="link" size="sm" className="text-blue-500 p-0">
+          Show less posts like this
         </Button>
-        <Button variant="outline" size="icon" className="h-8 w-8">
-          <Share2 className="h-4 w-4" />
-        </Button>
-        <Button variant="outline" size="icon" className="h-8 w-8">
-          <ExternalLink className="h-4 w-4" />
-        </Button>
+        <span className="text-sm text-gray-500">Relevance score: 5</span>
       </div>
     </div>
-    <p className="text-sm mb-2 text-left">{content}</p>
-    <div className="flex flex-wrap gap-2">
-      {[
-        "Group ticket",
-        "Group ticket",
-        "Group ticket",
-        "Group ticket",
-        "Group ticket",
-        "Group ticket",
-      ].map((label, index) => (
-        <span
-          key={index}
-          className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
-        >
-          {label}
-        </span>
-      ))}
-    </div>
-    <div className="flex justify-between items-center mt-2">
-      <Button variant="link" size="sm" className="text-blue-500 p-0">
-        Show less posts like this
-      </Button>
-      <span className="text-sm text-gray-500">Relevance score: 5</span>
-    </div>
-  </div>
-);
+  );
+};
 
 export default function SocialMediaResults() {
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [isReplyOpen, setReplyOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
+  const posts = useSelector((state: RootState) => state.posts.posts);
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -204,32 +232,32 @@ export default function SocialMediaResults() {
   };
 
   return (
-    <div className="mx-auto p-6">
+    <div className="mx-auto p-6 max-h-scre">
       <Header onInviteClick={handleInviteClick} />
       <Navigation activeTab={activeTab} onTabChange={handleTabChange} />
       {activeTab === "results" && (
         <div>
           <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
           <SocialMediaCounts />
-          <div className="border border-gray-300 rounded p-2 mb-2">
-            <div className="border border-gray-300 rounded p-2 mb-2">
+          {posts.map((post: PostResponseDto) => (
+            <div
+              key={post.id}
+              className="border border-gray-300 rounded p-2 mb-2"
+            >
               <TwitterPost
-                username="@AlienKing04"
-                time="12 minutes ago"
-                content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
+                username={post.authorName}
+                time={
+                  post.createdAt &&
+                  formatDistanceToNow(new Date(post.createdAt * 1000), {
+                    addSuffix: true,
+                  })
+                }
+                content={post.text}
                 onReplyClick={handleReplyClick}
               />
-              <ReplySent />
+              {/* <ReplySent /> */}
             </div>
-            <div className="border border-gray-300 rounded p-2 mb-2">
-              <TwitterPost
-                username="@AlienKing04"
-                time="12 minutes ago"
-                content="Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable... Kairgo specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kairgo aims to make travel planning hassle-free and enjoyable..."
-                onReplyClick={handleReplyClick}
-              />
-            </div>
-          </div>
+          ))}
         </div>
       )}
       {activeTab === "configuration" && <ConfigurationSettings />}

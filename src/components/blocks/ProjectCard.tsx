@@ -1,3 +1,4 @@
+// src/components/blocks/ProjectCard.tsx
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -8,6 +9,8 @@ import DropdownMenuItems from "@/components/blocks/DropDownMenu";
 import FacebookIcon from "@/assets/icons/facebook";
 import TwitterIcon from "@/assets/icons/twitter";
 import { ProjectDto } from "@/apis/types";
+import { useDispatch } from "react-redux";
+import { fetchPosts } from "@/store/postSlice";
 
 interface ProjectCardProps {
   project: ProjectDto;
@@ -16,6 +19,7 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -33,6 +37,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
     console.log("Delete clicked");
   };
 
+  const handleProjectClick = () => {
+    dispatch(fetchPosts(project._id));
+    onClick();
+  };
+
   const options = [
     { label: "Archive", icon: Archive, onClick: handleArchive },
     { label: "Delete", icon: Trash, onClick: handleDelete },
@@ -44,8 +53,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center">
             <ExternalLink className="h-4 w-4 mr-2 text-gray-500" />
-            <span className="font-semibold" onClick={onClick}>
-              {project.companyDomain}
+            <span className="font-semibold" onClick={handleProjectClick}>
+              {project.name}
             </span>
           </div>
           <div className="relative">

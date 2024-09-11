@@ -19,6 +19,7 @@ export function ConfigurationPage() {
 
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
+  const projectName = useSelector((state: RootState) => state.form.projectName);
   const [keywords, setKeywords] = useState<string[]>(keywordsData);
   const searchConfig = useSelector(
     (state: RootState) => state.form.searchConfig
@@ -28,11 +29,11 @@ export function ConfigurationPage() {
     if (currentStep === 4) {
       // Collect all data and make the API call
       const projectData = {
-        name: "Get Leads", // Hardcoded name
+        name: projectName, // Use projectName from Redux store
         companyDomain: productData.companyDomain,
         companyDescription: productData.companyDescription,
         companyName: productData.companyName,
-        keywords,
+        keywords: keywordsData,
         sources: searchConfig.platforms.map(
           (str) => str.toLowerCase() as Source
         ),
@@ -84,18 +85,18 @@ export function ConfigurationPage() {
 
   return (
     <>
-      <div className="h-[96vh] flex py-10 justify-center">
+      <div className="h-[96vh] flex pt-[0.5rem] pb-[2.5rem] justify-center">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-screen-3xl max-h-screen overflow-hidden">
           {/* Left Column - Social Media Post Card */}
           <div
-            className="bg-gradient-to-br p-4 rounded-lg shadow-lg relative"
+            className="bg-gradient-to-br p-4 rounded-lg shadow-lg relative w-[24rem]"
             style={{
               backgroundImage: `url(${KeywordCardBackground})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            <KeywordCard />
+            {/* <KeywordCard /> */}
           </div>
 
           {/* Right Column - Create Account Form with Progress Indicator */}
