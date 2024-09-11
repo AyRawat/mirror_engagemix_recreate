@@ -127,3 +127,8 @@ export interface CompanyDto {
   name: string;
   userId: string;
 }
+
+export type ReplyRequestDto = {
+  postId: string;
+  instruction?: string;
+};

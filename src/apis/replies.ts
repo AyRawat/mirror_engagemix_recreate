@@ -1,11 +1,11 @@
 import axiosInstance from "./axios";
-import { GenerateReplyBodyDto, GenerateReplyResponseDto } from "./types";
+import { ReplyRequestDto, GenerateReplyResponseDto } from "./types";
 
 const generate = async (
-  requestDto: GenerateReplyBodyDto
+  requestDto: ReplyRequestDto
 ): Promise<GenerateReplyResponseDto> => {
   try {
-    const { data } = await axiosInstance.post("/reply/generate", requestDto);
+    const { data } = await axiosInstance.post("/posts/generate-reply", requestDto);
     return data as GenerateReplyResponseDto;
   } catch {
     throw new Error("Bad Request");

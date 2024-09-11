@@ -15,12 +15,17 @@ import { PostResponseDto } from "@/apis/types";
 import { formatDistanceToNow } from "date-fns";
 import { Progress } from "@/components/ui/progress"; // Import ProgressBar
 import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea
+import { replies } from "@/apis/replies"; // Import the replies API
 
 export default function SocialMediaResults() {
   const [progress, setProgress] = useState(10);
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [isReplyOpen, setReplyOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
+  const [selectedPost, setSelectedPost] = useState<PostResponseDto | null>(
+    null
+  );
+  const [generatedReply, setGeneratedReply] = useState<string | null>(null);
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
 
@@ -45,22 +50,41 @@ export default function SocialMediaResults() {
     setInviteModalOpen(false);
   };
 
-  const handleReplyClick = () => {
+  const handleReplyClick = (post: PostResponseDto) => {
+    setSelectedPost(post);
     setReplyOpen(true);
   };
 
   const handleCloseReply = () => {
     setReplyOpen(false);
+    setSelectedPost(null);
+    setGeneratedReply(null);
   };
 
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
+  const handleGenerateReply = async (customInstruction: string) => {
+    if (selectedPost) {
+      const requestDto = {
+        postId: selectedPost.id,
+        instruction: customInstruction,
+      };
+      try {
+        const response = await replies.generate(requestDto);
+        setGeneratedReply(response.reply);
+      } catch (error) {
+        console.error("Failed to generate reply:", error);
+      }
+    }
+  };
+
+  const handleSendReply = () => {
+    setReplyOpen(false);
+    setGeneratedReply(null);
   };
 
   return (
     <div className="mx-auto pt-6 px-6 max-h-screen">
       <Header onInviteClick={handleInviteClick} />
-      <NavigationTabs activeTab={activeTab} onTabChange={handleTabChange} />
+      <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
       {activeTab === "results" && (
         <div>
           <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
@@ -74,20 +98,12 @@ export default function SocialMediaResults() {
                 </div>
               ) : (
                 posts.map((post: PostResponseDto) => (
-                  <PostCard
-                    className="border border-gray-300 rounded p-4 mb-2"
-                    key={post.id}
-                    username={post.authorName}
-                    time={
-                      post.createdAt &&
-                      formatDistanceToNow(new Date(post.createdAt * 1000), {
-                        addSuffix: true,
-                      })
-                    }
-                    content={post.text}
-                    onReplyClick={handleReplyClick}
-                  />
-                  // <ReplySent />
+                  <div key={post.id}>
+                    <PostCard post={post} onReplyClick={handleReplyClick} />
+                    {generatedReply && selectedPost?.id === post.id && (
+                      <ReplySent />
+                    )}
+                  </div>
                 ))
               )}
             </div>
@@ -96,7 +112,15 @@ export default function SocialMediaResults() {
       )}
       {activeTab === "configuration" && <ConfigurationSettings />}
       {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
-      {isReplyOpen && <Reply onClose={handleCloseReply} />}
+      {isReplyOpen && selectedPost && (
+        <Reply
+          post={selectedPost}
+          onClose={handleCloseReply}
+          onGenerateReply={handleGenerateReply}
+          generatedReply={generatedReply}
+          onSendReply={handleSendReply}
+        />
+      )}
     </div>
   );
 }
