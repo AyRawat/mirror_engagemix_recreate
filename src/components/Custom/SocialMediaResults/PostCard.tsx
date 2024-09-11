@@ -23,7 +23,7 @@ const PostCard = ({
   const contentToShow = isExpanded ? content : content.slice(0, 250);
 
   return (
-    <div className="border border-gray-200 rounded-lg p-4">
+    <div className="border border-gray-200 rounded-lg p-4 m-2 ">
       <div className="flex justify-between items-start mb-2">
         <div>
           <div className="flex items-center">

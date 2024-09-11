@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "@/hooks";
 import { RootState } from "@/store/store";
 import { fetchPosts } from "@/store/postSlice";
 import Header from "@/components/Custom/SocialMediaResults/Header";
@@ -22,6 +23,7 @@ export default function SocialMediaResults() {
   const [activeTab, setActiveTab] = useState("results");
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
+
   const dispatch = useDispatch();
 
   useEffect(() => {

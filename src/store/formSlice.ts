@@ -26,7 +26,8 @@ interface FormState {
   keywords: string[];
   searchConfig: SearchConfig;
   currentStep: number;
-  projectName: string; // Add projectName to the form state
+  projectName: string;
+  projectDescription: string; // Add projectDescription to the form state
 }
 
 const initialState: FormState = {
@@ -35,7 +36,8 @@ const initialState: FormState = {
   keywords: [],
   searchConfig: { platforms: [] },
   currentStep: 1,
-  projectName: '', // Initialize projectName
+  projectName: '',
+  projectDescription: '', // Initialize projectDescription
 };
 
 const formSlice = createSlice({
@@ -57,8 +59,11 @@ const formSlice = createSlice({
     setCurrentStep(state, action: PayloadAction<number>) {
       state.currentStep = action.payload;
     },
-    setProjectName(state, action: PayloadAction<string>) { // Add setProjectName action
+    setProjectName(state, action: PayloadAction<string>) {
       state.projectName = action.payload;
+    },
+    setProjectDescription(state, action: PayloadAction<string>) { // Add setProjectDescription action
+      state.projectDescription = action.payload;
     },
   },
 });
@@ -69,7 +74,8 @@ export const {
   setKeywords,
   setSearchConfig,
   setCurrentStep,
-  setProjectName, // Export setProjectName action
+  setProjectName,
+  setProjectDescription, // Export setProjectDescription action
 } = formSlice.actions;
 
 export default formSlice.reducer;

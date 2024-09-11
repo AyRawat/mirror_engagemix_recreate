@@ -4,12 +4,11 @@ import ProductAnalysis from "@/components/blocks/ProductAnalysis";
 import SearchConfiguration from "@/components/blocks/SearchConfiguration";
 import KeywordConfiguration from "@/components/blocks/KeywordConfiguration";
 import { StepIndicator } from "@/components/Custom/StepIndicator";
-import KeywordCard from "@/components/blocks/KeywordCard";
 import { useNavigate } from "react-router-dom";
-import KeywordCardBackground from "@/assets/KeywordCardBackground.svg";
 import { api } from "@/apis";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import KeywordCardBackground from "@/assets/KeywordCardBackground.svg";
 
 type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
@@ -20,33 +19,44 @@ export function ConfigurationPage() {
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectName = useSelector((state: RootState) => state.form.projectName);
-  const [keywords, setKeywords] = useState<string[]>(keywordsData);
   const searchConfig = useSelector(
     (state: RootState) => state.form.searchConfig
+  );
+  const projectDescription = useSelector(
+    (state: RootState) => state.form.projectDescription
   );
 
   const handleNext = async () => {
     if (currentStep === 4) {
       // Collect all data and make the API call
-      const projectData = {
-        name: projectName, // Use projectName from Redux store
-        companyDomain: productData.companyDomain,
-        companyDescription: productData.companyDescription,
-        companyName: productData.companyName,
-        keywords: keywordsData,
-        sources: searchConfig.platforms.map(
-          (str) => str.toLowerCase() as Source
-        ),
+      const companyData = {
+        domain: productData.companyDomain,
+        description: productData.companyDescription,
+        name: productData.companyName,
       };
-      console.log(projectData);
 
       try {
+        // Create the company first
+        const createdCompany = await api.company.create(companyData);
+        console.log("Created Company", createdCompany);
+
+        // Use the created company ID to create the project
+        const projectData = {
+          companyId: createdCompany.id, // Use company ID from the created company
+          name: projectName, // Use projectName from Redux store
+          description: projectDescription,
+          keywords: keywordsData,
+          sources: searchConfig.platforms.map(
+            (str) => str.toLowerCase() as Source
+          ),
+        };
+
         const createdProject = await api.projects.create(projectData);
         console.log("Created Project", createdProject);
 
         navigate("/dashboard");
       } catch (error) {
-        console.error("Failed to create project:", error);
+        console.error("Failed to create company or project:", error);
       }
     } else {
       setCurrentStep(currentStep + 1);

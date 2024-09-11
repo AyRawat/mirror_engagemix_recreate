@@ -1,7 +1,7 @@
 import { PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
 
-import { useAuth } from "@/components/contexts/auth/AuthContext";
+import { useAuth } from "@/contexts/auth/AuthContext";
 
 const PrivateRoute = ({ children }: PropsWithChildren) => {
   const authContext = useAuth();

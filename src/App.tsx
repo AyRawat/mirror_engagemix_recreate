@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import { router } from "./router/routes";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import AuthProvider from "./components/contexts/auth/AuthProvider";
+import AuthProvider from "@/contexts/auth/AuthProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";

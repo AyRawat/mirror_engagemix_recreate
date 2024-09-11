@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { X, Info } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { setKeywords, setProjectName } from "@/store/formSlice";
+import {
+  setKeywords,
+  setProjectName,
+  setProjectDescription,
+} from "@/store/formSlice";
 import { RootState } from "@/store/store";
+import { projects } from "@/apis/projects";
 
 const KeywordConfiguration = ({
   onNext,
@@ -19,10 +25,17 @@ const KeywordConfiguration = ({
   const projectNameData = useSelector(
     (state: RootState) => state.form.projectName
   );
+  const projectDescriptionData = useSelector(
+    (state: RootState) => state.form.projectDescription
+  );
   const [keywords, setLocalKeywords] = useState<string[]>(keywordsData);
   const [newKeyword, setNewKeyword] = useState("");
   const [helpText, setHelpText] = useState("");
   const [projectName, setLocalProjectName] = useState(projectNameData);
+  const [projectDescription, setLocalProjectDescription] = useState(
+    projectDescriptionData
+  );
+  const [isFetchingKeywords, setIsFetchingKeywords] = useState(false);
 
   useEffect(() => {
     dispatch(setKeywords(keywords));
@@ -31,6 +44,10 @@ const KeywordConfiguration = ({
   useEffect(() => {
     dispatch(setProjectName(projectName));
   }, [projectName, dispatch]);
+
+  useEffect(() => {
+    dispatch(setProjectDescription(projectDescription));
+  }, [projectDescription, dispatch]);
 
   const addKeyword = () => {
     if (!newKeyword) {
@@ -59,6 +76,20 @@ const KeywordConfiguration = ({
     onNext();
   };
 
+  const handleGetSuggestedKeywords = async () => {
+    setIsFetchingKeywords(true);
+    try {
+      const suggestedKeywords = await projects.getSuggestedKeywords(
+        projectDescription
+      );
+      setLocalKeywords([...keywords, ...suggestedKeywords]);
+    } catch (error) {
+      console.error("Failed to fetch suggested keywords", error);
+    } finally {
+      setIsFetchingKeywords(false);
+    }
+  };
+
   return (
     <div className="text-left">
       <h1 className="text-xl text-[#344054] font-bold mb-6">
@@ -76,6 +107,27 @@ const KeywordConfiguration = ({
           <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
             {helpText}
           </p>
+        )}
+      </div>
+      <div className="mb-6">
+        <h2 className="text-sm font-medium text-gray-700 mb-2">
+          Project Description
+        </h2>
+        <Textarea
+          className="w-full h-[56px] bg-gray-100"
+          placeholder="Enter project description"
+          value={projectDescription}
+          onChange={(e: any) => setLocalProjectDescription(e.target.value)}
+        />
+        {projectDescription && (
+          <Button
+            variant="secondary"
+            className="mt-2"
+            onClick={handleGetSuggestedKeywords}
+            disabled={isFetchingKeywords}
+          >
+            {isFetchingKeywords ? "Fetching..." : "Get Suggested Keywords"}
+          </Button>
         )}
       </div>
       <div className="mb-6">

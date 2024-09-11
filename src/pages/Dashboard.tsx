@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useDispatch } from "@/hooks";
 import { fetchProjects } from "@/store/projectsSlice";
 import { RootState } from "@/store/store";
 import StatsComponent from "@/components/Custom/StatsComponent";
@@ -9,8 +10,8 @@ import SocialMedia from "@/components/Custom/SocialMedia";
 import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import Sidebar from "@/components/blocks/Sidebar";
-import { useAuth } from "@/components/contexts/auth/AuthContext";
-import { TokenManager } from "@/components/contexts/auth/TokenManager";
+import { useAuth } from "@/contexts/auth/AuthContext";
+import { TokenManager } from "@/contexts/auth/TokenManager";
 import {
   setAccountData,
   setProductData,

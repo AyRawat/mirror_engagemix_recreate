@@ -16,7 +16,7 @@ import {
   UserDto,
   LoginRequestDto,
 } from "@/apis/types";
-import { useAuth } from "@/components/contexts/auth/AuthContext";
+import { useAuth } from "@/contexts/auth/AuthContext";
 import { auth } from "@/apis/auth";
 
 const CreateAccount = ({ onNext }: { onNext: () => void }) => {

@@ -47,10 +47,22 @@ const deleteProject = async (id: string): Promise<void> => {
   }
 };
 
+const getSuggestedKeywords = async (projectDescription: string): Promise<string[]> => {
+  try {
+    const { data } = await axiosInstance.get(`/projects/generate-suggested-keywords`, {
+      params: { projectDescription }
+    });
+    return data as string[];
+  } catch {
+    throw new Error("Failed to fetch suggested keywords");
+  }
+};
+
 export const projects = {
   getAll,
   create,
   update,
   delete: deleteProject,
-  getPostsOnProject
+  getPostsOnProject,
+  getSuggestedKeywords
 };

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductData } from "@/store/formSlice";
 import { RootState } from "@/store/store";
+import { company } from "@/apis/company";
 
 const ProductAnalysis = ({
   onNext,
@@ -26,6 +27,7 @@ const ProductAnalysis = ({
   const [companyDomainError, setCompanyDomainError] = useState<string | null>(
     null
   );
+  const [isGeneratingDescription, setIsGeneratingDescription] = useState(false);
 
   const validateCompanyName = (name: string): string | null => {
     if (!name) {
@@ -35,14 +37,12 @@ const ProductAnalysis = ({
   };
 
   const validateCompanyDomain = (domain: string): string | null => {
-    const domainRegex =
-      /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-    if (!domain) {
-      return "Company domain is required";
-    } else if (!domainRegex.test(domain)) {
-      return "Invalid company domain";
+    try {
+      new URL(domain);
+      return null;
+    } catch {
+      return "URL not valid";
     }
-    return null;
   };
 
   useEffect(() => {
@@ -62,6 +62,18 @@ const ProductAnalysis = ({
       return;
     } else {
       onNext();
+    }
+  };
+
+  const handleGenerateDescription = async () => {
+    setIsGeneratingDescription(true);
+    try {
+      const description = await company.getDescriptionFromUrl(companyDomain);
+      setCompanyDescription(description);
+    } catch (error) {
+      console.error("Failed to generate description", error);
+    } finally {
+      setIsGeneratingDescription(false);
     }
   };
 
@@ -97,14 +109,31 @@ const ProductAnalysis = ({
           >
             Company domain
           </Label>
-          <Input
-            className="w-full h-[56px] bg-gray-100"
-            id="domain"
-            type="url"
-            placeholder="https://"
-            value={companyDomain}
-            onChange={(e) => setCompanyDomain(e.target.value)}
-          />
+          <div className="flex items-center space-x-2">
+            <Input
+              className="w-full h-[56px] bg-gray-100"
+              id="domain"
+              type="url"
+              placeholder="https://"
+              value={companyDomain}
+              onChange={(e) => {
+                setCompanyDomain(e.target.value);
+                setCompanyDomainError(validateCompanyDomain(e.target.value));
+              }}
+            />
+            {companyDomainError === null && companyDomain && (
+              <Button
+                variant="secondary"
+                className="h-[56px]"
+                onClick={handleGenerateDescription}
+                disabled={isGeneratingDescription}
+              >
+                {isGeneratingDescription
+                  ? "Generating..."
+                  : "Generate Description"}
+              </Button>
+            )}
+          </div>
           {companyDomainError && (
             <p className="text-red-500 text-sm mt-2">{companyDomainError}</p>
           )}

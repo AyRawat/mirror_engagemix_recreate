@@ -9,7 +9,7 @@ import DropdownMenuItems from "@/components/blocks/DropDownMenu";
 import FacebookIcon from "@/assets/icons/facebook";
 import TwitterIcon from "@/assets/icons/twitter";
 import { ProjectDto } from "@/apis/types";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "@/hooks";
 import { fetchPosts } from "@/store/postSlice";
 
 interface ProjectCardProps {
@@ -38,7 +38,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   };
 
   const handleProjectClick = () => {
-    dispatch(fetchPosts(project._id));
+    dispatch(fetchPosts(project.id));
     onClick();
   };
 

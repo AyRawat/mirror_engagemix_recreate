@@ -57,7 +57,7 @@ export default function ProjectManagement({
         >
           {projects.map((project) => (
             <ProjectCard
-              key={project._id}
+              key={project.id}
               project={project}
               onClick={handleCardClick}
             />
