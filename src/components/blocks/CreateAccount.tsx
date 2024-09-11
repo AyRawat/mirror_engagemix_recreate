@@ -63,7 +63,8 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
     onSuccess: (data) => {
       if (isLoginMode) {
         console.log("Login data ", data);
-        onNext();
+        // onNext();
+        navigate("/dashboard");
       } else {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
@@ -93,19 +94,13 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
       return;
     }
 
-    const requestDto = {
-      email,
-      password,
-      ...(isLoginMode ? {} : { name: `${firstName} ${lastName}` }),
-    };
-
-    register(requestDto);
+    register({ email, password, name: `${firstName} ${lastName}` });
   };
 
   return (
     <div className="w-full">
       <h1 className="text-3xl text-left font-bold mb-7">
-        {isLoginMode ? "Log in" : "Create account"}
+        {isLoginMode ? "Login" : "Create Account"}
       </h1>
       <form className="space-y-4" onSubmit={handleRegister}>
         {!isLoginMode && (
@@ -155,12 +150,12 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             className="w-full h-[56px] bg-gray-100"
             id="email"
             type="email"
-            placeholder="Enter email here"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           {emailError && (
-            <p className="text-red-500 text-left text-sm">{emailError}</p>
+            <p className="text-red-500 text-sm mt-2">{emailError}</p>
           )}
         </div>
         <div>
@@ -174,21 +169,21 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             className="w-full h-[56px] bg-gray-100"
             id="password"
             type="password"
-            placeholder="Enter password here"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           {passwordError && (
-            <p className="text-red-500 text-left text-sm">{passwordError}</p>
+            <p className="text-red-500 text-sm mt-2">{passwordError}</p>
           )}
         </div>
         <div className="flex space-x-4">
           <Button
             variant="secondary"
             className="w-full h-12 bg-[#E8E8E8]"
-            onClick={() => navigate("/")}
+            onClick={() => setIsLoginMode(!isLoginMode)}
           >
-            Go back
+            {isLoginMode ? "Switch to Register" : "Switch to Login"}
           </Button>
           <Button
             variant="secondary"
@@ -201,26 +196,10 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             className="text-white w-full h-12"
             type="submit"
           >
-            {isLoginMode ? "Log in" : "Sign up"}
+            {isLoginMode ? "Login" : "Register"}
           </Button>
         </div>
       </form>
-      <p className="text-sm text-center my-4">
-        {isLoginMode ? "Don't have an account?" : "Already have an account?"}{" "}
-        <a
-          href="#"
-          className="text-blue-500 hover:underline"
-          onClick={() => setIsLoginMode(!isLoginMode)}
-        >
-          {isLoginMode ? "Sign up" : "Log in"}
-        </a>
-      </p>
-      {/* <div className="text-center text-sm text-gray-500 my-4">Or</div>
-      <div className="space-y-2">
-        <SocialSignupButton provider="google" onClick={() => {}} />
-        <SocialSignupButton provider="facebook" onClick={() => {}} />
-        <SocialSignupButton provider="instagram" onClick={() => {}} />
-      </div> */}
     </div>
   );
 };

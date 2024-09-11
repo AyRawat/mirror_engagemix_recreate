@@ -33,17 +33,30 @@ const KeywordConfiguration = ({
   }, [projectName, dispatch]);
 
   const addKeyword = () => {
-    if (newKeyword && !keywords.includes(newKeyword)) {
-      setLocalKeywords([...keywords, newKeyword]);
-      setNewKeyword("");
-      setHelpText("");
-    } else {
-      setHelpText(`Keyword ${newKeyword} is already present`);
+    if (!newKeyword) {
+      setHelpText("Keyword cannot be empty.");
+      return;
     }
+    if (keywords.includes(newKeyword)) {
+      setHelpText(`Keyword "${newKeyword}" is already present.`);
+      return;
+    }
+    setLocalKeywords([...keywords, newKeyword]);
+    setNewKeyword("");
+    setHelpText("");
   };
 
   const removeKeyword = (keywordToRemove: string) => {
     setLocalKeywords(keywords.filter((keyword) => keyword !== keywordToRemove));
+  };
+
+  const handleNext = () => {
+    if (!projectName) {
+      setHelpText("Project name cannot be empty.");
+      return;
+    }
+    setHelpText("");
+    onNext();
   };
 
   return (
@@ -59,6 +72,11 @@ const KeywordConfiguration = ({
           value={projectName}
           onChange={(e) => setLocalProjectName(e.target.value)}
         />
+        {helpText && !projectName && (
+          <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
+            {helpText}
+          </p>
+        )}
       </div>
       <div className="mb-6">
         <h2 className="text-sm font-medium text-gray-700 mb-2">
@@ -114,7 +132,11 @@ const KeywordConfiguration = ({
             Add
           </Button>
         </div>
-        {helpText && <p className="text-red-500 text-sm mt-2">{helpText}</p>}
+        {helpText && newKeyword && (
+          <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
+            {helpText}
+          </p>
+        )}
       </div>
       <div className="flex space-x-4">
         <Button
@@ -133,7 +155,7 @@ const KeywordConfiguration = ({
             borderRadius: "10px",
           }}
           className="text-white w-full h-12"
-          onClick={onNext}
+          onClick={handleNext}
         >
           Save & continue
         </Button>

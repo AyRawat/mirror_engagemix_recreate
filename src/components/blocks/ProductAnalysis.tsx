@@ -22,13 +22,47 @@ const ProductAnalysis = ({
     productData.companyDescription ||
       "Travelcoup specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kaijago aims to make travel planning hassle-free and enjoyable..."
   );
+  const [companyNameError, setCompanyNameError] = useState<string | null>(null);
+  const [companyDomainError, setCompanyDomainError] = useState<string | null>(
+    null
+  );
+
+  const validateCompanyName = (name: string): string | null => {
+    if (!name) {
+      return "Company name is required";
+    }
+    return null;
+  };
+
+  const validateCompanyDomain = (domain: string): string | null => {
+    const domainRegex =
+      /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    if (!domain) {
+      return "Company domain is required";
+    } else if (!domainRegex.test(domain)) {
+      return "Invalid company domain";
+    }
+    return null;
+  };
 
   useEffect(() => {
-    dispatch(setProductData({ companyName, companyDomain, companyDescription }));
+    dispatch(
+      setProductData({ companyName, companyDomain, companyDescription })
+    );
   }, [companyName, companyDomain, companyDescription, dispatch]);
 
   const handleNext = () => {
-    onNext();
+    const companyNameValidationError = validateCompanyName(companyName);
+    const companyDomainValidationError = validateCompanyDomain(companyDomain);
+
+    setCompanyNameError(companyNameValidationError);
+    setCompanyDomainError(companyDomainValidationError);
+
+    if (companyNameValidationError || companyDomainValidationError) {
+      return;
+    } else {
+      onNext();
+    }
   };
 
   return (
@@ -52,6 +86,9 @@ const ProductAnalysis = ({
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
           />
+          {companyNameError && (
+            <p className="text-red-500 text-sm mt-2">{companyNameError}</p>
+          )}
         </div>
         <div>
           <Label
@@ -68,6 +105,9 @@ const ProductAnalysis = ({
             value={companyDomain}
             onChange={(e) => setCompanyDomain(e.target.value)}
           />
+          {companyDomainError && (
+            <p className="text-red-500 text-sm mt-2">{companyDomainError}</p>
+          )}
         </div>
         <div>
           <Label
@@ -83,42 +123,6 @@ const ProductAnalysis = ({
             value={companyDescription}
             onChange={(e) => setCompanyDescription(e.target.value)}
           />
-          <div className="flex justify-end space-x-2 mt-2">
-            <Button variant="outline" size="sm">
-              <svg
-                className="w-4 h-4 mr-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                />
-              </svg>
-              Edit
-            </Button>
-            <Button variant="outline" size="sm">
-              <svg
-                className="w-4 h-4 mr-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              Regenerate
-            </Button>
-          </div>
         </div>
         <div className="flex space-x-4">
           <Button

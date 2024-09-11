@@ -44,6 +44,7 @@ const SearchConfiguration = ({
   );
   const [searchFrequency, setSearchFrequency] = useState("daily");
   const [brandTone, setBrandTone] = useState("professional");
+  const [helpText, setHelpText] = useState("");
 
   useEffect(() => {
     dispatch(setSearchConfig({ platforms }));
@@ -55,6 +56,15 @@ const SearchConfiguration = ({
         ? prev.filter((p) => p !== platform)
         : [...prev, platform]
     );
+  };
+
+  const handleNext = () => {
+    if (platforms.length === 0) {
+      setHelpText("Please select at least one platform.");
+      return;
+    }
+    setHelpText("");
+    onNext();
   };
 
   return (
@@ -88,6 +98,11 @@ const SearchConfiguration = ({
               )
             )}
           </div>
+          {helpText && (
+            <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
+              {helpText}
+            </p>
+          )}
         </div>
         <div>
           <h2 className="text-sm font-medium text-gray-700 mb-2">
@@ -193,7 +208,7 @@ const SearchConfiguration = ({
             borderRadius: "10px",
           }}
           className="text-white w-full h-12"
-          onClick={onNext}
+          onClick={handleNext}
         >
           Save & continue
         </Button>
