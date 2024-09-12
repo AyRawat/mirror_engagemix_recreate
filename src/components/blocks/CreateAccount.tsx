@@ -63,13 +63,14 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
     onSuccess: (data) => {
       if (isLoginMode) {
         console.log("Login data ", data);
-        // onNext();
-        navigate("/dashboard");
+        onNext();
+        // navigate("/dashboard");
       } else {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
         dispatch(setToken({ accessToken: "", user: userData }));
-        setIsLoginMode(true);
+        // setIsLoginMode(true);
+        onNext();
       }
     },
     onError: (error) => {
@@ -78,6 +79,10 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   });
 
   useEffect(() => {
+    // if (authContext.isAuthenticated) {
+    //   authContext.logout();
+    //   setIsLoginMode(true);
+    // }
     dispatch(setAccountData({ email, password, firstName, lastName }));
   }, [email, password, firstName, lastName, dispatch]);
 

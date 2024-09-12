@@ -51,7 +51,8 @@ const ProductAnalysis = ({
     );
   }, [companyName, companyDomain, companyDescription, dispatch]);
 
-  const handleNext = () => {
+  const handleNext = (event: React.FormEvent) => {
+    event.preventDefault();
     const companyNameValidationError = validateCompanyName(companyName);
     const companyDomainValidationError = validateCompanyDomain(companyDomain);
 
@@ -59,7 +60,7 @@ const ProductAnalysis = ({
     setCompanyDomainError(companyDomainValidationError);
 
     if (companyNameValidationError || companyDomainValidationError) {
-      return;
+      return; // Prevent navigation if there are validation errors
     } else {
       onNext();
     }
@@ -99,7 +100,7 @@ const ProductAnalysis = ({
             onChange={(e) => setCompanyName(e.target.value)}
           />
           {companyNameError && (
-            <p className="text-red-500 text-sm mt-2">{companyNameError}</p>
+            <p className="text-red-500 text-sm">{companyNameError}</p>
           )}
         </div>
         <div>
@@ -116,26 +117,11 @@ const ProductAnalysis = ({
               type="url"
               placeholder="https://"
               value={companyDomain}
-              onChange={(e) => {
-                setCompanyDomain(e.target.value);
-                setCompanyDomainError(validateCompanyDomain(e.target.value));
-              }}
+              onChange={(e) => setCompanyDomain(e.target.value)}
             />
-            {companyDomainError === null && companyDomain && (
-              <Button
-                variant="secondary"
-                className="h-[56px]"
-                onClick={handleGenerateDescription}
-                disabled={isGeneratingDescription}
-              >
-                {isGeneratingDescription
-                  ? "Generating..."
-                  : "Generate Description"}
-              </Button>
-            )}
           </div>
           {companyDomainError && (
-            <p className="text-red-500 text-sm mt-2">{companyDomainError}</p>
+            <p className="text-red-500 text-sm">{companyDomainError}</p>
           )}
         </div>
         <div>
