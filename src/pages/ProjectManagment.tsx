@@ -21,6 +21,11 @@ export default function ProjectManagement({
     navigate("/social-media-results", { state: { projectId } });
   };
 
+  // Sort projects based on the createdAt field
+  const sortedProjects = [...projects].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
   return (
     <div className="w-full max-w-7xl">
       <h2 className="text-2xl font-bold mb-4 text-left">Projects</h2>
@@ -30,8 +35,9 @@ export default function ProjectManagement({
             <TabsTrigger value="active" className="flex-1">
               Active
             </TabsTrigger>
-            <TabsTrigger value="archived" className="flex-1"></TabsTrigger>
-            Archived
+            <TabsTrigger value="archived" className="flex-1">
+              Archived
+            </TabsTrigger>
           </TabsList>
         </Tabs>
         <div className="flex space-x-2">
@@ -55,7 +61,7 @@ export default function ProjectManagement({
             isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-56"
           }`}
         >
-          {projects.map((project) => (
+          {sortedProjects.map((project) => (
             <ProjectCard
               key={project.id}
               project={project}

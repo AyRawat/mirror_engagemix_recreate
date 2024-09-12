@@ -15,6 +15,14 @@ import CustomSheet from "@/components/Custom/CustomSheet";
 import SocialMedia from "@/components/Custom/SocialMedia";
 import Analytics from "@/components/Custom/Analytics/Analytics";
 import DashboardBanner from "@/assets/Dashboard/Banner.svg";
+import {
+  setAccountData,
+  setProductData,
+  setKeywords,
+  setSearchConfig,
+  setProjectName,
+  setProjectDescription,
+} from "@/store/formSlice"; // Ensure this import is correct
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -52,7 +60,8 @@ export default function Dashboard() {
     setIsSheetOpen(true);
   };
 
-  const handleResetForms = () => {
+  const handleResetForms = (event: React.FormEvent) => {
+    event.preventDefault();
     dispatch(
       setAccountData({ email: "", password: "", firstName: "", lastName: "" })
     );

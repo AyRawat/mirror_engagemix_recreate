@@ -114,25 +114,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
                   className="h-8 w-8"
                 />
               ))}
-              {/* <Button
-                variant="outline"
-                size="icon"
-                className="h-8 flex items-center justify-center"
-              >
-                <FacebookIcon />
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8 flex items-center justify-center"
-              >
-                <TwitterIcon />
-              </Button> */}
             </div>
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-2" />
-        <StatusBar />
+        <StatusBar createdAt={project.createdAt} />
       </CardContent>
     </Card>
   );
