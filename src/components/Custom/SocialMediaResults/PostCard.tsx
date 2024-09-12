@@ -1,16 +1,35 @@
+// src/components/Custom/SocialMediaResults/PostCard.tsx
 import React, { useState } from "react";
-import { Twitter, Share2, ExternalLink } from "lucide-react";
+import { Share2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PostResponseDto } from "@/apis/types";
 import { formatDistanceToNow } from "date-fns";
+import TwitterIcon from "@/assets/icons/twitter";
+import FacebookIcon from "@/assets/icons/facebook";
+// import LinkedInIcon from "@/assets/icons/linkedinIcon.svg?react";
+// import RedditIcon from "@/assets/icons/redditIcon.svg?react";
+// Import other icons as needed
 
 interface PostCardProps {
   post: PostResponseDto;
+  keywords: string[];
   onReplyClick: (post: PostResponseDto) => void;
 }
 
-const PostCard: React.FC<PostCardProps> = ({ post, onReplyClick }) => {
+const sourceIconMap: { [key: string]: React.FC } = {
+  twitter: TwitterIcon,
+  facebook: FacebookIcon,
+  // linkedin: LinkedInIcon,
+  // reddit: RedditIcon,
+  // Add other sources and their corresponding icons here
+};
+
+const PostCard: React.FC<PostCardProps> = ({
+  post,
+  keywords,
+  onReplyClick,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpand = () => {
@@ -19,12 +38,18 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReplyClick }) => {
 
   const contentToShow = isExpanded ? post.text : post.text.slice(0, 250);
 
+  const handleExternalLinkClick = () => {
+    window.open(post.url, "_blank");
+  };
+
+  const IconComponent = sourceIconMap[post.source] || TwitterIcon; // Default to TwitterIcon if source is not found
+
   return (
     <div className="border border-gray-200 rounded-lg p-4 m-2 ">
       <div className="flex justify-between items-start mb-2">
         <div>
           <div className="flex items-center">
-            <Twitter className="h-4 w-4 text-blue-400 mr-2" />
+            <IconComponent className="h-4 w-4 mr-2" />
             <span className="font-semibold">{post.authorName}</span>
           </div>
           <span className="text-sm text-gray-500">
@@ -45,7 +70,12 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReplyClick }) => {
           <Button variant="outline" size="icon" className="h-8 w-8">
             <Share2 className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon" className="h-8 w-8">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={handleExternalLinkClick}
+          >
             <ExternalLink className="h-4 w-4" />
           </Button>
         </div>
@@ -66,19 +96,12 @@ const PostCard: React.FC<PostCardProps> = ({ post, onReplyClick }) => {
         </div>
       </ScrollArea>
       <div className="flex flex-wrap gap-2">
-        {[
-          "Group ticket",
-          "Group ticket",
-          "Group ticket",
-          "Group ticket",
-          "Group ticket",
-          "Group ticket",
-        ].map((label, index) => (
+        {keywords.map((keyword, index) => (
           <span
             key={index}
             className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
           >
-            {label}
+            {keyword}
           </span>
         ))}
       </div>

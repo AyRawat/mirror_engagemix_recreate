@@ -1,3 +1,4 @@
+// src/store/projectsSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { ProjectDto } from '@/apis/types';
 import { api } from '@/apis';

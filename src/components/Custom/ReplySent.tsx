@@ -1,16 +1,16 @@
+// src/components/Custom/ReplySent.tsx
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const ReplySent = () => (
+interface ReplySentProps {
+  reply: string;
+}
+
+const ReplySent: React.FC<ReplySentProps> = ({ reply }) => (
   <Card className="flex flex-col items-center pt-5 px-5 w-full rounded-bl-xl rounded-br-xl border border-gray-300 bg-purple-50">
     <CardContent className="flex flex-col items-start gap-5">
       <div className="flex items-start w-full h-18 gap-5">
-        <div className="flex-shrink-0 w-1/2 font-light leading-6 ">
-          TravelDuo specialises in organising group trips and providing travel
-          planning services. Kaijego aims to make travel planning hassle-free
-          and enjoyable.. visit{" "}
-          <span className="text-blue-600 underline"> Travelduo.com</span>
-        </div>
+        <div className="flex-shrink-0 w-1/2 font-light leading-6 ">{reply}</div>
         <div className="flex justify-end items-center flex-1 gap-2">
           <Badge className="flex justify-center items-center py-1 px-3 h-8 rounded-lg bg-green-600 text-white shadow-md">
             <div className="flex items-center gap-2">

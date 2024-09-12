@@ -1,3 +1,4 @@
+// src/pages/SocialMediaResults.tsx
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks";
@@ -12,12 +13,15 @@ import Reply from "@/components/Custom/Reply";
 import ReplySent from "@/components/Custom/ReplySent";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
 import { PostResponseDto } from "@/apis/types";
-import { formatDistanceToNow } from "date-fns";
 import { Progress } from "@/components/ui/progress"; // Import ProgressBar
 import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea
 import { replies } from "@/apis/replies"; // Import the replies API
+import { useLocation } from "react-router-dom"; // Import useLocation
 
 export default function SocialMediaResults() {
+  const location = useLocation(); // Initialize useLocation
+  const projectId = location.state?.projectId; // Get projectId from state
+
   const [progress, setProgress] = useState(10);
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [isReplyOpen, setReplyOpen] = useState(false);
@@ -26,8 +30,12 @@ export default function SocialMediaResults() {
     null
   );
   const [generatedReply, setGeneratedReply] = useState<string | null>(null);
+  const [isReplySent, setIsReplySent] = useState(false);
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
+  const projects = useSelector((state: RootState) => state.projects.projects);
+  const project = projects.find((project) => project.id === projectId);
+  const keywords = project?.keywords || [];
 
   const dispatch = useDispatch();
 
@@ -38,9 +46,9 @@ export default function SocialMediaResults() {
 
   useEffect(() => {
     if (postsStatus === "idle") {
-      dispatch(fetchPosts());
+      dispatch(fetchPosts(projectId));
     }
-  }, [postsStatus, dispatch]);
+  }, [postsStatus, dispatch, projectId]);
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -51,14 +59,18 @@ export default function SocialMediaResults() {
   };
 
   const handleReplyClick = (post: PostResponseDto) => {
+    if (generatedReply !== null) {
+      setGeneratedReply(null);
+    }
     setSelectedPost(post);
     setReplyOpen(true);
+    setIsReplySent(false);
   };
 
   const handleCloseReply = () => {
     setReplyOpen(false);
-    setSelectedPost(null);
-    setGeneratedReply(null);
+    // setSelectedPost(null);
+    // setGeneratedReply(null);
   };
 
   const handleGenerateReply = async (customInstruction: string) => {
@@ -78,48 +90,58 @@ export default function SocialMediaResults() {
 
   const handleSendReply = () => {
     setReplyOpen(false);
-    setGeneratedReply(null);
+    setIsReplySent(true);
   };
 
   return (
     <div className="mx-auto pt-6 px-6 max-h-screen">
-      <Header onInviteClick={handleInviteClick} />
-      <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
-      {activeTab === "results" && (
-        <div>
-          <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
-          <SocialMediaCounts />
-          <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-lg">
-            <div className="p-3 h-[64vh]">
-              {postsStatus === "loading" ? (
-                <div className="flex flex-col items-center">
-                  <Progress className="w-full mb-4" value={progress} />
-                  <p>Loading posts...</p>
-                </div>
-              ) : (
-                posts.map((post: PostResponseDto) => (
-                  <div key={post.id}>
-                    <PostCard post={post} onReplyClick={handleReplyClick} />
-                    {generatedReply && selectedPost?.id === post.id && (
-                      <ReplySent />
-                    )}
-                  </div>
-                ))
-              )}
-            </div>
-          </ScrollArea>
+      {postsStatus === "loading" ? (
+        <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+          <div className="flex flex-col items-center">
+            <Progress className="w-full mb-4" value={progress} />
+            <p>Loading posts...</p>
+          </div>
         </div>
-      )}
-      {activeTab === "configuration" && <ConfigurationSettings />}
-      {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
-      {isReplyOpen && selectedPost && (
-        <Reply
-          post={selectedPost}
-          onClose={handleCloseReply}
-          onGenerateReply={handleGenerateReply}
-          generatedReply={generatedReply}
-          onSendReply={handleSendReply}
-        />
+      ) : (
+        <>
+          <Header onInviteClick={handleInviteClick} />
+          <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          {activeTab === "results" && (
+            <div>
+              <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
+              <SocialMediaCounts />
+              <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-lg">
+                <div className="p-3 h-[64vh]">
+                  {posts.map((post: PostResponseDto) => (
+                    <div key={post.id}>
+                      <PostCard
+                        post={post}
+                        keywords={keywords}
+                        onReplyClick={handleReplyClick}
+                      />
+                      {isReplySent && selectedPost?.id === post.id && (
+                        <ReplySent reply={generatedReply || ""} />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+          )}
+          {activeTab === "configuration" && <ConfigurationSettings />}
+          {isInviteModalOpen && (
+            <InviteMemberModal onClose={handleCloseModal} />
+          )}
+          {isReplyOpen && selectedPost && (
+            <Reply
+              post={selectedPost}
+              onClose={handleCloseReply}
+              onGenerateReply={handleGenerateReply}
+              generatedReply={generatedReply}
+              onSendReply={handleSendReply}
+            />
+          )}
+        </>
       )}
     </div>
   );

@@ -63,8 +63,8 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
     onSuccess: (data) => {
       if (isLoginMode) {
         console.log("Login data ", data);
-        // onNext();
-        navigate("/dashboard");
+        onNext();
+        // navigate("/dashboard");
       } else {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
