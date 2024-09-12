@@ -93,6 +93,23 @@ export default function SocialMediaResults() {
     setIsReplySent(true);
   };
 
+  // Calculate the counts for each source
+  const sourceCounts = posts.reduce(
+    (counts, post) => {
+      counts[post.source] = (counts[post.source] || 0) + 1;
+      return counts;
+    },
+    {
+      twitter: 0,
+      facebook: 0,
+      linkedin: 0,
+      instagram: 0,
+      quora: 0,
+      reddit: 0,
+      hackernews: 0,
+    }
+  );
+
   return (
     <div className="mx-auto pt-6 px-6 max-h-screen max-w-[95vw] w-[95vw] h-[95vh]">
       {postsStatus === "loading" ? (
@@ -109,7 +126,15 @@ export default function SocialMediaResults() {
           {activeTab === "results" && (
             <div>
               <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
-              <SocialMediaCounts />
+              <SocialMediaCounts
+                redditCount={sourceCounts.reddit}
+                twitterCount={sourceCounts.twitter}
+                facebookCount={sourceCounts.facebook}
+                linkedinCount={sourceCounts.linkedin}
+                instagramCount={sourceCounts.instagram}
+                quoraCount={sourceCounts.quora}
+                hackernewsCount={sourceCounts.hackernews}
+              />
               <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-lg">
                 <div className="p-3 h-[64vh]">
                   {posts.map((post: PostResponseDto) => (

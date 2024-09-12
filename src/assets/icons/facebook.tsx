@@ -1,6 +1,6 @@
 import React from "react";
 
-const FacebookIcon: React.FC = () => (
+const TwitterIcon: React.FC = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 320 512"
@@ -10,4 +10,4 @@ const FacebookIcon: React.FC = () => (
   </svg>
 );
 
-export default FacebookIcon;
+export default TwitterIcon;

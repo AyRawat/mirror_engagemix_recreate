@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PostResponseDto } from "@/apis/types";
 import { formatDistanceToNow } from "date-fns";
-import TwitterIcon from "@/assets/icons/twitter";
-import FacebookIcon from "@/assets/icons/facebook";
-// import LinkedInIcon from "@/assets/icons/linkedinIcon.svg?react";
-// import RedditIcon from "@/assets/icons/redditIcon.svg?react";
+import TwitterIcon from "@/assets/icons/twitter.svg";
+import FacebookIcon from "@/assets/icons/facebook.svg";
+import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
+import RedditIcon from "@/assets/icons/redditIcon.svg";
 // Import other icons as needed
 
 interface PostCardProps {
@@ -17,11 +17,11 @@ interface PostCardProps {
   onReplyClick: (post: PostResponseDto) => void;
 }
 
-const sourceIconMap: { [key: string]: React.FC } = {
+const sourceIconMap: { [key: string]: string } = {
   twitter: TwitterIcon,
   facebook: FacebookIcon,
-  // linkedin: LinkedInIcon,
-  // reddit: RedditIcon,
+  linkedin: LinkedInIcon,
+  reddit: RedditIcon,
   // Add other sources and their corresponding icons here
 };
 
@@ -49,7 +49,7 @@ const PostCard: React.FC<PostCardProps> = ({
       <div className="flex justify-between items-start mb-2">
         <div>
           <div className="flex items-center">
-            <IconComponent className="h-4 w-4 mr-2" />
+            <img src={IconComponent} className="h-6 w-6 mr-2" />
             <span className="font-semibold">{post.authorName}</span>
           </div>
           <span className="text-sm text-gray-500">

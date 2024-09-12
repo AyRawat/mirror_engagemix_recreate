@@ -1,19 +1,76 @@
 import React from "react";
-import {
-  Twitter,
-  Facebook,
-  Linkedin,
-  Instagram,
-  MessageCircle,
-} from "lucide-react";
+import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
+import RedditIcon from "@/assets/icons/redditIcon.svg";
+import HackernewsIcon from "@/assets/icons/hackernews.svg";
+import TwitterIcon from "@/assets/icons/twitter.svg";
+import FacebookIcon from "@/assets/icons/facebook.svg";
+import InstragramIcon from "@/assets/icons/instagram.svg";
+import QuoraIcon from "@/assets/icons/quora.svg";
 
-const SocialMediaCounts = () => {
+import { count } from "console";
+
+interface SocialMediaCountsProps {
+  twitterCount: number;
+  facebookCount: number;
+  linkedinCount: number;
+  instagramCount: number;
+  quoraCount: number;
+  redditCount: number;
+  hackernewsCount: number;
+}
+
+const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
+  twitterCount,
+  facebookCount,
+  linkedinCount,
+  instagramCount,
+  quoraCount,
+  redditCount,
+  hackernewsCount,
+}) => {
   const platforms = [
-    { icon: Twitter, name: "Twitter", count: 3, color: "text-blue-400" },
-    { icon: Facebook, name: "Facebook", count: 0, color: "text-blue-600" },
-    { icon: Linkedin, name: "LinkedIn", count: 0, color: "text-blue-700" },
-    { icon: Instagram, name: "Instagram", count: 0, color: "text-gray-700" },
-    { icon: MessageCircle, name: "Quora", count: 0, color: "text-red-500" },
+    {
+      icon: TwitterIcon,
+      name: "Twitter",
+      count: twitterCount,
+      color: "text-blue-400",
+    },
+    {
+      icon: FacebookIcon,
+      name: "Facebook",
+      count: facebookCount,
+      color: "text-blue-600",
+    },
+    {
+      icon: RedditIcon,
+      name: "Reddit",
+      count: redditCount,
+      color: "text-blue-500",
+    },
+    {
+      icon: LinkedInIcon,
+      name: "LinkedIn",
+      count: linkedinCount,
+      color: "text-blue-700",
+    },
+    {
+      icons: HackernewsIcon,
+      name: "Hackernews",
+      count: hackernewsCount,
+      color: "text-blue-700",
+    },
+    {
+      icon: InstragramIcon,
+      name: "Instagram",
+      count: instagramCount,
+      color: "text-gray-700",
+    },
+    {
+      icon: QuoraIcon,
+      name: "Quora",
+      count: quoraCount,
+      color: "text-gray-700",
+    },
   ];
 
   return (
@@ -23,7 +80,7 @@ const SocialMediaCounts = () => {
           key={name}
           className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm"
         >
-          <Icon className={`h-4 w-4 ${color} mr-2`} />
+          <img src={Icon?.toString()} className="h-4 w-4 mr-2" />
           <span className="text-sm font-medium mr-2">{name}</span>
           <span
             className={`text-sm font-semibold ${
