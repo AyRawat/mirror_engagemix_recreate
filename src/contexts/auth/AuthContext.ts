@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { LoginRequestDto, UserDto } from "../../../apis/types";
+import { LoginRequestDto, UserDto } from "@/apis/types";
 
 const AuthContext = createContext({
   user: null as UserDto | null,

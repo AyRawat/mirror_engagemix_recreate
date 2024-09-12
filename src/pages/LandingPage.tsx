@@ -2,7 +2,6 @@ import Navbar from "@/components/blocks/Navbar";
 import Hero from "@/components/Custom/Hero";
 import UserAvatars from "@/components/Custom/Avatar";
 import Chart from "@/components/blocks/Chart";
-import KeywordCard from "@/components/blocks/KeywordCard";
 import ChatInterface from "@/components/blocks/ChartInterface";
 
 const LandingPage = () => {
@@ -27,7 +26,6 @@ const LandingPage = () => {
             <div className="h-72 translate-x-20">
               {" "}
               {/* Added margin to account for rotation */}
-              <KeywordCard />
             </div>
             <div className="mb-12">
               {" "}

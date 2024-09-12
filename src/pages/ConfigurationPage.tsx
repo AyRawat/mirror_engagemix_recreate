@@ -8,14 +8,15 @@ import { useNavigate } from "react-router-dom";
 import { api } from "@/apis";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import KeywordCardBackground from "@/assets/KeywordCardBackground.svg";
+import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
+import { useAuth } from "@/contexts/auth/AuthContext";
 
 type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
-
+  const { isAuthenticated } = useAuth();
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectName = useSelector((state: RootState) => state.form.projectName);
@@ -105,9 +106,7 @@ export function ConfigurationPage() {
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
-          >
-            {/* <KeywordCard /> */}
-          </div>
+          ></div>
 
           {/* Right Column - Create Account Form with Progress Indicator */}
           <div className="bg-white p-2 rounded-lg max-h-96">
