@@ -8,6 +8,8 @@ import StatusBar from "../Custom/Statusbar";
 import DropdownMenuItems from "@/components/blocks/DropDownMenu";
 import FacebookIcon from "@/assets/icons/facebook";
 import TwitterIcon from "@/assets/icons/twitter";
+import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
+import RedditIcon from "@/assets/icons/redditIcon.svg";
 import { ProjectDto } from "@/apis/types";
 import { useDispatch } from "@/hooks";
 import { fetchPosts } from "@/store/postSlice";
@@ -47,8 +49,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
     { label: "Delete", icon: Trash, onClick: handleDelete },
   ];
 
+  const iconMap: { [key: string]: string } = {
+    facebook: FacebookIcon,
+    twitter: TwitterIcon,
+    linkedin: LinkedInIcon,
+    reddit: RedditIcon,
+  };
+
   return (
-    <Card className="mb-4 cursor-pointer border border-gray-300 rounded-lg">
+    <Card className="mb-4 cursor-pointer border border-gray-300 rounded-2xl">
       <CardContent className="p-4">
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center">
@@ -97,7 +106,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex space-x-2">
-              <Button
+              {project.sources.map((source) => (
+                <img
+                  key={source}
+                  src={iconMap[source]}
+                  alt={`${source} icon`}
+                  className="h-8 w-8"
+                />
+              ))}
+              {/* <Button
                 variant="outline"
                 size="icon"
                 className="h-8 flex items-center justify-center"
@@ -110,11 +127,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
                 className="h-8 w-8 flex items-center justify-center"
               >
                 <TwitterIcon />
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
-        <div className="w-[998px] h-px bg-[#dfe1e6] my-2" />
+        <div className="w-full h-px bg-[#dfe1e6] my-2" />
         <StatusBar />
       </CardContent>
     </Card>

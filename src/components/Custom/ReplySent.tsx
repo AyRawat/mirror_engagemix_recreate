@@ -12,7 +12,7 @@ const ReplySent: React.FC<ReplySentProps> = ({ reply }) => (
       <div className="flex items-start w-full h-18 gap-5">
         <div className="flex-shrink-0 w-1/2 font-light leading-6 ">{reply}</div>
         <div className="flex justify-end items-center flex-1 gap-2">
-          <Badge className="flex justify-center items-center py-1 px-3 h-8 rounded-lg bg-green-600 text-white shadow-md">
+          <Badge className="flex justify-center items-center py-1 px-3 h-8 rounded-2xl bg-green-600 text-white shadow-md">
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium">Reply sent</span>
               <svg

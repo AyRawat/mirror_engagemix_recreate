@@ -19,7 +19,7 @@ const InviteMemberModal = ({ onClose }: { onClose: () => void }) => {
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40" />
-      <DialogContent className="max-w-md p-6 bg-white shadow-lg rounded-lg">
+      <DialogContent className="max-w-md p-6 bg-white shadow-lg rounded-2xl">
         <DialogHeader>
           <DialogTitle className="text-center text-lg font-semibold">
             <div className="mb-4">

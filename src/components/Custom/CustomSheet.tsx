@@ -38,7 +38,7 @@ export default function CustomSheet({
       }
     >
       <Sheet open={isOpen} onOpenChange={handleClose}>
-        <SheetContent className="rounded-lg shadow-lg p-6 bg-white m-6 w-full max-w-3xl">
+        <SheetContent className="rounded-2xl shadow-lg p-6 bg-white m-6 w-full max-w-3xl">
           <div className="m-2 mt-6">
             {Component ? (
               <Component onClose={handleClose} />

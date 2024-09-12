@@ -81,7 +81,7 @@ const SearchConfiguration = ({
               (platform) => (
                 <div
                   key={platform}
-                  className="flex items-center justify-between bg-gray-100 border border-gray-300 rounded-lg h-10 px-4 hover:bg-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
+                  className="flex items-center justify-between bg-gray-100 border border-gray-300 rounded-2xl h-10 px-4 hover:bg-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
                 >
                   <Label className="text-sm text-gray-700" htmlFor={platform}>
                     {platform}

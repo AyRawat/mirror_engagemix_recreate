@@ -65,7 +65,7 @@ const Reply: React.FC<ReplyProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl p-6 rounded-lg">
+      <DialogContent className="max-w-3xl p-6 rounded-2xl">
         <div className="flex items-start space-x-3 mb-4">
           <Twitter className="h-4 w-4 text-blue-400 mr-2" />
           <div className="flex-1">

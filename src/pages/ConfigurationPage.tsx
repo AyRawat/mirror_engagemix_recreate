@@ -100,7 +100,7 @@ export function ConfigurationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-screen-3xl max-h-screen overflow-hidden">
           {/* Left Column - Social Media Post Card */}
           <div
-            className="bg-gradient-to-br p-4 rounded-lg shadow-lg relative w-[24rem]"
+            className="bg-gradient-to-br p-4 rounded-2xl shadow-lg relative w-[24rem]"
             style={{
               backgroundImage: `url(${KeywordCardBackground})`,
               backgroundSize: "cover",
@@ -109,7 +109,7 @@ export function ConfigurationPage() {
           ></div>
 
           {/* Right Column - Create Account Form with Progress Indicator */}
-          <div className="bg-white p-2 rounded-lg max-h-96">
+          <div className="bg-white p-2 rounded-2xl max-h-96">
             {/* Placeholder for Create Account Form */}
             <div>
               <div className="px-2">

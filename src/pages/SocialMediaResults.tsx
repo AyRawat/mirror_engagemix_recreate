@@ -135,7 +135,7 @@ export default function SocialMediaResults() {
                 quoraCount={sourceCounts.quora}
                 hackernewsCount={sourceCounts.hackernews}
               />
-              <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-lg">
+              <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-2xl">
                 <div className="p-3 h-[64vh]">
                   {posts
                     .filter((post: PostResponseDto) => post.text.length > 0)

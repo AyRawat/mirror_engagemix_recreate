@@ -74,7 +74,7 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
   ];
 
   return (
-    <div className="flex space-x-2 mb-6 bg-gray-100 rounded-lg p-2 w-fit">
+    <div className="flex space-x-2 mb-6 bg-gray-100 rounded-2xl p-2 w-fit">
       {platforms.map(({ icon: Icon, name, count, color }) => (
         <div
           key={name}

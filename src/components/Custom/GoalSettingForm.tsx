@@ -27,7 +27,7 @@ export default function GoalSettingForm() {
           <Select>
             <SelectTrigger
               id="goal"
-              className="w-full bg-white border border-gray-300 rounded-lg h-[3rem]"
+              className="w-full bg-white border border-gray-300 rounded-2xl h-[3rem]"
             >
               <SelectValue placeholder="Select your goal" />
             </SelectTrigger>
@@ -49,7 +49,7 @@ export default function GoalSettingForm() {
           <Select defaultValue="twitter">
             <SelectTrigger
               id="channel"
-              className="w-full bg-white border border-gray-300 rounded-lg h-[3rem]"
+              className="w-full bg-white border border-gray-300 rounded-2xl h-[3rem]"
             >
               <SelectValue />
             </SelectTrigger>
@@ -64,7 +64,7 @@ export default function GoalSettingForm() {
           </Select>
         </div>
 
-        <Button className="w-1/2 bg-[#1DA1F2] hover:bg-[#1a91da] text-white font-semibold py-3 rounded-lg h-[3rem]">
+        <Button className="w-1/2 bg-[#1DA1F2] hover:bg-[#1a91da] text-white font-semibold py-3 rounded-2xl h-[3rem]">
           <Twitter className="mr-2 h-5 w-5" />
           Connect twitter
         </Button>
@@ -109,7 +109,7 @@ export default function GoalSettingForm() {
             id="review-period"
             type="text"
             placeholder="0 mins"
-            className="w-full bg-white border border-gray-300 rounded-lg h-[3rem]"
+            className="w-full bg-white border border-gray-300 rounded-2xl h-[3rem]"
           />
         </div>
       </div>
@@ -121,7 +121,7 @@ export default function GoalSettingForm() {
         >
           Go back
         </Button>
-        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg h-[3rem]">
+        <Button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-2xl h-[3rem]">
           Save & continue
         </Button>
       </div>
