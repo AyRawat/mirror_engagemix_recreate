@@ -19,16 +19,28 @@ import {
   setKeywords,
   setSearchConfig,
   setProjectName,
+  setProjectDescription,
 } from "@/store/formSlice"; // Import actions
 import Analytics from "@/components/Custom/Analytics/Analytics";
+import { api } from "@/apis";
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [currentStep, setCurrentStep] = useState(1); // Add currentStep state
   const dispatch = useDispatch();
   const projects = useSelector((state: RootState) => state.projects.projects);
   const projectsStatus = useSelector(
     (state: RootState) => state.projects.status
+  );
+  const productData = useSelector((state: RootState) => state.form.productData);
+  const keywordsData = useSelector((state: RootState) => state.form.keywords);
+  const projectName = useSelector((state: RootState) => state.form.projectName);
+  const searchConfig = useSelector(
+    (state: RootState) => state.form.searchConfig
+  );
+  const projectDescription = useSelector(
+    (state: RootState) => state.form.projectDescription
   );
   const { user } = useAuth();
 
@@ -56,6 +68,59 @@ export default function Dashboard() {
     dispatch(setKeywords([]));
     dispatch(setSearchConfig({ platforms: [] }));
     dispatch(setProjectName(""));
+    dispatch(setProjectDescription(""));
+  };
+
+  const handleNextStep = async () => {
+    if (currentStep === 3) {
+      // Collect all data and make the API call
+
+      const companyData = {
+        domain: productData.companyDomain,
+        description: productData.companyDescription,
+        name: productData.companyName,
+      };
+
+      try {
+        // Create the company first
+        const createdCompany = await api.company.create(companyData);
+        console.log("Created Company", createdCompany);
+
+        // Use the created company ID to create the project
+        const projectData = {
+          companyId: createdCompany.id, // Use company ID from the created company
+          name: projectName, // Use projectName from Redux store
+          description: projectDescription,
+          keywords: keywordsData,
+          sources: searchConfig.platforms.map(
+            (str) => str.toLowerCase() as Source
+          ),
+        };
+
+        const createdProject = await api.projects.create(projectData);
+        console.log("Created Project", createdProject);
+
+        // Fetch the updated projects list
+        dispatch(fetchProjects());
+
+        // Close the sheet
+        setIsSheetOpen(false);
+      } catch (error) {
+        console.error("Failed to create company or project:", error);
+      }
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleBackStep = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleCloseSheet = () => {
+    setCurrentStep(1); // Reset step to 1
+    handleResetForms(); // Call the reset function
+    setIsSheetOpen(false); // Close the sheet
   };
 
   const stats = [
@@ -109,8 +174,12 @@ export default function Dashboard() {
       </main>
       <CustomSheet
         isOpen={isSheetOpen}
-        onClose={() => setIsSheetOpen(false)}
+        onClose={handleCloseSheet}
         onReset={handleResetForms} // Pass the reset function
+        component={null} // Ensure no component is passed
+        step={currentStep} // Pass the current step
+        onNext={handleNextStep} // Pass the next step handler
+        onBack={handleBackStep} // Pass the back step handler
       />
     </div>
   );

@@ -1,3 +1,4 @@
+// src/components/Custom/CustomSheet.tsx
 import React, { useState } from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import ProductAnalysis from "@/components/blocks/ProductAnalysis";
@@ -9,6 +10,9 @@ interface CustomSheetProps {
   onClose: () => void;
   component?: React.ComponentType<any | null>;
   onReset: () => void; // Add onReset prop
+  step: number; // Add step prop
+  onNext: () => void; // Add onNext prop
+  onBack: () => void; // Add onBack prop
 }
 
 export default function CustomSheet({
@@ -16,19 +20,11 @@ export default function CustomSheet({
   onClose,
   component: Component,
   onReset,
+  step,
+  onNext,
+  onBack,
 }: CustomSheetProps) {
-  const [step, setStep] = useState(1);
-
-  const handleNextStep = () => {
-    setStep(step + 1);
-  };
-
-  const handleBackStep = () => {
-    setStep(step - 1);
-  };
-
   const handleClose = () => {
-    setStep(1); // Reset step to 1
     onReset(); // Call the reset function
     onClose(); // Close the sheet
   };
@@ -49,19 +45,13 @@ export default function CustomSheet({
             ) : (
               <>
                 {step === 1 && (
-                  <ProductAnalysis onNext={handleNextStep} onBack={handleClose} />
+                  <ProductAnalysis onNext={onNext} onBack={handleClose} />
                 )}
                 {step === 2 && (
-                  <KeywordConfiguration
-                    onNext={handleNextStep}
-                    onBack={handleBackStep}
-                  />
+                  <KeywordConfiguration onNext={onNext} onBack={onBack} />
                 )}
                 {step === 3 && (
-                  <SearchConfiguration
-                    onNext={handleClose}
-                    onBack={handleBackStep}
-                  />
+                  <SearchConfiguration onNext={onNext} onBack={onBack} />
                 )}
               </>
             )}

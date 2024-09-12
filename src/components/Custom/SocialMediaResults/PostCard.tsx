@@ -1,6 +1,6 @@
 // src/components/Custom/SocialMediaResults/PostCard.tsx
 import React, { useState } from "react";
-import { Share2, ExternalLink } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PostResponseDto } from "@/apis/types";
@@ -11,7 +11,6 @@ import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import FeatherIcon from "@/assets/icons/feather.svg";
 import InfoIcon from "@/assets/icons/info.svg";
-// Import other icons as needed
 
 interface PostCardProps {
   post: PostResponseDto;
@@ -45,6 +44,11 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
   const IconComponent = sourceIconMap[post.source] || TwitterIcon; // Default to TwitterIcon if source is not found
+
+  // Filter keywords to only show those contained in post.text
+  const filteredKeywords = keywords.filter((keyword) =>
+    post.text.toLowerCase().includes(keyword.toLowerCase())
+  );
 
   return (
     <div className="border border-gray-200 rounded-lg p-4 m-2 ">
@@ -96,10 +100,10 @@ const PostCard: React.FC<PostCardProps> = ({
         </div>
       </ScrollArea>
       <div className="flex flex-wrap gap-2">
-        {keywords.map((keyword, index) => (
+        {filteredKeywords.map((keyword, index) => (
           <span
             key={index}
-            className="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded"
+            className=" text-[#101928] text-xs font-medium px-3 py-2 rounded-full border border-[#e0dada]"
           >
             {keyword}
           </span>

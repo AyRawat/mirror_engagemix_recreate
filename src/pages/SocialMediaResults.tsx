@@ -137,18 +137,20 @@ export default function SocialMediaResults() {
               />
               <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-lg">
                 <div className="p-3 h-[64vh]">
-                  {posts.map((post: PostResponseDto) => (
-                    <div key={post.id}>
-                      <PostCard
-                        post={post}
-                        keywords={project?.keywords || []}
-                        onReplyClick={handleReplyClick}
-                      />
-                      {isReplySent && selectedPost?.id === post.id && (
-                        <ReplySent reply={generatedReply || ""} />
-                      )}
-                    </div>
-                  ))}
+                  {posts
+                    .filter((post: PostResponseDto) => post.text.length > 0)
+                    .map((post: PostResponseDto) => (
+                      <div key={post.id}>
+                        <PostCard
+                          post={post}
+                          keywords={keywords}
+                          onReplyClick={handleReplyClick}
+                        />
+                        {isReplySent && selectedPost?.id === post.id && (
+                          <ReplySent reply={generatedReply || ""} />
+                        )}
+                      </div>
+                    ))}
                 </div>
               </ScrollArea>
             </div>

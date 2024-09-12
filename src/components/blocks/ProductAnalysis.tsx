@@ -119,6 +119,14 @@ const ProductAnalysis = ({
               value={companyDomain}
               onChange={(e) => setCompanyDomain(e.target.value)}
             />
+            <Button
+              variant="secondary"
+              className="h-[56px] bg-blue-500 text-white hover:bg-blue-600"
+              onClick={handleGenerateDescription}
+              disabled={isGeneratingDescription}
+            >
+              {isGeneratingDescription ? "Generating..." : "Generate"}
+            </Button>
           </div>
           {companyDomainError && (
             <p className="text-red-500 text-sm">{companyDomainError}</p>

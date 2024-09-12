@@ -17,8 +17,8 @@ export default function ProjectManagement({
 }: ProjectManagementProps) {
   const navigate = useNavigate();
 
-  const handleCardClick = () => {
-    navigate("/social-media-results");
+  const handleCardClick = (projectId: string) => {
+    navigate("/social-media-results", { state: { projectId } });
   };
 
   return (
@@ -59,7 +59,7 @@ export default function ProjectManagement({
             <ProjectCard
               key={project.id}
               project={project}
-              onClick={handleCardClick}
+              onClick={() => handleCardClick(project.id)}
             />
           ))}
         </div>
