@@ -44,6 +44,8 @@ export default function SocialMediaResults() {
     return () => clearTimeout(timer);
   }, []);
 
+  
+
   useEffect(() => {
     if (postsStatus === "idle") {
       dispatch(fetchPosts(projectId));

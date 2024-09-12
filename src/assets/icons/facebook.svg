@@ -1,7 +1,11 @@
-<svg
-  xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 320 512"
-  className="h-4 w-4 fill-current text-blue-500"
->
-  <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z" />
-</svg>;
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 22 22">
+  <circle cx="11" cy="11" r="9.625" fill="url(#a)" />
+  <path fill="#fff"
+    d="m14.584 13.944.428-2.717h-2.675V9.465c0-.744.373-1.469 1.571-1.469h1.217V5.684S14.021 5.5 12.966 5.5c-2.203 0-3.642 1.301-3.642 3.656v2.07H6.875v2.718h2.449v6.567a9.945 9.945 0 0 0 3.013 0v-6.567h2.247Z" />
+  <defs>
+    <linearGradient id="a" x1="11" x2="11" y1="1.375" y2="20.568" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#18ACFE" />
+      <stop offset="1" stop-color="#0163E0" />
+    </linearGradient>
+  </defs>
+</svg>

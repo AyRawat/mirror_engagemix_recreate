@@ -4,9 +4,6 @@ import projectsReducer from './projectsSlice';
 import authReducer from './authSlice';
 import postReducer from './postSlice';
 
-
-
-
 const store = configureStore({
   reducer: {
     form: formReducer,

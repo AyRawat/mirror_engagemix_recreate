@@ -80,7 +80,10 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
           key={name}
           className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm"
         >
-          <img src={Icon?.toString()} className="h-4 w-4 mr-2" />
+          <img
+            src={name === "Hackernews" ? HackernewsIcon : Icon?.toString()}
+            className="h-4 w-4 mr-2"
+          />
           <span className="text-sm font-medium mr-2">{name}</span>
           <span
             className={`text-sm font-semibold ${

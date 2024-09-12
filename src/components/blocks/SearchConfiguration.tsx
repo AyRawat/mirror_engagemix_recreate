@@ -8,8 +8,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSearchConfig } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 import HackernewsIcon from "@/assets/icons/hackernews.svg";
+import RedditIcon from "@/assets/icons/redditIcon.svg";
+import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
+import QuoraIcon from "@/assets/icons/quora.svg";
+import TwitterIcon from "@/assets/icons/twitter.svg";
+import FacebookIcon from "@/assets/icons/facebook.svg";
 
-type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
+type Source =
+  | "hackernews"
+  | "reddit"
+  | "linkedin"
+  | "twitter"
+  | "quora"
+  | "facebook";
 
 const BrandToneOptions = [
   {
@@ -28,6 +39,15 @@ const BrandToneOptions = [
     emoji: "😐",
   },
 ];
+
+const platformIcons: { [key in Source]: string } = {
+  hackernews: HackernewsIcon,
+  reddit: RedditIcon,
+  linkedin: LinkedInIcon,
+  twitter: TwitterIcon,
+  quora: QuoraIcon,
+  facebook: FacebookIcon,
+};
 
 const SearchConfiguration = ({
   onNext,
@@ -59,6 +79,14 @@ const SearchConfiguration = ({
     );
   };
 
+  const handleSelectAllChange = () => {
+    if (platforms.length === Object.keys(platformIcons).length) {
+      setPlatforms([]);
+    } else {
+      setPlatforms(Object.keys(platformIcons) as Source[]);
+    }
+  };
+
   const handleNext = () => {
     if (platforms.length === 0) {
       setHelpText("Please select at least one platform.");
@@ -73,31 +101,47 @@ const SearchConfiguration = ({
       <h1 className="text-3xl font-bold mb-6">Configure your search</h1>
       <div className="space-y-8">
         <div>
-          <h2 className="text-sm font-medium text-gray-700 mb-2">
+          <h2 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
             Select platform to track{" "}
-            <span className="text-gray-400">(You can select all)</span>
+            <span className="text-gray-400 ml-2">(You can select all)</span>
+            <div className="flex items-center ml-4">
+              <Label className="text-sm text-gray-700" htmlFor="selectAll">
+                Select All
+              </Label>
+              <Checkbox
+                id="selectAll"
+                className="text-blue-600 focus:ring-0 focus:outline-none ml-2"
+                checked={platforms.length === Object.keys(platformIcons).length}
+                onCheckedChange={handleSelectAllChange}
+              />
+            </div>
           </h2>
           <div className="grid grid-cols-3 gap-2">
-            {["hackernews", "reddit", "linkedin", "twitter", "quora"].map(
-              (platform) => (
-                <div
-                  key={platform}
-                  className="flex items-center justify-between bg-gray-100 border border-gray-300 rounded-2xl h-10 px-4 hover:bg-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
-                >
+            {Object.keys(platformIcons).map((platform) => (
+              <div
+                key={platform}
+                className="flex items-center justify-between bg-gray-100 border border-gray-300 rounded-2xl h-10 px-4 hover:bg-gray-200 focus-within:ring-2 focus-within:ring-blue-500"
+              >
+                <div className="flex items-center">
+                  <img
+                    src={platformIcons[platform as Source]}
+                    alt={platform}
+                    className="h-5 w-5 mr-2"
+                  />
                   <Label className="text-sm text-gray-700" htmlFor={platform}>
                     {platform}
                   </Label>
-                  <Checkbox
-                    id={platform}
-                    className="text-blue-600 focus:ring-0 focus:outline-none"
-                    checked={platforms.includes(platform as Source)}
-                    onCheckedChange={() =>
-                      handlePlatformChange(platform as Source)
-                    }
-                  />
                 </div>
-              )
-            )}
+                <Checkbox
+                  id={platform}
+                  className="text-blue-600 focus:ring-0 focus:outline-none"
+                  checked={platforms.includes(platform as Source)}
+                  onCheckedChange={() =>
+                    handlePlatformChange(platform as Source)
+                  }
+                />
+              </div>
+            ))}
           </div>
           {helpText && (
             <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
