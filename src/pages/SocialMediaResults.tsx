@@ -1,7 +1,7 @@
 // src/pages/SocialMediaResults.tsx
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "@/hooks";
+import { useDispatch } from "@/hooks/DispatchHook";
 import { RootState } from "@/store/store";
 import { fetchPosts } from "@/store/postSlice";
 import Header from "@/components/Custom/SocialMediaResults/Header";
@@ -43,8 +43,6 @@ export default function SocialMediaResults() {
     const timer = setTimeout(() => setProgress((prev) => prev + 40), 1000);
     return () => clearTimeout(timer);
   }, []);
-
-  
 
   useEffect(() => {
     if (postsStatus === "idle") {

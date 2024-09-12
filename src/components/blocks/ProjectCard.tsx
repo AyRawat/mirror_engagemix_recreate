@@ -11,7 +11,7 @@ import TwitterIcon from "@/assets/icons/twitter";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import { ProjectDto } from "@/apis/types";
-import { useDispatch } from "@/hooks";
+import { useDispatch } from "@/hooks/DispatchHook";
 import { fetchPosts } from "@/store/postSlice";
 
 interface ProjectCardProps {

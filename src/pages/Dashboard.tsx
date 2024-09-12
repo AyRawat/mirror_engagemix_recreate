@@ -1,7 +1,7 @@
 // src/pages/Dashboard.tsx
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useDispatch } from "@/hooks";
+import { useDispatch } from "@/hooks/DispatchHook";
 import { fetchProjects } from "@/store/projectsSlice";
 import { RootState } from "@/store/store";
 import StatsComponent from "@/components/Custom/StatsComponent";

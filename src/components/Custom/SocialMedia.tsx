@@ -5,7 +5,7 @@ import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import NoAccountSection from "@/components/Custom/NoAccountSection";
 import SocialMediaBanner from "@/assets/SocialMedia/Banner.svg";
-import { useDispatch } from "@/hooks";
+import { useDispatch } from "@/hooks/DispatchHook";
 import { useAuth } from "@/contexts/auth/AuthContext";
 
 import {
