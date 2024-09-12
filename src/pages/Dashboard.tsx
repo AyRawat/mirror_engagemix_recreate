@@ -6,41 +6,25 @@ import { fetchProjects } from "@/store/projectsSlice";
 import { RootState } from "@/store/store";
 import StatsComponent from "@/components/Custom/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
-import CustomSheet from "@/components/Custom/CustomSheet";
-import SocialMedia from "@/components/Custom/SocialMedia";
+import { api } from "@/apis";
+import { useAuth } from "@/contexts/auth/AuthContext";
 import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import Sidebar from "@/components/blocks/Sidebar";
-import { useAuth } from "@/contexts/auth/AuthContext";
-import DashboardBanner from "@/assets/Dashboard/Banner.svg";
-import {
-  setAccountData,
-  setProductData,
-  setKeywords,
-  setSearchConfig,
-  setProjectName,
-  setProjectDescription,
-} from "@/store/formSlice"; // Import actions
+import CustomSheet from "@/components/Custom/CustomSheet";
+import SocialMedia from "@/components/Custom/SocialMedia";
 import Analytics from "@/components/Custom/Analytics/Analytics";
-import { api } from "@/apis";
+import DashboardBanner from "@/assets/Dashboard/Banner.svg";
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
   const [currentStep, setCurrentStep] = useState(1); // Add currentStep state
+  const [analyticsData, setAnalyticsData] = useState(null); // Add state for analytics data
   const dispatch = useDispatch();
   const projects = useSelector((state: RootState) => state.projects.projects);
   const projectsStatus = useSelector(
     (state: RootState) => state.projects.status
-  );
-  const productData = useSelector((state: RootState) => state.form.productData);
-  const keywordsData = useSelector((state: RootState) => state.form.keywords);
-  const projectName = useSelector((state: RootState) => state.form.projectName);
-  const searchConfig = useSelector(
-    (state: RootState) => state.form.searchConfig
-  );
-  const projectDescription = useSelector(
-    (state: RootState) => state.form.projectDescription
   );
   const { user } = useAuth();
 
@@ -49,6 +33,20 @@ export default function Dashboard() {
       dispatch(fetchProjects());
     }
   }, [projectsStatus, dispatch]);
+
+  useEffect(() => {
+    fetchAnalyticsData();
+  }, [activeSection]);
+
+  const fetchAnalyticsData = async () => {
+    try {
+      const data = await api.projects.getAnalytics();
+
+      setAnalyticsData(data);
+    } catch (error) {
+      console.error("Failed to fetch analytics data:", error);
+    }
+  };
 
   const handleNewProjectClick = () => {
     setIsSheetOpen(true);
@@ -123,14 +121,48 @@ export default function Dashboard() {
     setIsSheetOpen(false); // Close the sheet
   };
 
-  const stats = [
-    { label: "Projects", value: projects.length.toString() },
-    { label: "Keywords Tracked", value: "0" },
-    { label: "Mentions", value: "0" },
-    { label: "Leads", value: "0" },
-    { label: "Link Clicks", value: "0" },
-    { label: "Impressions", value: "0" },
-  ];
+  /*
+  {
+    "projects": 7,
+    "keywords": 38,
+    "platforms": 2,
+    "posts": 1542,
+    "replies": 0,
+    "impressions": 0,
+    "clicks": 0,
+    "leads": 0
+}
+  */
+
+  const stats = analyticsData
+    ? [
+        { label: "Projects", value: analyticsData?.projects.toString() || "0" },
+        {
+          label: "Keywords Tracked",
+          value: analyticsData?.keywords.toString() || "0",
+        },
+        {
+          label: "Mentions",
+          value: analyticsData?.mentions?.toString() || "0",
+        },
+        { label: "Leads", value: analyticsData?.leads.toString() || "0" },
+        {
+          label: "Link Clicks",
+          value: analyticsData?.clicks.toString() || "0",
+        },
+        {
+          label: "Impressions",
+          value: analyticsData?.impressions.toString() || "0",
+        },
+      ]
+    : [
+        { label: "Projects", value: projects.length.toString() },
+        { label: "Keywords Tracked", value: "0" },
+        { label: "Mentions", value: "0" },
+        { label: "Leads", value: "0" },
+        { label: "Link Clicks", value: "0" },
+        { label: "Impressions", value: "0" },
+      ];
 
   const renderContent = () => {
     switch (activeSection) {
