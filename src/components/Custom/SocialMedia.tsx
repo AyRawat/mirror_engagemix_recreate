@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import CustomSheet from "./CustomSheet";
 import GoalSettingForm from "./GoalSettingForm";
 import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import NoAccountSection from "@/components/Custom/NoAccountSection";
+import SocialMediaBanner from "@/assets/SocialMedia/Banner.svg";
 import { useDispatch } from "@/hooks";
+import { useAuth } from "@/contexts/auth/AuthContext";
+
 import {
   setAccountData,
   setProductData,
@@ -17,6 +19,7 @@ import {
 export default function SocialMedia() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const dispatch = useDispatch();
+  const { user } = useAuth();
 
   function handleNewSocialAccount(): void {
     setIsSheetOpen(true);
@@ -42,11 +45,11 @@ export default function SocialMedia() {
     <div className="flex bg-gray-50 min-h-screen overflow-hidden">
       <main className="flex-1 max-w-7xl mx-auto overflow-hidden">
         <Header
-          title="Social Media"
+          title={`Welcome, ${user?.name || "User"}.`}
           buttonText="+ Connect account"
           onButtonClick={handleNewSocialAccount}
         />
-        <Banner />
+        <Banner bannerSvg={SocialMediaBanner} />
         <NoAccountSection />
       </main>
       <CustomSheet

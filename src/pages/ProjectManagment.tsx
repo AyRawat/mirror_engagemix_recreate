@@ -52,7 +52,7 @@ export default function ProjectManagement({
       <ScrollArea className="border border-gray-300 rounded-lg max-w-[73rem] w-[73rem]">
         <div
           className={`w-full p-3 ${
-            isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-72"
+            isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-56"
           }`}
         >
           {projects.map((project) => (

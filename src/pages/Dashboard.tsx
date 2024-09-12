@@ -11,7 +11,7 @@ import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
 import Sidebar from "@/components/blocks/Sidebar";
 import { useAuth } from "@/contexts/auth/AuthContext";
-import { TokenManager } from "@/contexts/auth/TokenManager";
+import DashboardBanner from "@/assets/Dashboard/Banner.svg";
 import {
   setAccountData,
   setProductData,
@@ -19,6 +19,7 @@ import {
   setSearchConfig,
   setProjectName,
 } from "@/store/formSlice"; // Import actions
+import Analytics from "@/components/Custom/Analytics/Analytics";
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -29,18 +30,12 @@ export default function Dashboard() {
     (state: RootState) => state.projects.status
   );
   const { user } = useAuth();
-  const authContext = useAuth();
-  const accountData = useSelector((state: RootState) => state.form.accountData);
 
   useEffect(() => {
-    console.log("User", user);
-    console.log("Account Data", accountData);
-    console.log("Token", TokenManager.getAccessToken());
-
     if (projectsStatus === "idle") {
       dispatch(fetchProjects());
     }
-  }, [projectsStatus, dispatch, user, accountData]);
+  }, [projectsStatus, dispatch]);
 
   const handleNewProjectClick = () => {
     setIsSheetOpen(true);
@@ -64,6 +59,8 @@ export default function Dashboard() {
 
   const renderContent = () => {
     switch (activeSection) {
+      case "analytics":
+        return <Analytics />;
       case "social-media":
         return <SocialMedia />;
       case "projects":
@@ -86,7 +83,7 @@ export default function Dashboard() {
               buttonText="+ New project"
               onButtonClick={handleNewProjectClick}
             />
-            <Banner />
+            <Banner bannerSvg={DashboardBanner} />
             <StatsComponent />
             <ProjectManagement isProjectsSection={false} projects={projects} />
           </>

@@ -7,6 +7,7 @@ import SocialMediaLogo from "@/assets/Dashboard/SocialLogo.svg";
 import AnalyticsLogo from "@/assets/Dashboard/AnalyticsLogo.svg";
 import SettingsLogo from "@/assets/Dashboard/SettingsLogo.svg";
 import NotificationLogo from "@/assets/Dashboard/NotificationLogo.svg";
+import EngageMixLogo from "@/assets/Dashboard/EngageMixLogo.svg";
 
 interface SidebarProps {
   onNavClick: (section: string) => void;
@@ -15,7 +16,9 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ onNavClick, activeSection }) => (
   <div className="w-72 bg-[#101928] text-white p-4 flex flex-col rounded-xl overflow-hidden max-h-screen">
-    <div className="text-2xl font-bold mb-8 text-left">EM</div>
+    <div className="mb-8 text-left">
+      <img src={EngageMixLogo} alt="EngageMix" className="h-full w-full" />
+    </div>
     <nav className="space-y-1 flex-grow">
       <Button
         variant="ghost"

@@ -18,12 +18,14 @@ const Header: React.FC<HeaderProps> = ({
     <h1 className="text-2xl font-bold">{title}</h1>
     <div className="flex items-center space-x-4">
       <Bell className="h-5 w-5 text-gray-500" />
-      <Button
-        onClick={onButtonClick}
-        className="bg-blue-600 hover:bg-blue-700 text-white"
-      >
-        {buttonText}
-      </Button>
+      {buttonText !== "No Button" && (
+        <Button
+          onClick={onButtonClick}
+          className="bg-blue-600 hover:bg-blue-700 text-white"
+        >
+          {buttonText}
+        </Button>
+      )}
       {title === "Projects" && (
         <Avatar>
           <AvatarImage src="/placeholder-avatar.jpg" />
