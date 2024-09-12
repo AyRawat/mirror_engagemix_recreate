@@ -141,7 +141,7 @@ export default function SocialMediaResults() {
                     <div key={post.id}>
                       <PostCard
                         post={post}
-                        keywords={keywords}
+                        keywords={project?.keywords || []}
                         onReplyClick={handleReplyClick}
                       />
                       {isReplySent && selectedPost?.id === post.id && (

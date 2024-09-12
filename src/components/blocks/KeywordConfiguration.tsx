@@ -131,9 +131,11 @@ const KeywordConfiguration = ({
         )}
       </div>
       <div className="mb-6">
-        <h2 className="text-sm font-medium text-gray-700 mb-2">
-          Suggested keywords
-        </h2>
+        {keywords.length > 0 && (
+          <h2 className="text-sm font-medium text-gray-700 mb-2">
+            Suggested keywords
+          </h2>
+        )}
         <div className="overflow-auto max-h-32">
           <div className="flex flex-wrap gap-2">
             {keywords.map((keyword) => (

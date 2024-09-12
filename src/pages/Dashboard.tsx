@@ -1,3 +1,4 @@
+// src/pages/Dashboard.tsx
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks";
@@ -57,6 +58,15 @@ export default function Dashboard() {
     dispatch(setProjectName(""));
   };
 
+  const stats = [
+    { label: "Projects", value: projects.length.toString() },
+    { label: "Keywords Tracked", value: "0" },
+    { label: "Mentions", value: "0" },
+    { label: "Leads", value: "0" },
+    { label: "Link Clicks", value: "0" },
+    { label: "Impressions", value: "0" },
+  ];
+
   const renderContent = () => {
     switch (activeSection) {
       case "analytics":
@@ -71,7 +81,7 @@ export default function Dashboard() {
               buttonText="+ New project"
               onButtonClick={handleNewProjectClick}
             />
-            <StatsComponent />
+            <StatsComponent stats={stats} />
             <ProjectManagement isProjectsSection={true} projects={projects} />
           </>
         );
@@ -84,7 +94,7 @@ export default function Dashboard() {
               onButtonClick={handleNewProjectClick}
             />
             <Banner bannerSvg={DashboardBanner} />
-            <StatsComponent />
+            <StatsComponent stats={stats} />
             <ProjectManagement isProjectsSection={false} projects={projects} />
           </>
         );

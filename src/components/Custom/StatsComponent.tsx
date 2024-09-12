@@ -1,3 +1,4 @@
+// src/components/Custom/StatsComponent.tsx
 import React from "react";
 import { ChevronRight } from "lucide-react";
 
@@ -14,16 +15,11 @@ const Divider = () => (
   </div>
 );
 
-export default function StatsComponent() {
-  const stats = [
-    { label: "Projects", value: "0" },
-    { label: "Keywords Tracked", value: "0" },
-    { label: "Mentions", value: "0" },
-    { label: "Leads", value: "0" },
-    { label: "Link Clicks", value: "0" },
-    { label: "Impressions", value: "0" },
-  ];
+interface StatsComponentProps {
+  stats: { label: string; value: string }[];
+}
 
+export default function StatsComponent({ stats }: StatsComponentProps) {
   return (
     <div className="bg-white rounded-2xl shadow-sm p-6 flex items-center justify-between mb-2 border border-gray-300">
       {stats.map((stat, index) => (

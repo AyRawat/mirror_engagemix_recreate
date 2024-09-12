@@ -9,6 +9,8 @@ import TwitterIcon from "@/assets/icons/twitter.svg";
 import FacebookIcon from "@/assets/icons/facebook.svg";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
+import FeatherIcon from "@/assets/icons/feather.svg";
+import InfoIcon from "@/assets/icons/info.svg";
 // Import other icons as needed
 
 interface PostCardProps {
@@ -59,16 +61,14 @@ const PostCard: React.FC<PostCardProps> = ({
               })}
           </span>
         </div>
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 text-[#1671D9]">
           <Button
             variant="outline"
             size="sm"
             onClick={() => onReplyClick(post)}
           >
             Reply
-          </Button>
-          <Button variant="outline" size="icon" className="h-8 w-8">
-            <Share2 className="h-4 w-4" />
+            <img src={FeatherIcon} className="h-4 w-4 ml-1" />
           </Button>
           <Button
             variant="outline"
@@ -109,8 +109,9 @@ const PostCard: React.FC<PostCardProps> = ({
         <Button variant="link" size="sm" className="text-blue-500 p-0">
           Show less posts like this
         </Button>
-        <span className="text-sm text-gray-500">
-          Relevance score: {post.semanticScore?.sbert}
+        <span className="flex text-sm text-[#1671D9] rounded-full bg-[#EBF4FF] px-3 my-1 py-1">
+          <img src={InfoIcon} className="h-[0.8rem] w-[0.8rem] my-1 mr-1" />
+          Relevance score: {post.semanticScore?.sbert.toFixed(2)}
         </span>
       </div>
     </div>
