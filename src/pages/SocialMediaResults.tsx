@@ -9,13 +9,10 @@ import NavigationTabs from "@/components/Custom/SocialMediaResults/NavigationTab
 import SocialMediaCounts from "@/components/Custom/SocialMediaResults/SocialMediaCounts";
 import PostCard from "@/components/Custom/SocialMediaResults/PostCard";
 import InviteMemberModal from "@/components/blocks/InviteMember";
-import Reply from "@/components/Custom/Reply";
-import ReplySent from "@/components/Custom/ReplySent";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
 import { PostResponseDto } from "@/apis/types";
 import { Progress } from "@/components/ui/progress"; // Import ProgressBar
 import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea
-import { replies } from "@/apis/replies"; // Import the replies API
 import { useLocation } from "react-router-dom"; // Import useLocation
 
 export default function SocialMediaResults() {
@@ -24,13 +21,7 @@ export default function SocialMediaResults() {
 
   const [progress, setProgress] = useState(10);
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
-  const [isReplyOpen, setReplyOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
-  const [selectedPost, setSelectedPost] = useState<PostResponseDto | null>(
-    null
-  );
-  const [generatedReply, setGeneratedReply] = useState<string | null>(null);
-  const [isReplySent, setIsReplySent] = useState(false);
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
   const projects = useSelector((state: RootState) => state.projects.projects);
@@ -56,41 +47,6 @@ export default function SocialMediaResults() {
 
   const handleCloseModal = () => {
     setInviteModalOpen(false);
-  };
-
-  const handleReplyClick = (post: PostResponseDto) => {
-    if (generatedReply !== null) {
-      setGeneratedReply(null);
-    }
-    setSelectedPost(post);
-    setReplyOpen(true);
-    setIsReplySent(false);
-  };
-
-  const handleCloseReply = () => {
-    setReplyOpen(false);
-    // setSelectedPost(null);
-    // setGeneratedReply(null);
-  };
-
-  const handleGenerateReply = async (customInstruction: string) => {
-    if (selectedPost) {
-      const requestDto = {
-        postId: selectedPost.id,
-        instruction: customInstruction,
-      };
-      try {
-        const response = await replies.generate(requestDto);
-        setGeneratedReply(response.reply);
-      } catch (error) {
-        console.error("Failed to generate reply:", error);
-      }
-    }
-  };
-
-  const handleSendReply = () => {
-    setReplyOpen(false);
-    setIsReplySent(true);
   };
 
   // Calculate the counts for each source
@@ -144,11 +100,8 @@ export default function SocialMediaResults() {
                         <PostCard
                           post={post}
                           keywords={keywords}
-                          onReplyClick={handleReplyClick}
+                          onReplyClick={() => {}}
                         />
-                        {isReplySent && selectedPost?.id === post.id && (
-                          <ReplySent reply={generatedReply || ""} />
-                        )}
                       </div>
                     ))}
                 </div>
@@ -158,15 +111,6 @@ export default function SocialMediaResults() {
           {activeTab === "configuration" && <ConfigurationSettings />}
           {isInviteModalOpen && (
             <InviteMemberModal onClose={handleCloseModal} />
-          )}
-          {isReplyOpen && selectedPost && (
-            <Reply
-              post={selectedPost}
-              onClose={handleCloseReply}
-              onGenerateReply={handleGenerateReply}
-              generatedReply={generatedReply}
-              onSendReply={handleSendReply}
-            />
           )}
         </>
       )}

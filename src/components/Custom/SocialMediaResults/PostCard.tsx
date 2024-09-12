@@ -1,5 +1,5 @@
 // src/components/Custom/SocialMediaResults/PostCard.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,6 +11,9 @@ import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import FeatherIcon from "@/assets/icons/feather.svg";
 import InfoIcon from "@/assets/icons/info.svg";
+import Reply from "@/components/Custom/Reply";
+import ReplySent from "@/components/Custom/ReplySent";
+import { replies } from "@/apis/replies";
 
 interface PostCardProps {
   post: PostResponseDto;
@@ -32,6 +35,10 @@ const PostCard: React.FC<PostCardProps> = ({
   onReplyClick,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isReplyOpen, setReplyOpen] = useState(false);
+  const [generatedReply, setGeneratedReply] = useState<string | null>(null);
+  const [customInstruction, setCustomInstruction] = useState("");
+  const [repliesSent, setRepliesSent] = useState<string[]>([]);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -50,6 +57,42 @@ const PostCard: React.FC<PostCardProps> = ({
     post.text.toLowerCase().includes(keyword.toLowerCase())
   );
 
+  const handleReplyClick = async () => {
+    setReplyOpen(true);
+    try {
+      const response = await replies.generate({
+        postId: post.id,
+        instruction: "",
+      });
+      setGeneratedReply(response.reply);
+    } catch (error) {
+      console.error("Failed to generate reply:", error);
+    }
+  };
+
+  const handleCloseReply = () => {
+    setReplyOpen(false);
+    setCustomInstruction("");
+  };
+
+  const handleGenerateReply = async (instruction: string) => {
+    try {
+      const response = await replies.generate({ postId: post.id, instruction });
+      setGeneratedReply(response.reply);
+    } catch (error) {
+      console.error("Failed to generate reply:", error);
+    }
+  };
+
+  const handleSendReply = () => {
+    if (generatedReply) {
+      setRepliesSent([...repliesSent, generatedReply]);
+      setReplyOpen(false);
+      setGeneratedReply(null);
+      setCustomInstruction("");
+    }
+  };
+
   return (
     <div className="border border-gray-200 rounded-2xl p-4 m-2 ">
       <div className="flex justify-between items-start mb-2">
@@ -66,11 +109,7 @@ const PostCard: React.FC<PostCardProps> = ({
           </span>
         </div>
         <div className="flex space-x-2 text-[#1671D9]">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onReplyClick(post)}
-          >
+          <Button variant="outline" size="sm" onClick={handleReplyClick}>
             Reply
             <img src={FeatherIcon} className="h-4 w-4 ml-1" />
           </Button>
@@ -118,6 +157,18 @@ const PostCard: React.FC<PostCardProps> = ({
           Relevance score: {post.semanticScore?.sbert.toFixed(2)}
         </span>
       </div>
+      {isReplyOpen && (
+        <Reply
+          post={post}
+          onClose={handleCloseReply}
+          onGenerateReply={handleGenerateReply}
+          generatedReply={generatedReply}
+          onSendReply={handleSendReply}
+        />
+      )}
+      {repliesSent.map((reply, index) => (
+        <ReplySent key={index} reply={reply} />
+      ))}
     </div>
   );
 };
