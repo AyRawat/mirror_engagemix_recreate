@@ -39,6 +39,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const [generatedReply, setGeneratedReply] = useState<string | null>(null);
   const [customInstruction, setCustomInstruction] = useState("");
   const [repliesSent, setRepliesSent] = useState<string[]>([]);
+  const [showAllReplies, setShowAllReplies] = useState(false);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -91,6 +92,10 @@ const PostCard: React.FC<PostCardProps> = ({
       setGeneratedReply(null);
       setCustomInstruction("");
     }
+  };
+
+  const toggleShowAllReplies = () => {
+    setShowAllReplies(!showAllReplies);
   };
 
   return (
@@ -166,9 +171,27 @@ const PostCard: React.FC<PostCardProps> = ({
           onSendReply={handleSendReply}
         />
       )}
-      {repliesSent.map((reply, index) => (
-        <ReplySent key={index} reply={reply} />
-      ))}
+      {repliesSent.length > 0 && (
+        <div className="mt-4">
+          {repliesSent.length > 1 && (
+            <Button
+              variant="link"
+              size="sm"
+              className="text-blue-500 p-0 mb-2"
+              onClick={toggleShowAllReplies}
+            >
+              {showAllReplies ? "Hide all replies" : "Show all replies"}
+            </Button>
+          )}
+          {showAllReplies
+            ? repliesSent.map((reply, index) => (
+                <ReplySent key={index} reply={reply} />
+              ))
+            : repliesSent
+                .slice(0, 1)
+                .map((reply, index) => <ReplySent key={index} reply={reply} />)}
+        </div>
+      )}
     </div>
   );
 };

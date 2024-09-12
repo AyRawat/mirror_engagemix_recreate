@@ -4,9 +4,13 @@ import { Badge } from "@/components/ui/badge";
 
 interface ReplySentProps {
   reply: string;
+  showHideButton?: boolean;
 }
 
-const ReplySent: React.FC<ReplySentProps> = ({ reply }) => (
+const ReplySent: React.FC<ReplySentProps> = ({
+  reply,
+  showHideButton = false,
+}) => (
   <Card className="flex flex-col items-center pt-5 px-5 w-full rounded-bl-xl rounded-br-xl border border-gray-300 bg-purple-50">
     <CardContent className="flex flex-col items-start gap-5">
       <div className="flex items-start w-full h-18 gap-5">
@@ -39,9 +43,11 @@ const ReplySent: React.FC<ReplySentProps> = ({ reply }) => (
           </Badge>
         </div>
       </div>
-      <div className="text-blue-600 text-center font-medium leading-6">
-        Hide reply
-      </div>
+      {showHideButton && (
+        <div className="text-blue-600 text-center font-medium leading-6">
+          Hide reply
+        </div>
+      )}
     </CardContent>
   </Card>
 );
