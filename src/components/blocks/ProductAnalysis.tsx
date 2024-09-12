@@ -100,7 +100,7 @@ const ProductAnalysis = ({
             onChange={(e) => setCompanyName(e.target.value)}
           />
           {companyNameError && (
-            <p className="text-red-500 text-sm">{companyNameError}</p>
+            <p className="text-red-500 text-sm text-left">{companyNameError}</p>
           )}
         </div>
         <div>
@@ -129,7 +129,9 @@ const ProductAnalysis = ({
             </Button>
           </div>
           {companyDomainError && (
-            <p className="text-red-500 text-sm">{companyDomainError}</p>
+            <p className="text-red-500 text-sm text-left">
+              {companyDomainError}
+            </p>
           )}
         </div>
         <div>

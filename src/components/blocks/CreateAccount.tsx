@@ -160,7 +160,7 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             onChange={(e) => setEmail(e.target.value)}
           />
           {emailError && (
-            <p className="text-red-500 text-sm mt-2">{emailError}</p>
+            <p className="text-red-500 text-sm text-left mt-2">{emailError}</p>
           )}
         </div>
         <div>
@@ -179,7 +179,9 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             onChange={(e) => setPassword(e.target.value)}
           />
           {passwordError && (
-            <p className="text-red-500 text-sm mt-2">{passwordError}</p>
+            <p className="text-red-500 text-sm mt-2 text-left">
+              {passwordError}
+            </p>
           )}
         </div>
         <div className="flex space-x-4">

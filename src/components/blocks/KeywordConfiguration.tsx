@@ -104,7 +104,7 @@ const KeywordConfiguration = ({
           onChange={(e) => setLocalProjectName(e.target.value)}
         />
         {helpText && !projectName && (
-          <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
+          <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
             {helpText}
           </p>
         )}
@@ -187,7 +187,7 @@ const KeywordConfiguration = ({
           </Button>
         </div>
         {helpText && newKeyword && (
-          <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
+          <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
             {helpText}
           </p>
         )}

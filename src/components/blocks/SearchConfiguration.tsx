@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchConfig } from "@/store/formSlice";
 import { RootState } from "@/store/store";
+import HackernewsIcon from "@/assets/icons/hackernews.svg";
 
 type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
@@ -99,7 +100,7 @@ const SearchConfiguration = ({
             )}
           </div>
           {helpText && (
-            <p className="text-red-500 text-sm mt-2 bg-red-100 p-2 rounded-md">
+            <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
               {helpText}
             </p>
           )}
