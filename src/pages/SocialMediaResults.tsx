@@ -8,21 +8,22 @@ import Header from "@/components/Custom/SocialMediaResults/Header";
 import NavigationTabs from "@/components/Custom/SocialMediaResults/NavigationTabs";
 import SocialMediaCounts from "@/components/Custom/SocialMediaResults/SocialMediaCounts";
 import PostCard from "@/components/Custom/SocialMediaResults/PostCard";
-import NoPostsCard from "@/components/Custom/SocialMediaResults/NoPostsCard"; // Import NoPostsCard
+import NoPostsCard from "@/components/Custom/SocialMediaResults/NoPostsCard";
 import InviteMemberModal from "@/components/blocks/InviteMember";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
 import { PostResponseDto } from "@/apis/types";
-import { Progress } from "@/components/ui/progress"; // Import ProgressBar
-import { ScrollArea } from "@/components/ui/scroll-area"; // Import ScrollArea
-import { useLocation } from "react-router-dom"; // Import useLocation
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useLocation } from "react-router-dom";
 
 export default function SocialMediaResults() {
-  const location = useLocation(); // Initialize useLocation
-  const projectId = location.state?.projectId; // Get projectId from state
+  const location = useLocation();
+  const projectId = location.state?.projectId;
 
   const [progress, setProgress] = useState(10);
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null); // Add state for selected platform
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
   const projects = useSelector((state: RootState) => state.projects.projects);
@@ -50,6 +51,10 @@ export default function SocialMediaResults() {
     setInviteModalOpen(false);
   };
 
+  const handlePlatformClick = (platform: string) => {
+    setSelectedPlatform(platform);
+  };
+
   // Calculate the counts for each source
   const sourceCounts = posts.reduce(
     (counts, post) => {
@@ -66,6 +71,11 @@ export default function SocialMediaResults() {
       hackernews: 0,
     }
   );
+
+  // Filter posts based on the selected platform
+  const filteredPosts = selectedPlatform
+    ? posts.filter((post) => post.source === selectedPlatform)
+    : posts;
 
   return (
     <div className="mx-auto pt-6 px-6 max-h-screen max-w-[95vw] w-[95vw] h-[95vh]">
@@ -91,16 +101,20 @@ export default function SocialMediaResults() {
                 instagramCount={sourceCounts.instagram}
                 quoraCount={sourceCounts.quora}
                 hackernewsCount={sourceCounts.hackernews}
+                onPlatformClick={handlePlatformClick} // Pass the handler
               />
               <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-2xl">
                 <div className="p-3 h-[64vh]">
-                  {posts.length === 0 ? (
+                  {filteredPosts.length === 0 ? (
                     <NoPostsCard
                       headerText="No posts yet"
-                      helperText="There are no posts to display at the moment."
+                      helperText={
+                        "There are no posts to display" +
+                        (selectedPlatform ? ` for ${selectedPlatform}.` : ".")
+                      }
                     />
                   ) : (
-                    posts
+                    filteredPosts
                       .filter((post: PostResponseDto) => post.text.length > 0)
                       .map((post: PostResponseDto) => (
                         <div key={post.id}>

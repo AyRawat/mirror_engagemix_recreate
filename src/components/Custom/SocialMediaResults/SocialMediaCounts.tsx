@@ -1,3 +1,4 @@
+// src/components/Custom/SocialMediaResults/SocialMediaCounts.tsx
 import React from "react";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
@@ -7,8 +8,6 @@ import FacebookIcon from "@/assets/icons/facebook.svg";
 import InstragramIcon from "@/assets/icons/instagram.svg";
 import QuoraIcon from "@/assets/icons/quora.svg";
 
-import { count } from "console";
-
 interface SocialMediaCountsProps {
   twitterCount: number;
   facebookCount: number;
@@ -17,6 +16,7 @@ interface SocialMediaCountsProps {
   quoraCount: number;
   redditCount: number;
   hackernewsCount: number;
+  onPlatformClick: (platform: string) => void; // Add this prop
 }
 
 const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
@@ -27,6 +27,7 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
   quoraCount,
   redditCount,
   hackernewsCount,
+  onPlatformClick, // Destructure the prop
 }) => {
   const platforms = [
     {
@@ -54,7 +55,7 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
       color: "text-blue-700",
     },
     {
-      icons: HackernewsIcon,
+      icon: HackernewsIcon,
       name: "Hackernews",
       count: hackernewsCount,
       color: "text-blue-700",
@@ -78,7 +79,8 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
       {platforms.map(({ icon: Icon, name, count, color }) => (
         <div
           key={name}
-          className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm"
+          className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm cursor-pointer"
+          onClick={() => onPlatformClick(name.toLowerCase())} // Handle click event
         >
           <img
             src={name === "Hackernews" ? HackernewsIcon : Icon?.toString()}
