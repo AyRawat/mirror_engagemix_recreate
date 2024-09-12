@@ -8,6 +8,7 @@ import Header from "@/components/Custom/SocialMediaResults/Header";
 import NavigationTabs from "@/components/Custom/SocialMediaResults/NavigationTabs";
 import SocialMediaCounts from "@/components/Custom/SocialMediaResults/SocialMediaCounts";
 import PostCard from "@/components/Custom/SocialMediaResults/PostCard";
+import NoPostsCard from "@/components/Custom/SocialMediaResults/NoPostsCard"; // Import NoPostsCard
 import InviteMemberModal from "@/components/blocks/InviteMember";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
 import { PostResponseDto } from "@/apis/types";
@@ -93,17 +94,24 @@ export default function SocialMediaResults() {
               />
               <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-2xl">
                 <div className="p-3 h-[64vh]">
-                  {posts
-                    .filter((post: PostResponseDto) => post.text.length > 0)
-                    .map((post: PostResponseDto) => (
-                      <div key={post.id}>
-                        <PostCard
-                          post={post}
-                          keywords={keywords}
-                          onReplyClick={() => {}}
-                        />
-                      </div>
-                    ))}
+                  {posts.length === 0 ? (
+                    <NoPostsCard
+                      headerText="No posts yet"
+                      helperText="There are no posts to display at the moment."
+                    />
+                  ) : (
+                    posts
+                      .filter((post: PostResponseDto) => post.text.length > 0)
+                      .map((post: PostResponseDto) => (
+                        <div key={post.id}>
+                          <PostCard
+                            post={post}
+                            keywords={keywords}
+                            onReplyClick={() => {}}
+                          />
+                        </div>
+                      ))
+                  )}
                 </div>
               </ScrollArea>
             </div>

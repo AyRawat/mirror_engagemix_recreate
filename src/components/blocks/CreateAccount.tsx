@@ -79,10 +79,9 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   });
 
   useEffect(() => {
-    // if (authContext.isAuthenticated) {
-    //   authContext.logout();
-    //   setIsLoginMode(true);
-    // }
+    if (authContext.isAuthenticated) {
+      setIsLoginMode(true);
+    }
     dispatch(setAccountData({ email, password, firstName, lastName }));
   }, [email, password, firstName, lastName, dispatch]);
 
