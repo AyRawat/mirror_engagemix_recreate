@@ -133,7 +133,7 @@ const KeywordConfiguration = ({
       <div className="mb-6">
         {keywords.length > 0 && (
           <h2 className="text-sm font-medium text-gray-700 mb-2">
-            Suggested keywords
+            Keywords
           </h2>
         )}
         <div className="overflow-auto max-h-32">

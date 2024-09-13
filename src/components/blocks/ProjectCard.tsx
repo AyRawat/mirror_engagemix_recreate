@@ -18,9 +18,14 @@ import { useAuth } from "@/contexts/auth/AuthContext"; // Import useAuth
 interface ProjectCardProps {
   project: ProjectDto;
   onClick: () => void;
+  mentions: number; // Add mentions prop
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  project,
+  onClick,
+  mentions,
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
   const { user } = useAuth(); // Extract user data from AuthContext
@@ -123,7 +128,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-2" />
-        <StatusBar createdAt={project.createdAt} />
+        <StatusBar createdAt={project.createdAt} mentions={mentions} />{" "}
+        {/* Pass mentions prop */}
       </CardContent>
     </Card>
   );

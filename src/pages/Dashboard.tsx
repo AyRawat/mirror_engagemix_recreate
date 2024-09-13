@@ -30,6 +30,7 @@ export default function Dashboard() {
   const [currentStep, setCurrentStep] = useState(1); // Add currentStep state
   const [analyticsData, setAnalyticsData] = useState(null); // Add state for analytics data
   const dispatch = useDispatch();
+  const productData = useSelector((state: RootState) => state.form.productData);
   const projects = useSelector((state: RootState) => state.projects.projects);
   const projectsStatus = useSelector(
     (state: RootState) => state.projects.status
@@ -61,7 +62,7 @@ export default function Dashboard() {
   };
 
   const handleResetForms = (event: React.FormEvent) => {
-    event.preventDefault();
+    event?.preventDefault();
     dispatch(
       setAccountData({ email: "", password: "", firstName: "", lastName: "" })
     );
@@ -129,19 +130,6 @@ export default function Dashboard() {
     handleResetForms(); // Call the reset function
     setIsSheetOpen(false); // Close the sheet
   };
-
-  /*
-  {
-    "projects": 7,
-    "keywords": 38,
-    "platforms": 2,
-    "posts": 1542,
-    "replies": 0,
-    "impressions": 0,
-    "clicks": 0,
-    "leads": 0
-}
-  */
 
   const stats = analyticsData
     ? [

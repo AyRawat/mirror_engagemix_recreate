@@ -123,7 +123,7 @@ const ProductAnalysis = ({
               variant="secondary"
               className="h-[56px] bg-blue-500 text-white hover:bg-blue-600"
               onClick={handleGenerateDescription}
-              disabled={isGeneratingDescription}
+              disabled={isGeneratingDescription || !companyDomain}
             >
               {isGeneratingDescription ? "Generating..." : "Generate"}
             </Button>

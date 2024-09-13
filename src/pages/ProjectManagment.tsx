@@ -1,3 +1,4 @@
+// src/pages/ProjectManagment.tsx
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Filter, Calendar, Download } from "lucide-react";
@@ -5,6 +6,8 @@ import FilterButton from "@/components/Custom/FilterButton";
 import ProjectCard from "@/components/blocks/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProjectDto } from "@/apis/types";
+import { useEffect, useState } from "react";
+import { api } from "@/apis";
 
 interface ProjectManagementProps {
   isProjectsSection: boolean;
@@ -16,6 +19,30 @@ export default function ProjectManagement({
   projects,
 }: ProjectManagementProps) {
   const navigate = useNavigate();
+  const [analyticsData, setAnalyticsData] = useState<{ [key: string]: number }>(
+    {}
+  );
+
+  useEffect(() => {
+    const fetchAnalyticsData = async () => {
+      const data: { [key: string]: number } = {};
+      for (const project of projects) {
+        try {
+          const analytics = await api.projects.getProjectAnalytics(project.id);
+          data[project.id] = analytics.replies;
+          data["posts"] = analytics.posts;
+        } catch (error) {
+          console.error(
+            `Failed to fetch analytics for project ${project.id}:`,
+            error
+          );
+        }
+      }
+      setAnalyticsData(data);
+    };
+
+    fetchAnalyticsData();
+  }, [projects]);
 
   const handleCardClick = (projectId: string) => {
     navigate("/social-media-results", { state: { projectId } });
@@ -66,6 +93,7 @@ export default function ProjectManagement({
               key={project.id}
               project={project}
               onClick={() => handleCardClick(project.id)}
+              mentions={analyticsData[project.id] || 0} // Pass mentions prop
             />
           ))}
         </div>
