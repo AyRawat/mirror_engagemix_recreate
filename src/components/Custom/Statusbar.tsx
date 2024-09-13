@@ -1,5 +1,5 @@
 // src/components/Custom/Statusbar.tsx
-import { FileText, MessageSquare, Calendar } from "lucide-react";
+import { MessageSquare, Calendar } from "lucide-react";
 
 interface StatusBarProps {
   createdAt: string;

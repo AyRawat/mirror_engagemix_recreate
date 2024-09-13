@@ -88,12 +88,12 @@ const getAnalytics = async (): Promise<AnalyticsDto> => {
 
 const getProjectAnalytics = async (
   projectId: string
-): Promise<AnalyticsDto> => {
+): Promise<IProjectAnalytics> => {
   try {
     const { data } = await axiosInstance.get(
       `/projects/${projectId}/analytics`
     );
-    return data as AnalyticsDto;
+    return data as IProjectAnalytics;
   } catch {
     throw new Error("Failed to fetch project analytics");
   }

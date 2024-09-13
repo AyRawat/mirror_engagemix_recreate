@@ -6,8 +6,8 @@ import { ExternalLink, MoreHorizontal, Archive, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatusBar from "../Custom/Statusbar";
 import DropdownMenuItems from "@/components/blocks/DropDownMenu";
-import FacebookIcon from "@/assets/icons/facebook";
-import TwitterIcon from "@/assets/icons/twitter";
+import FacebookIcon from "@/assets/icons/facebook.svg";
+import TwitterIcon from "@/assets/icons/twitter.svg";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import { ProjectDto } from "@/apis/types";
@@ -128,7 +128,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-2" />
-        <StatusBar createdAt={project.createdAt} mentions={mentions} />{" "}
+        <StatusBar createdAt={project.processedAt} mentions={mentions} />{" "}
         {/* Pass mentions prop */}
       </CardContent>
     </Card>

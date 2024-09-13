@@ -20,6 +20,7 @@ export type UserDto = {
   name: string;
   country?: string;
   phone?: string;
+  avatarUrl?: string;
 };
 
 export type UpdateUserProfile = {
@@ -132,3 +133,25 @@ export type ReplyRequestDto = {
   postId: string;
   instruction?: string;
 };
+
+export interface AnalyticsDto {
+  projects: number;
+  keywords: number;
+  posts: number;
+  platforms: number;
+  replies: number;
+  impressions: number;
+  clicks: number;
+  leads: number;
+}
+
+export interface IProjectAnalytics {
+  projectId: string;
+  keywords: number;
+  posts: number;
+  platforms: number;
+  replies: number;
+  impressions: number;
+  clicks: number;
+  leads: number;
+}

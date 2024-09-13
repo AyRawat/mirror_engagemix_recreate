@@ -1,5 +1,5 @@
 // src/store/formSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AccountData {
   email: string;
@@ -14,7 +14,7 @@ interface ProductData {
   companyDescription: string;
 }
 
-type Source = 'hackernews' | 'reddit' | 'linkedin' | 'twitter' | 'quora';
+type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
 
 interface SearchConfig {
   platforms: Source[];
@@ -31,17 +31,17 @@ interface FormState {
 }
 
 const initialState: FormState = {
-  accountData: { email: '', password: '', firstName: '', lastName: '' },
-  productData: { companyName: '', companyDomain: '', companyDescription: '' },
+  accountData: { email: "", password: "", firstName: "", lastName: "" },
+  productData: { companyName: "", companyDomain: "", companyDescription: "" },
   keywords: [],
   searchConfig: { platforms: [] },
   currentStep: 1,
-  projectName: '',
-  projectDescription: '', // Initialize projectDescription
+  projectName: "",
+  projectDescription: "", // Initialize projectDescription
 };
 
 const formSlice = createSlice({
-  name: 'form',
+  name: "form",
   initialState,
   reducers: {
     setAccountData(state, action: PayloadAction<AccountData>) {
@@ -62,7 +62,8 @@ const formSlice = createSlice({
     setProjectName(state, action: PayloadAction<string>) {
       state.projectName = action.payload;
     },
-    setProjectDescription(state, action: PayloadAction<string>) { // Add setProjectDescription action
+    setProjectDescription(state, action: PayloadAction<string>) {
+      // Add setProjectDescription action
       state.projectDescription = action.payload;
     },
   },

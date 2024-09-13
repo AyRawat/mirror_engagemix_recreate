@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { SocialSignupButton } from "@/components/blocks/SocialSignUpButton";
 import { useNavigate } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
@@ -10,17 +9,10 @@ import { setUser, setToken } from "@/store/authSlice";
 import { useMutation } from "@tanstack/react-query";
 import { setAccountData } from "@/store/formSlice";
 import { RootState } from "@/store/store";
-import {
-  RegisterRequestDto,
-  TokenDto,
-  UserDto,
-  LoginRequestDto,
-} from "@/apis/types";
+import { RegisterRequestDto, UserDto, LoginRequestDto } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext";
-import { auth } from "@/apis/auth";
 
 const CreateAccount = ({ onNext }: { onNext: () => void }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const authContext = useAuth();
   const accountData = useSelector((state: RootState) => state.form.accountData);
@@ -64,7 +56,6 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
       if (isLoginMode) {
         console.log("Login data ", data);
         onNext();
-        // navigate("/dashboard");
       } else {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));

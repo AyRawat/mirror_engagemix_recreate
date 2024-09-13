@@ -1,5 +1,5 @@
 // src/pages/SocialMediaResults.tsx
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { RootState } from "@/store/store";

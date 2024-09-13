@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -68,7 +68,7 @@ const SearchConfiguration = ({
   const [helpText, setHelpText] = useState("");
 
   useEffect(() => {
-    dispatch(setSearchConfig({ platforms }));
+    dispatch(setSearchConfig({ platforms as Source[] }));
   }, [platforms, dispatch]);
 
   const handlePlatformChange = (platform: Source) => {

@@ -6,15 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FeatherIcon from "@/assets/icons/feather.svg";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Globe, Send, Twitter, X } from "lucide-react";
+import { Send, Twitter, X } from "lucide-react";
 import { PostResponseDto } from "@/apis/types";
 import RegenerateIcon from "@/assets/icons/regenerateicon";
 import WhiteRegenerateIcon from "@/assets/icons/whiteregenerate.svg";

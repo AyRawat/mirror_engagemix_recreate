@@ -7,6 +7,7 @@ import { RootState } from "@/store/store";
 import StatsComponent from "@/components/Custom/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
 import { api } from "@/apis";
+import { Source } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext";
 import Banner from "@/components/Custom/Banner";
 import Header from "@/components/Custom/Header";
@@ -34,6 +35,14 @@ export default function Dashboard() {
   const projects = useSelector((state: RootState) => state.projects.projects);
   const projectsStatus = useSelector(
     (state: RootState) => state.projects.status
+  );
+  const projectName = useSelector((state: RootState) => state.form.projectName); // Select projectName from Redux store
+  const projectDescription = useSelector(
+    (state: RootState) => state.form.projectDescription
+  ); // Select projectDescription from Redux store
+  const keywordsData = useSelector((state: RootState) => state.form.keywords);
+  const searchConfig = useSelector(
+    (state: RootState) => state.form.searchConfig
   );
   const { user } = useAuth();
 

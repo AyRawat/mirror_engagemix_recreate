@@ -76,26 +76,30 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
 
   return (
     <div className="flex space-x-2 mb-6 bg-gray-100 rounded-2xl p-2 w-fit">
-      {platforms.map(({ icon: Icon, name, count, color }) => (
-        <div
-          key={name}
-          className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm cursor-pointer"
-          onClick={() => onPlatformClick(name.toLowerCase())} // Handle click event
-        >
-          <img
-            src={name === "Hackernews" ? HackernewsIcon : Icon?.toString()}
-            className="h-4 w-4 mr-2"
-          />
-          <span className="text-sm font-medium mr-2">{name}</span>
-          <span
-            className={`text-sm font-semibold ${
-              count > 0 ? "text-blue-500" : "text-gray-500"
-            }`}
+      {platforms.map(
+        (
+          { icon: Icon, name, count, color } //updqate color for selection
+        ) => (
+          <div
+            key={name}
+            className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm cursor-pointer"
+            onClick={() => onPlatformClick(name.toLowerCase())} // Handle click event
           >
-            {count}
-          </span>
-        </div>
-      ))}
+            <img
+              src={name === "Hackernews" ? HackernewsIcon : Icon?.toString()}
+              className="h-4 w-4 mr-2"
+            />
+            <span className="text-sm font-medium mr-2">{name}</span>
+            <span
+              className={`text-sm font-semibold ${
+                count > 0 ? "text-blue-500" : "text-gray-500"
+              }`}
+            >
+              {count}
+            </span>
+          </div>
+        )
+      )}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 // src/components/Custom/CustomSheet.tsx
-import React, { useState } from "react";
+import React from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import ProductAnalysis from "@/components/blocks/ProductAnalysis";
 import SearchConfiguration from "@/components/blocks/SearchConfiguration";
@@ -10,9 +10,9 @@ interface CustomSheetProps {
   onClose: () => void;
   component?: React.ComponentType<any | null>;
   onReset: () => void; // Add onReset prop
-  step: number; // Add step prop
-  onNext: () => void; // Add onNext prop
-  onBack: () => void; // Add onBack prop
+  step?: number; // Add step prop
+  onNext?: () => void; // Add onNext prop
+  onBack?: () => void; // Add onBack prop
 }
 
 export default function CustomSheet({

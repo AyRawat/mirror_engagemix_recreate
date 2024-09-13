@@ -6,17 +6,15 @@ import KeywordConfiguration from "@/components/blocks/KeywordConfiguration";
 import { StepIndicator } from "@/components/Custom/StepIndicator";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/apis";
+import { Source } from "@/apis/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
 import { useAuth } from "@/contexts/auth/AuthContext";
 
-type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
-
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectName = useSelector((state: RootState) => state.form.projectName);

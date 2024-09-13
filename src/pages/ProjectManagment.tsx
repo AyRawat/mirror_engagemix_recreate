@@ -48,9 +48,10 @@ export default function ProjectManagement({
     navigate("/social-media-results", { state: { projectId } });
   };
 
-  // Sort projects based on the createdAt field
+  // Sort projects based on the processedAt field
   const sortedProjects = [...projects].sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    (a, b) =>
+      new Date(b.processedAt).getTime() - new Date(a.processedAt).getTime()
   );
 
   return (

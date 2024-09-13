@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -132,9 +132,7 @@ const KeywordConfiguration = ({
       </div>
       <div className="mb-6">
         {keywords.length > 0 && (
-          <h2 className="text-sm font-medium text-gray-700 mb-2">
-            Keywords
-          </h2>
+          <h2 className="text-sm font-medium text-gray-700 mb-2">Keywords</h2>
         )}
         <div className="overflow-auto max-h-32">
           <div className="flex flex-wrap gap-2">

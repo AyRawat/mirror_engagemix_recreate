@@ -1,4 +1,3 @@
-import React from "react";
 import KeywordConfiguration from "./KeywordConfiguration";
 import ProductAnalysis from "./ProductAnalysis";
 import SearchConfiguration from "./SearchConfiguration";
