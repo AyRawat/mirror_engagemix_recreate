@@ -15,6 +15,7 @@ import { PostResponseDto } from "@/apis/types";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
+import ProjectAnalytics from "@/components/Custom/SocialMediaResults/ProjectAnalytics"; // Import the new component
 
 export default function SocialMediaResults() {
   const location = useLocation();
@@ -131,6 +132,10 @@ export default function SocialMediaResults() {
             </div>
           )}
           {activeTab === "configuration" && <ConfigurationSettings />}
+          {activeTab === "analytics" && (
+            <ProjectAnalytics projectId={projectId} />
+          )}{" "}
+          {/* Render ProjectAnalytics when the tab is active */}
           {isInviteModalOpen && (
             <InviteMemberModal onClose={handleCloseModal} />
           )}
