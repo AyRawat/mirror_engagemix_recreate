@@ -68,7 +68,7 @@ const SearchConfiguration = ({
   const [helpText, setHelpText] = useState("");
 
   useEffect(() => {
-    dispatch(setSearchConfig({ platforms as Source[] }));
+    dispatch(setSearchConfig({ platforms }));
   }, [platforms, dispatch]);
 
   const handlePlatformChange = (platform: Source) => {
