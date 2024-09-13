@@ -13,6 +13,7 @@ import RedditIcon from "@/assets/icons/redditIcon.svg";
 import { ProjectDto } from "@/apis/types";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { fetchPosts } from "@/store/postSlice";
+import { useAuth } from "@/contexts/auth/AuthContext"; // Import useAuth
 
 interface ProjectCardProps {
   project: ProjectDto;
@@ -22,6 +23,7 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dispatch = useDispatch();
+  const { user } = useAuth(); // Extract user data from AuthContext
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -54,6 +56,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
     twitter: TwitterIcon,
     linkedin: LinkedInIcon,
     reddit: RedditIcon,
+  };
+
+  // Compute initials from user name
+  const getInitials = (name: string) => {
+    const initials = name
+      .split(" ")
+      .map((word) => word[0])
+      .join("");
+    return initials.toUpperCase();
   };
 
   return (
@@ -92,16 +103,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
         <div className="flex justify-between items-center">
           <div className="flex -space-x-2">
             <Avatar className="border-2 border-white w-8 h-8">
-              <AvatarImage src="/placeholder-avatar-1.jpg" />
-              <AvatarFallback>U1</AvatarFallback>
-            </Avatar>
-            <Avatar className="border-2 border-white w-8 h-8">
-              <AvatarImage src="/placeholder-avatar-2.jpg" />
-              <AvatarFallback>U2</AvatarFallback>
-            </Avatar>
-            <Avatar className="border-2 border-white w-8 h-8">
-              <AvatarImage src="/placeholder-avatar-3.jpg" />
-              <AvatarFallback>U3</AvatarFallback>
+              <AvatarImage src={user?.avatarUrl || "/placeholder-avatar.jpg"} />
+              <AvatarFallback>
+                {user ? getInitials(user.name) : "?"}
+              </AvatarFallback>
             </Avatar>
           </div>
           <div className="flex items-center space-x-4">
