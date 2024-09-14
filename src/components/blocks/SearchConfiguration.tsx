@@ -52,9 +52,11 @@ const platformIcons: { [key in Source]: string } = {
 const SearchConfiguration = ({
   onNext,
   onBack,
+  isConfigSetting = false,
 }: {
   onNext: () => void;
   onBack: () => void;
+  isConfigSetting?: boolean;
 }) => {
   const dispatch = useDispatch();
   const searchConfigData = useSelector(
@@ -98,7 +100,9 @@ const SearchConfiguration = ({
 
   return (
     <div className="max-w-2xl text-left mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Configure your search</h1>
+      {!isConfigSetting && (
+        <h1 className="text-3xl font-bold mb-6">Configure your search</h1>
+      )}
       <div className="space-y-8">
         <div>
           <h2 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
@@ -236,28 +240,30 @@ const SearchConfiguration = ({
           </RadioGroup>
         </div>
       </div>
-      <div className="flex space-x-4 mt-8">
-        <Button
-          variant="secondary"
-          className="w-full h-12 bg-[#E8E8E8]"
-          onClick={onBack}
-        >
-          Go back
-        </Button>
-        <Button
-          variant="secondary"
-          style={{
-            background:
-              "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
-            border: "transparent",
-            borderRadius: "10px",
-          }}
-          className="text-white w-full h-12"
-          onClick={handleNext}
-        >
-          Save & continue
-        </Button>
-      </div>
+      {!isConfigSetting && (
+        <div className="flex space-x-4 mt-8">
+          <Button
+            variant="secondary"
+            className="w-full h-12 bg-[#E8E8E8]"
+            onClick={onBack}
+          >
+            Go back
+          </Button>
+          <Button
+            variant="secondary"
+            style={{
+              background:
+                "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+              border: "transparent",
+              borderRadius: "10px",
+            }}
+            className="text-white w-full h-12"
+            onClick={handleNext}
+          >
+            Save & continue
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

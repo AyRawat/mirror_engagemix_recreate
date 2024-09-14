@@ -16,9 +16,11 @@ import { projects } from "@/apis/projects";
 const KeywordConfiguration = ({
   onNext,
   onBack,
+  isConfigSetting = false,
 }: {
   onNext: () => void;
   onBack: () => void;
+  isConfigSetting?: boolean;
 }) => {
   const dispatch = useDispatch();
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
@@ -92,46 +94,54 @@ const KeywordConfiguration = ({
 
   return (
     <div className="text-left">
-      <h1 className="text-xl text-[#344054] font-bold mb-6">
-        Keyword Configuration
-      </h1>
+      {!isConfigSetting && (
+        <h1 className="text-xl text-[#344054] font-bold mb-6">
+          Keyword Configuration
+        </h1>
+      )}
+      {!isConfigSetting && (
+        <div className="mb-6">
+          <h2 className="text-sm font-medium text-gray-700 mb-2">
+            Project Name
+          </h2>
+          <Input
+            className="w-full h-[56px] bg-gray-100"
+            placeholder="Enter project name"
+            value={projectName}
+            onChange={(e) => setLocalProjectName(e.target.value)}
+          />
+          {helpText && !projectName && (
+            <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
+              {helpText}
+            </p>
+          )}
+        </div>
+      )}
+      {!isConfigSetting && (
+        <div className="mb-6">
+          <h2 className="text-sm font-medium text-gray-700 mb-2">
+            Project Description
+          </h2>
+          <Textarea
+            className="w-full h-[56px] bg-gray-100"
+            placeholder="Enter project description"
+            value={projectDescription}
+            onChange={(e: any) => setLocalProjectDescription(e.target.value)}
+          />
+          {projectDescription && (
+            <Button
+              variant="secondary"
+              className="mt-2"
+              onClick={handleGetSuggestedKeywords}
+              disabled={isFetchingKeywords}
+            >
+              {isFetchingKeywords ? "Fetching..." : "Get Suggested Keywords"}
+            </Button>
+          )}
+        </div>
+      )}
       <div className="mb-6">
-        <h2 className="text-sm font-medium text-gray-700 mb-2">Project Name</h2>
-        <Input
-          className="w-full h-[56px] bg-gray-100"
-          placeholder="Enter project name"
-          value={projectName}
-          onChange={(e) => setLocalProjectName(e.target.value)}
-        />
-        {helpText && !projectName && (
-          <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
-            {helpText}
-          </p>
-        )}
-      </div>
-      <div className="mb-6">
-        <h2 className="text-sm font-medium text-gray-700 mb-2">
-          Project Description
-        </h2>
-        <Textarea
-          className="w-full h-[56px] bg-gray-100"
-          placeholder="Enter project description"
-          value={projectDescription}
-          onChange={(e: any) => setLocalProjectDescription(e.target.value)}
-        />
-        {projectDescription && (
-          <Button
-            variant="secondary"
-            className="mt-2"
-            onClick={handleGetSuggestedKeywords}
-            disabled={isFetchingKeywords}
-          >
-            {isFetchingKeywords ? "Fetching..." : "Get Suggested Keywords"}
-          </Button>
-        )}
-      </div>
-      <div className="mb-6">
-        {keywords.length > 0 && (
+        {!isConfigSetting && keywords.length > 0 && (
           <h2 className="text-sm font-medium text-gray-700 mb-2">Keywords</h2>
         )}
         <div className="overflow-auto max-h-32">
@@ -161,7 +171,7 @@ const KeywordConfiguration = ({
         <h2 className="text-sm font-medium text-gray-700 mb-2">Add keyword</h2>
         <div className="flex space-x-2">
           <Input
-            className="w-full h-[56px] bg-gray-100"
+            className="w-full h-[56px] bg-[#FAFAFA]"
             placeholder="Type keyword here"
             value={newKeyword}
             onChange={(e) => setNewKeyword(e.target.value)}
@@ -190,28 +200,30 @@ const KeywordConfiguration = ({
           </p>
         )}
       </div>
-      <div className="flex space-x-4">
-        <Button
-          variant="secondary"
-          className="w-full h-12 bg-[#E8E8E8]"
-          onClick={onBack}
-        >
-          Go back
-        </Button>
-        <Button
-          variant="secondary"
-          style={{
-            background:
-              "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
-            border: "transparent",
-            borderRadius: "10px",
-          }}
-          className="text-white w-full h-12"
-          onClick={handleNext}
-        >
-          Save & continue
-        </Button>
-      </div>
+      {!isConfigSetting && (
+        <div className="flex space-x-4">
+          <Button
+            variant="secondary"
+            className="w-full h-12 bg-[#E8E8E8]"
+            onClick={onBack}
+          >
+            Go back
+          </Button>
+          <Button
+            variant="secondary"
+            style={{
+              background:
+                "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+              border: "transparent",
+              borderRadius: "10px",
+            }}
+            className="text-white w-full h-12"
+            onClick={handleNext}
+          >
+            Save & continue
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

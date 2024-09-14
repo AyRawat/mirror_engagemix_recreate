@@ -11,9 +11,11 @@ import { company } from "@/apis/company";
 const ProductAnalysis = ({
   onNext,
   onBack,
+  isConfigSetting = false,
 }: {
   onNext: () => void;
   onBack: () => void;
+  isConfigSetting?: boolean;
 }) => {
   const dispatch = useDispatch();
   const productData = useSelector((state: RootState) => state.form.productData);
@@ -80,9 +82,11 @@ const ProductAnalysis = ({
 
   return (
     <div className="w-full">
-      <h1 className="text-3xl text-left font-bold mb-7">
-        Tell us about your business
-      </h1>
+      {!isConfigSetting && (
+        <h1 className="text-3xl text-left font-bold mb-7">
+          Tell us about your business
+        </h1>
+      )}
       <form className="space-y-4">
         <div>
           <Label
@@ -149,28 +153,30 @@ const ProductAnalysis = ({
             onChange={(e) => setCompanyDescription(e.target.value)}
           />
         </div>
-        <div className="flex space-x-4">
-          <Button
-            variant="secondary"
-            className="w-full h-12 bg-[#E8E8E8]"
-            onClick={onBack}
-          >
-            Go back
-          </Button>
-          <Button
-            variant="secondary"
-            style={{
-              background:
-                "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
-              border: "transparent",
-              borderRadius: "10px",
-            }}
-            className="text-white w-full h-12"
-            onClick={handleNext}
-          >
-            Continue
-          </Button>
-        </div>
+        {!isConfigSetting && (
+          <div className="flex space-x-4">
+            <Button
+              variant="secondary"
+              className="w-full h-12 bg-[#E8E8E8]"
+              onClick={onBack}
+            >
+              Go back
+            </Button>
+            <Button
+              variant="secondary"
+              style={{
+                background:
+                  "linear-gradient(0deg, #1D77E1, #2B73C8), linear-gradient(180deg, hsla(0, 0%, 100%, 0.2) 0%, hsla(210, 56%, 48%, 0.2) 100%)",
+                border: "transparent",
+                borderRadius: "10px",
+              }}
+              className="text-white w-full h-12"
+              onClick={handleNext}
+            >
+              Continue
+            </Button>
+          </div>
+        )}
       </form>
     </div>
   );

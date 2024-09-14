@@ -79,7 +79,7 @@ export default function SocialMediaResults() {
     : posts;
 
   return (
-    <div className="mx-auto pt-6 px-6 max-h-screen max-w-[95vw] w-[95vw] h-[95vh]">
+    <div className="mx-auto px-6 max-h-screen max-w-[95vw] w-[95vw] h-[95vh]">
       {postsStatus === "loading" ? (
         <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
           <div className="flex flex-col items-center">
@@ -89,11 +89,13 @@ export default function SocialMediaResults() {
         </div>
       ) : (
         <>
-          <Header onInviteClick={handleInviteClick} />
+          <Header
+            onInviteClick={handleInviteClick}
+            projectName={project.name}
+          />
           <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
           {activeTab === "results" && (
             <div>
-              <h2 className="text-xl font-semibold mb-4 text-left">Results</h2>
               <SocialMediaCounts
                 redditCount={sourceCounts.reddit}
                 twitterCount={sourceCounts.twitter}
@@ -104,8 +106,8 @@ export default function SocialMediaResults() {
                 hackernewsCount={sourceCounts.hackernews}
                 onPlatformClick={handlePlatformClick} // Pass the handler
               />
-              <ScrollArea className="max-h-[64vh] border border-gray-300 rounded-2xl">
-                <div className="p-3 h-[64vh]">
+              <ScrollArea className="max-h-[100vh] border border-gray-300 rounded-2xl">
+                <div className="p-3 h-[72vh]">
                   {filteredPosts.length === 0 ? (
                     <NoPostsCard
                       headerText="No posts yet"
