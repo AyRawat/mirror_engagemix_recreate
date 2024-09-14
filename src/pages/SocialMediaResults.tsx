@@ -98,7 +98,7 @@ export default function SocialMediaResults() {
     : posts;
 
   return (
-    <div className="mx-auto px-6 max-h-screen max-w-[95vw] w-[95vw] h-[95vh]">
+    <div className="mx-auto max-h-screen max-w-[96vw] w-[98vw] h-[95vh]">
       {postsStatus === "loading" ? (
         <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
           <div className="flex flex-col items-center">

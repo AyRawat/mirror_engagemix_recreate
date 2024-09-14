@@ -100,8 +100,6 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
             <span className={`text-sm font-medium mr-2 ${color}`}>{name}</span>
             <span
               className={`text-sm font-semibold  rounded-2xl p-px px-2 ${
-                count > 0 ? "text-blue-500" : "text-gray-500"
-              } ${
                 selectedPlatform === name
                   ? "text-[#F56630] bg-[#FFECE5]"
                   : "text-gray-500 bg-[#E4E7EC]"

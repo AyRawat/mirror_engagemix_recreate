@@ -13,13 +13,13 @@ const NavigationTabs = ({
     className="mb-6 text-left"
   >
     <TabsList>
-      <TabsTrigger value="results" className="px-4 py-2">
+      <TabsTrigger value="results" className="px-4 py-2 rounded-2xl">
         Results
       </TabsTrigger>
-      <TabsTrigger value="configuration" className="px-4 py-2">
+      <TabsTrigger value="configuration" className="px-4 py-2 rounded-2xl">
         Configuration settings
       </TabsTrigger>
-      <TabsTrigger value="analytics" className="px-4 py-2">
+      <TabsTrigger value="analytics" className="px-4 py-2 rounded-2xl">
         Analytics
       </TabsTrigger>
     </TabsList>

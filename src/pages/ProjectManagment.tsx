@@ -60,10 +60,10 @@ export default function ProjectManagement({
       <div className="flex justify-between items-center mb-3">
         <Tabs defaultValue="active" className="w-[600px] text-left">
           <TabsList>
-            <TabsTrigger value="active" className="flex-1">
+            <TabsTrigger value="active" className="flex-1 rounded-2xl">
               Active
             </TabsTrigger>
-            <TabsTrigger value="archived" className="flex-1">
+            <TabsTrigger value="archived" className="flex-1 rounded-2xl">
               Archived
             </TabsTrigger>
           </TabsList>

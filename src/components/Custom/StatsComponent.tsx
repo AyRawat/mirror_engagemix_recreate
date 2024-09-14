@@ -1,6 +1,7 @@
 // src/components/Custom/StatsComponent.tsx
 import React from "react";
 import { ChevronRight } from "lucide-react";
+import ChevronRightIcon from "@/assets/icons/bigchevron.svg";
 
 const StatItem = ({ label, value }: { label: string; value: string }) => (
   <div className="flex flex-col items-center px-10">
@@ -11,7 +12,8 @@ const StatItem = ({ label, value }: { label: string; value: string }) => (
 
 const Divider = () => (
   <div className="flex items-center justify-center">
-    <ChevronRight className="text-gray-300 w-6 h-6" />
+    <img src={ChevronRightIcon} className="text-[#D0D5DD] w-10 h-10" />
+    {/* <ChevronRight className="text-gray-300 w-6 h-6" /> */}
   </div>
 );
 
