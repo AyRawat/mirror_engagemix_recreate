@@ -173,8 +173,8 @@ const PostCard: React.FC<PostCardProps> = ({
         />
       )}
       {repliesSent.length > 0 && (
-        <div className="mt-4">
-          {repliesSent.length > 1 && (
+        <div className="mt-2">
+          {repliesSent.length > 1 ? (
             <Button
               variant="link"
               size="sm"
@@ -182,6 +182,15 @@ const PostCard: React.FC<PostCardProps> = ({
               onClick={onToggleShowAllReplies}
             >
               {showAllReplies ? "Hide all replies" : "Show all replies"}
+            </Button>
+          ) : (
+            <Button
+              variant="link"
+              size="sm"
+              className="text-[#3A88E3] p-0 mb-2 text-sm font-medium"
+              onClick={onToggleShowAllReplies}
+            >
+              {showAllReplies ? "Hide Reply" : "Show reply"}
             </Button>
           )}
           {showAllReplies
