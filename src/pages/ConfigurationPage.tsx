@@ -94,11 +94,11 @@ export function ConfigurationPage() {
 
   return (
     <>
-      <div className="h-[96vh] flex pt-[0.5rem] pb-[2.5rem] justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_6fr] gap-8 w-full max-w-screen-3xl max-h-screen overflow-hidden">
+      <div className="h-[96vh] flex pb-2 justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-8 w-full max-w-[1920px]">
           {/* Left Column - Social Media Post Card */}
           <div
-            className="bg-gradient-to-br p-4 rounded-2xl shadow-lg relative w-[24rem]"
+            className="bg-gradient-to-br p-4 rounded-2xl shadow-lg relative w-[34rem]"
             style={{
               backgroundImage: `url(${KeywordCardBackground})`,
               backgroundSize: "cover",

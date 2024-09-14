@@ -1,0 +1,27 @@
+/* loader.css */
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  #Final > g {
+    animation: rotate 2s linear infinite;
+    transform-origin: center; /* Add this line */
+  }
+  
+  #Final > g > g > g > circle {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
