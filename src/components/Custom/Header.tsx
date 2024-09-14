@@ -39,7 +39,7 @@ const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="flex justify-between items-center mb-8">
+    <header className="flex justify-between items-center mb-5">
       <div className="flex items-center">
         {showBackButton && (
           <Button
@@ -51,7 +51,7 @@ const Header: React.FC<HeaderProps> = ({
             <ArrowLeft className="h-4 w-4" />
           </Button>
         )}
-        <h1 className="text-2xl font-bold">{title || projectName}</h1>
+        <h1 className="text-xl font-semibold">{title || projectName}</h1>
       </div>
       <div className="flex items-center space-x-4">
         {title && <Bell className="h-5 w-5 text-gray-500" />}

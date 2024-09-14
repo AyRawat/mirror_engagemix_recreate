@@ -3,7 +3,7 @@ interface BannerProps {
 }
 
 const Banner: React.FC<BannerProps> = ({ bannerSvg }) => (
-  <div className="mb-8 w-[100%]">
+  <div className="mb-5 w-[100%]">
     <img src={bannerSvg} alt="Banner" className="w-full h-fit" />
   </div>
 );

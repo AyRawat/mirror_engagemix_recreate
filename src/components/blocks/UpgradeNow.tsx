@@ -3,16 +3,16 @@ import { Progress } from "@/components/ui/progress";
 
 export default function UpgradePlan() {
   return (
-    <div className="w-64 h-64 p-6 rounded-3xl bg-custom-linear">
+    <div className="w-60 h-60 p-4 rounded-3xl bg-custom-linear">
       <h2 className="text-sm font-semibold text-[#101928] mb-2">
         Upgrade your plan to unlock
       </h2>
-      <p className="text-xs text-[#475367] mb-6">
+      <p className="text-[8px] text-[#475367] mb-10 px-1">
         You are now using the free plan,
         <br />
         Upgrade plan to continue using
       </p>
-      <div className="flex justify-between items-center text-sm text-gray-600 mb-3">
+      <div className="flex justify-between items-center text-sm text-gray-600 my-1">
         <span>Free plan</span>
         <span>3 trials left</span>
       </div>

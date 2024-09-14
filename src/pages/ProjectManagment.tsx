@@ -55,8 +55,8 @@ export default function ProjectManagement({
   );
 
   return (
-    <div className="w-full max-w-7xl">
-      <h2 className="text-2xl font-bold mb-4 text-left">Projects</h2>
+    <div className="w-full">
+      <h2 className="text-lg font-semibold mb-4 text-left">Projects</h2>
       <div className="flex justify-between items-center mb-3">
         <Tabs defaultValue="active" className="w-[600px] text-left">
           <TabsList>
@@ -83,10 +83,10 @@ export default function ProjectManagement({
           </FilterButton>
         </div>
       </div>
-      <ScrollArea className="border border-gray-300 rounded-2xl max-w-[73rem] w-[73rem]">
+      <ScrollArea className="border border-gray-300 rounded-2xl w-full">
         <div
           className={`w-full p-3 ${
-            isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-56"
+            isProjectsSection ? "max-h-[calc(100vh-22.4rem)]" : "max-h-[calc(100vh-31rem)]"
           }`}
         >
           {sortedProjects.map((project) => (

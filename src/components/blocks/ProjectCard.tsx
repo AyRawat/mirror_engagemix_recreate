@@ -73,8 +73,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <Card className="mb-4 cursor-pointer border border-gray-300 rounded-2xl">
-      <CardContent className="p-4">
+    <Card className="mb-4 cursor-pointer border border-gray-300 rounded-2xl h-42">
+      <CardContent className="p-3">
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center">
             <ExternalLink className="h-4 w-4 mr-2 text-gray-500" />
@@ -127,7 +127,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </div>
           </div>
         </div>
-        <div className="w-full h-px bg-[#dfe1e6] my-2" />
+        <div className="w-full h-px bg-[#dfe1e6] my-1" />
         <StatusBar createdAt={project.processedAt} mentions={mentions} />{" "}
         {/* Pass mentions prop */}
       </CardContent>
