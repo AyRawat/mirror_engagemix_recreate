@@ -1,5 +1,5 @@
 // src/pages/Dashboard.tsx
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { fetchProjects } from "@/store/projectsSlice";
@@ -47,6 +47,7 @@ export default function Dashboard() {
     (state: RootState) => state.form.searchConfig
   );
   const { user } = useAuth();
+  const hasFetchedData = useRef(false);
 
   useEffect(() => {
     if (projectsStatus === "idle") {
@@ -55,7 +56,10 @@ export default function Dashboard() {
   }, [projectsStatus, dispatch]);
 
   useEffect(() => {
-    fetchAnalyticsData();
+    if (!hasFetchedData.current) {
+      fetchAnalyticsData();
+      hasFetchedData.current = true;
+    }
   }, [activeSection]);
 
   const handleInviteClick = () => {
@@ -100,8 +104,6 @@ export default function Dashboard() {
 
   const handleNextStep = async () => {
     if (currentStep === 3) {
-      // Collect all data and make the API call
-
       const companyData = {
         domain: productData.companyDomain,
         description: productData.companyDescription,
@@ -112,8 +114,6 @@ export default function Dashboard() {
         // Create the company first
         const createdCompany = await api.company.create(companyData);
         console.log("Created Company", createdCompany);
-
-        // Use the created company ID to create the project
         const projectData = {
           companyId: createdCompany.id, // Use company ID from the created company
           name: projectName, // Use projectName from Redux store

@@ -1,5 +1,4 @@
-// src/components/Custom/ProjectAnalytics.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { api } from "@/apis";
 import StatsComponent from "@/components/Custom/StatsComponent";
 import Banner from "@/components/Custom/Banner";
@@ -21,6 +20,7 @@ const ProjectAnalytics: React.FC<ProjectAnalyticsProps> = ({ projectId }) => {
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
     null
   );
+  const hasFetchedData = useRef(false);
 
   useEffect(() => {
     const fetchAnalyticsData = async () => {
@@ -32,22 +32,11 @@ const ProjectAnalytics: React.FC<ProjectAnalyticsProps> = ({ projectId }) => {
       }
     };
 
-    fetchAnalyticsData();
+    if (!hasFetchedData.current) {
+      fetchAnalyticsData();
+      hasFetchedData.current = true;
+    }
   }, [projectId]);
-
-  /*
-  {
-    "projectId": "66e0edbb24e215f3fce6429d",
-    "keywords": 4,
-    "platforms": 2,
-    "posts": 211,
-    "replies": 0,
-    "impressions": 0,
-    "clicks": 0,
-    "leads": 0
-}
-  
-  */
 
   const stats = analyticsData
     ? [
