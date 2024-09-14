@@ -105,7 +105,7 @@ const PostCard: React.FC<PostCardProps> = ({
         <div>
           <div className="flex items-center">
             <img src={IconComponent} className="h-6 w-6 mr-2" />
-            <span className="font-semibold"></span>
+            <span className="font-semibold">{post.authorName}</span>
           </div>
           <span className="text-sm text-gray-500">
             {post.createdAt &&
