@@ -15,7 +15,7 @@ import { PostResponseDto } from "@/apis/types";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
-import ProjectAnalytics from "@/components/Custom/SocialMediaResults/ProjectAnalytics"; // Import the new component
+import ProjectAnalytics from "@/components/Custom/SocialMediaResults/ProjectAnalytics";
 
 export default function SocialMediaResults() {
   const location = useLocation();
@@ -24,7 +24,14 @@ export default function SocialMediaResults() {
   const [progress, setProgress] = useState(10);
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
-  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null); // Add state for selected platform
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+  const [repliesSent, setRepliesSent] = useState<{
+    [postId: string]: string[];
+  }>({});
+  const [showAllReplies, setShowAllReplies] = useState<{
+    [postId: string]: boolean;
+  }>({});
+
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
   const projects = useSelector((state: RootState) => state.projects.projects);
@@ -56,7 +63,20 @@ export default function SocialMediaResults() {
     setSelectedPlatform(platform);
   };
 
-  // Calculate the counts for each source
+  const handleReplySent = (postId: string, reply: string) => {
+    setRepliesSent((prev) => ({
+      ...prev,
+      [postId]: [...(prev[postId] || []), reply],
+    }));
+  };
+
+  const handleToggleShowAllReplies = (postId: string) => {
+    setShowAllReplies((prev) => ({
+      ...prev,
+      [postId]: !prev[postId],
+    }));
+  };
+
   const sourceCounts = posts.reduce(
     (counts, post) => {
       counts[post.source] = (counts[post.source] || 0) + 1;
@@ -73,7 +93,6 @@ export default function SocialMediaResults() {
     }
   );
 
-  // Filter posts based on the selected platform
   const filteredPosts = selectedPlatform
     ? posts.filter((post) => post.source === selectedPlatform)
     : posts;
@@ -91,7 +110,7 @@ export default function SocialMediaResults() {
         <>
           <Header
             onInviteClick={handleInviteClick}
-            projectName={project.name}
+            projectName={project?.name}
           />
           <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
           {activeTab === "results" && (
@@ -104,7 +123,7 @@ export default function SocialMediaResults() {
                 instagramCount={sourceCounts.instagram}
                 quoraCount={sourceCounts.quora}
                 hackernewsCount={sourceCounts.hackernews}
-                onPlatformClick={handlePlatformClick} // Pass the handler
+                onPlatformClick={handlePlatformClick}
               />
               <ScrollArea className="max-h-[100vh] border border-gray-300 rounded-2xl">
                 <div className="p-3 h-[72vh]">
@@ -125,6 +144,14 @@ export default function SocialMediaResults() {
                             post={post}
                             keywords={keywords}
                             onReplyClick={() => {}}
+                            repliesSent={repliesSent[post.id] || []}
+                            showAllReplies={showAllReplies[post.id] || false}
+                            onReplySent={(reply) =>
+                              handleReplySent(post.id, reply)
+                            }
+                            onToggleShowAllReplies={() =>
+                              handleToggleShowAllReplies(post.id)
+                            }
                           />
                         </div>
                       ))
@@ -136,8 +163,7 @@ export default function SocialMediaResults() {
           {activeTab === "configuration" && <ConfigurationSettings />}
           {activeTab === "analytics" && (
             <ProjectAnalytics projectId={projectId} />
-          )}{" "}
-          {/* Render ProjectAnalytics when the tab is active */}
+          )}
           {isInviteModalOpen && (
             <InviteMemberModal onClose={handleCloseModal} />
           )}

@@ -19,6 +19,10 @@ interface PostCardProps {
   post: PostResponseDto;
   keywords: string[];
   onReplyClick: (post: PostResponseDto) => void;
+  repliesSent: string[];
+  showAllReplies: boolean;
+  onReplySent: (reply: string) => void;
+  onToggleShowAllReplies: () => void;
 }
 
 const sourceIconMap: { [key: string]: string } = {
@@ -33,13 +37,15 @@ const PostCard: React.FC<PostCardProps> = ({
   post,
   keywords,
   onReplyClick,
+  repliesSent,
+  showAllReplies,
+  onReplySent,
+  onToggleShowAllReplies,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplyOpen, setReplyOpen] = useState(false);
   const [generatedReply, setGeneratedReply] = useState<string | null>(null);
   const [customInstruction, setCustomInstruction] = useState("");
-  const [repliesSent, setRepliesSent] = useState<string[]>([]);
-  const [showAllReplies, setShowAllReplies] = useState(false);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
@@ -51,9 +57,8 @@ const PostCard: React.FC<PostCardProps> = ({
     window.open(post.url, "_blank");
   };
 
-  const IconComponent = sourceIconMap[post.source] || TwitterIcon; // Default to TwitterIcon if source is not found
+  const IconComponent = sourceIconMap[post.source] || TwitterIcon;
 
-  // Filter keywords to only show those contained in post.text
   const filteredKeywords = keywords.filter((keyword) =>
     post.text.toLowerCase().includes(keyword.toLowerCase())
   );
@@ -87,15 +92,11 @@ const PostCard: React.FC<PostCardProps> = ({
 
   const handleSendReply = () => {
     if (generatedReply) {
-      setRepliesSent([...repliesSent, generatedReply]);
+      onReplySent(generatedReply);
       setReplyOpen(false);
       setGeneratedReply(null);
       setCustomInstruction("");
     }
-  };
-
-  const toggleShowAllReplies = () => {
-    setShowAllReplies(!showAllReplies);
   };
 
   return (
@@ -104,7 +105,7 @@ const PostCard: React.FC<PostCardProps> = ({
         <div>
           <div className="flex items-center">
             <img src={IconComponent} className="h-6 w-6 mr-2" />
-            <span className="font-semibold">{post.authorName}</span>
+            <span className="font-semibold"></span>
           </div>
           <span className="text-sm text-gray-500">
             {post.createdAt &&
@@ -177,8 +178,8 @@ const PostCard: React.FC<PostCardProps> = ({
             <Button
               variant="link"
               size="sm"
-              className="text-blue-500 p-0 mb-2"
-              onClick={toggleShowAllReplies}
+              className="text-[#3A88E3] p-0 mb-2 text-sm font-medium"
+              onClick={onToggleShowAllReplies}
             >
               {showAllReplies ? "Hide all replies" : "Show all replies"}
             </Button>
@@ -187,9 +188,7 @@ const PostCard: React.FC<PostCardProps> = ({
             ? repliesSent.map((reply, index) => (
                 <ReplySent key={index} reply={reply} />
               ))
-            : repliesSent
-                .slice(0, 1)
-                .map((reply, index) => <ReplySent key={index} reply={reply} />)}
+            : null}
         </div>
       )}
     </div>
