@@ -110,7 +110,7 @@ export function ConfigurationPage() {
           <div className="bg-white p-2 rounded-2xl max-h-96">
             {/* Placeholder for Create Account Form */}
             <div>
-              <div className="px-2">
+              <div className="px-4">
                 <StepIndicator
                   steps={[
                     "Create account",
@@ -121,7 +121,13 @@ export function ConfigurationPage() {
                   currentStep={currentStep}
                 />
               </div>
-              <div className="py-20 -mt-16 mx-36 px-16 max-w-3xl">
+              <div
+                className={`mx-auto px-16 ${
+                  currentStep === 3 || currentStep === 4
+                    ? "max-w-2xl py-16"
+                    : "max-w-xl py-20"
+                }`}
+              >
                 {renderStepContent()}
               </div>
             </div>
