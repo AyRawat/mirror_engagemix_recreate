@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onNavClick, activeSection }) => (
-  <div className="w-72 bg-[#101928] text-white p-4 flex flex-col rounded-3xl overflow-hidden max-h-screen">
+  <div className="w-[296px] bg-[#101928] text-white p-4 flex flex-col rounded-3xl overflow-hidden max-h-screen">
     <div className="mb-8 text-left">
       <img src={EngageMixLogo} alt="EngageMix" className="h-full w-full" />
     </div>
@@ -96,7 +96,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onNavClick, activeSection }) => (
         </Button>
       </div>
     </nav>
-    <div className="p-2">
+    <div className="p-1">
       <UpgradePlan />
     </div>
   </div>

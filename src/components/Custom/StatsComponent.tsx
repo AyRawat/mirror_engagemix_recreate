@@ -3,8 +3,8 @@ import React from "react";
 import { ChevronRight } from "lucide-react";
 
 const StatItem = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex flex-col items-center">
-    <span className="text-5xl font-light text-gray-600">{value}</span>
+  <div className="flex flex-col items-center px-10">
+    <span className="text-[44px] font-normal text-gray-700">{value}</span>
     <span className="text-xs text-gray-500 mt-1">{label}</span>
   </div>
 );
