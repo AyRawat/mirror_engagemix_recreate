@@ -16,6 +16,7 @@ import CustomSheet from "@/components/Custom/CustomSheet";
 import SocialMedia from "@/components/Custom/SocialMedia";
 import Analytics from "@/components/Custom/Analytics/Analytics";
 import DashboardBanner from "@/assets/Dashboard/Banner.svg";
+import InviteMemberModal from "@/components/blocks/InviteMember";
 import {
   setAccountData,
   setProductData,
@@ -28,6 +29,7 @@ import {
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // Add currentStep state
   const [analyticsData, setAnalyticsData] = useState(null); // Add state for analytics data
   const dispatch = useDispatch();
@@ -55,6 +57,14 @@ export default function Dashboard() {
   useEffect(() => {
     fetchAnalyticsData();
   }, [activeSection]);
+
+  const handleInviteClick = () => {
+    setInviteModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setInviteModalOpen(false);
+  };
 
   const fetchAnalyticsData = async () => {
     try {
@@ -183,6 +193,7 @@ export default function Dashboard() {
               title={`Welcome, ${user?.name || "User"}.`}
               buttonText="+ New project"
               onButtonClick={handleNewProjectClick}
+              onInviteClick={handleInviteClick}
             />
             <StatsComponent stats={stats} />
             <ProjectManagement isProjectsSection={true} projects={projects} />
@@ -195,6 +206,7 @@ export default function Dashboard() {
               title={`Welcome, ${user?.name || "User"}.`}
               buttonText="+ New project"
               onButtonClick={handleNewProjectClick}
+              onInviteClick={handleInviteClick}
             />
             <Banner bannerSvg={DashboardBanner} />
             <StatsComponent stats={stats} />
@@ -219,6 +231,7 @@ export default function Dashboard() {
         onNext={handleNextStep} // Pass the next step handler
         onBack={handleBackStep} // Pass the back step handler
       />
+      {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
     </div>
   );
 }

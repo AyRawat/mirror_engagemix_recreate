@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { RootState } from "@/store/store";
 import { fetchPosts } from "@/store/postSlice";
-import Header from "@/components/Custom/SocialMediaResults/Header";
+import Header from "@/components/Custom/Header";
 import NavigationTabs from "@/components/Custom/SocialMediaResults/NavigationTabs";
 import SocialMediaCounts from "@/components/Custom/SocialMediaResults/SocialMediaCounts";
 import PostCard from "@/components/Custom/SocialMediaResults/PostCard";
@@ -109,8 +109,9 @@ export default function SocialMediaResults() {
       ) : (
         <>
           <Header
-            onInviteClick={handleInviteClick}
             projectName={project?.name}
+            onInviteClick={handleInviteClick}
+            showBackButton={true}
           />
           <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
           {activeTab === "results" && (
