@@ -1,5 +1,4 @@
-// src/components/Custom/SocialMediaResults/SocialMediaCounts.tsx
-import React from "react";
+import React, { useState } from "react";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import HackernewsIcon from "@/assets/icons/hackernews.svg";
@@ -29,70 +28,83 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
   hackernewsCount,
   onPlatformClick, // Destructure the prop
 }) => {
+  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+
   const platforms = [
     {
       icon: TwitterIcon,
       name: "Twitter",
       count: twitterCount,
-      color: "text-blue-400",
+      color: "text-[#475367]",
     },
     {
       icon: FacebookIcon,
       name: "Facebook",
       count: facebookCount,
-      color: "text-blue-600",
+      color: "text-[#475367]",
     },
     {
       icon: RedditIcon,
       name: "Reddit",
       count: redditCount,
-      color: "text-blue-500",
+      color: "text-[#475367]",
     },
     {
       icon: LinkedInIcon,
       name: "LinkedIn",
       count: linkedinCount,
-      color: "text-blue-700",
+      color: "text-[#475367]",
     },
     {
       icon: HackernewsIcon,
       name: "Hackernews",
       count: hackernewsCount,
-      color: "text-blue-700",
+      color: "text-[#475367]",
     },
     {
       icon: InstragramIcon,
       name: "Instagram",
       count: instagramCount,
-      color: "text-gray-700",
+      color: "text-[#475367]",
     },
     {
       icon: QuoraIcon,
       name: "Quora",
       count: quoraCount,
-      color: "text-gray-700",
+      color: "text-[#475367]",
     },
   ];
 
+  const handlePlatformClick = (name: string) => {
+    setSelectedPlatform(name);
+    onPlatformClick(name.toLowerCase());
+  };
+
   return (
-    <div className="flex space-x-2 mb-6 bg-gray-100 rounded-2xl p-2 w-fit">
+    <div className="flex space-x-2 mb-6 bg-[#F6F6F6] rounded-2xl p-2 w-fit">
       {platforms.map(
         (
-          { icon: Icon, name, count, color } //updqate color for selection
+          { icon: Icon, name, count, color } // Update color for selection
         ) => (
           <div
             key={name}
-            className="flex items-center bg-white rounded-full px-3 py-1.5 shadow-sm cursor-pointer"
-            onClick={() => onPlatformClick(name.toLowerCase())} // Handle click event
+            className={`flex items-center rounded-full px-3 py-1.5 shadow-sm cursor-pointer ${
+              selectedPlatform === name ? "bg-white" : "bg-[#F0F2F5]"
+            }`}
+            onClick={() => handlePlatformClick(name)} // Handle click event
           >
             <img
               src={name === "Hackernews" ? HackernewsIcon : Icon?.toString()}
-              className="h-4 w-4 mr-2"
+              className="h-4 w-4 mr-2 rounded-full"
             />
-            <span className="text-sm font-medium mr-2">{name}</span>
+            <span className={`text-sm font-medium mr-2 ${color}`}>{name}</span>
             <span
-              className={`text-sm font-semibold ${
+              className={`text-sm font-semibold  rounded-2xl p-px px-2 ${
                 count > 0 ? "text-blue-500" : "text-gray-500"
+              } ${
+                selectedPlatform === name
+                  ? "text-[#F56630] bg-[#FFECE5]"
+                  : "text-gray-500 bg-[#E4E7EC]"
               }`}
             >
               {count}
