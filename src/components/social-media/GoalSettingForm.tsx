@@ -20,6 +20,7 @@ import { useState } from "react";
 
 export default function GoalSettingForm() {
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
+  const [mode, setMode] = useState<'copilot' | 'auto-pilot'>('copilot');
 
   const channels = [
     { value: "twitter", label: "Twitter", icon: TwitterIcon },
@@ -124,25 +125,26 @@ export default function GoalSettingForm() {
             <Label
               htmlFor="copilot"
               className={`flex-1 text-center py-2 px-4 rounded-full cursor-pointer text-sm font-medium ${
-                true ? "bg-white shadow" : "text-gray-600"
+                mode === 'copilot' ? "bg-white shadow" : "text-gray-600"
               }`}
+              onClick={() => setMode('copilot')}
             >
               Copilot
             </Label>
             <Label
               htmlFor="auto-pilot"
               className={`flex-1 text-center py-2 px-4 rounded-full cursor-pointer text-sm font-medium ${
-                false ? "bg-white shadow" : "text-gray-600"
+                mode === 'auto-pilot' ? "bg-white shadow" : "text-gray-600"
               }`}
+              onClick={() => setMode('auto-pilot')}
             >
               Auto-pilot
             </Label>
-            <Switch id="mode" className="hidden" />
           </div>
         </div>
 
         <p className="text-base text-[#696969] font-normal mt-2">
-          AI will autonomously post content for you
+          {mode === 'auto-pilot' ? "AI will autonomously post content for you" : "AI will assist you in creating content"}
         </p>
 
         <div>
