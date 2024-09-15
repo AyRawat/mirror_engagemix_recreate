@@ -22,6 +22,8 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   const [lastName, setLastName] = useState(accountData.lastName);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [firstNameError, setFirstNameError] = useState<string | null>(null);
+  const [lastNameError, setLastNameError] = useState<string | null>(null);
   const [isLoginMode, setIsLoginMode] = useState(false);
 
   const validateEmail = (email: string): string | null => {
@@ -43,6 +45,20 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
     return null;
   };
 
+  const validateFirstName = (firstName: string): string | null => {
+    if (!firstName) {
+      return "First name is required";
+    }
+    return null;
+  };
+
+  const validateLastName = (lastName: string): string | null => {
+    if (!lastName) {
+      return "Last name is required";
+    }
+    return null;
+  };
+
   const { mutate: register } = useMutation({
     mutationKey: ["register"],
     mutationFn: async (requestDto: RegisterRequestDto | LoginRequestDto) => {
@@ -60,7 +76,6 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
         dispatch(setToken({ accessToken: "", user: userData }));
-        // setIsLoginMode(true);
         onNext();
       }
     },
@@ -81,11 +96,20 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
 
     const emailValidationError = validateEmail(email);
     const passwordValidationError = validatePassword(password);
+    const firstNameValidationError = validateFirstName(firstName);
+    const lastNameValidationError = validateLastName(lastName);
 
     setEmailError(emailValidationError);
     setPasswordError(passwordValidationError);
+    setFirstNameError(firstNameValidationError);
+    setLastNameError(lastNameValidationError);
 
-    if (emailValidationError || passwordValidationError) {
+    if (
+      emailValidationError ||
+      passwordValidationError ||
+      firstNameValidationError ||
+      lastNameValidationError
+    ) {
       return;
     }
 
@@ -95,7 +119,7 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   return (
     <div className="w-full">
       <h1
-        className="text-xl text-left font-semibold letter-spacing mb-7 line-height-[29px]"
+        className="text-xl text-left font-semibold letter-spacing mb-7 line-height-[25px]"
         style={{ letterSpacing: "-0.4px" }}
       >
         {isLoginMode ? "Login" : "Create account"}
@@ -139,6 +163,11 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
+              {firstNameError && (
+                <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
+                  {firstNameError}
+                </p>
+              )}
             </div>
             <div className="flex-1">
               <Label
@@ -155,6 +184,11 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />
+              {lastNameError && (
+                <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
+                  {lastNameError}
+                </p>
+              )}
             </div>
           </div>
         )}
