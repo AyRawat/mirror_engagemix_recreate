@@ -1,16 +1,11 @@
-import { api } from "@/apis";
-import { PostResponseDto } from "@/apis/types";
-// src/hooks/usePosts.ts
-import { useQuery } from "@tanstack/react-query";
-
-const fetchPosts = async (projectId: string): Promise<PostResponseDto[]> => {
-  return await api.projects.getPostsOnProject(projectId);
-};
+import { useQuery } from '@tanstack/react-query';
+import { api } from '@/apis';
+import { PostResponseDto } from '@/apis/types';
 
 export const usePosts = (projectId: string) => {
-  return useQuery({
-    queryKey: ["posts", projectId],
-    queryFn: () => fetchPosts(projectId),
+  return useQuery<PostResponseDto[], Error>({
+    queryKey: ['posts', projectId],
+    queryFn: () => api.projects.getPostsOnProject(projectId),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 };
