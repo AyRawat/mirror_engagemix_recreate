@@ -23,7 +23,8 @@ export default function ProjectManagement({
 }: ProjectManagementProps) {
   const navigate = useNavigate();
   const analyticsQueries = useProjectsAnalytics(projects);
-  const isLoading = analyticsQueries.some((query) => query.isLoading);
+  // const isLoading = (analyticsQueries.some((query) => query.isLoading );)
+  const isLoading = false;  
 
   const analyticsData = useMemo(() => {
     return analyticsQueries.reduce((acc, query, index) => {
