@@ -11,13 +11,14 @@ import PostCard from "@/components/social-media/PostCard";
 import NoPostsCard from "@/components/social-media/NoPostsCard";
 import InviteMemberModal from "@/components/project/InviteMember";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
-import { PostResponseDto, ProjectDto } from "@/apis/types";
+import { CompanyDto, PostResponseDto, ProjectDto } from "@/apis/types";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
 import ProjectAnalytics from "@/components/social-media/ProjectAnalytics";
 import { Filter, Calendar } from "lucide-react";
 import FilterButton from "@/components/common/FilterButton";
+import { api } from "@/apis";
 
 export default function SocialMediaResults() {
   const location = useLocation();
@@ -37,6 +38,7 @@ export default function SocialMediaResults() {
   const postsStatus = useSelector((state: RootState) => state.posts.status);
 
   const keywords = project?.keywords || [];
+  const [company, setCompany] = useState<CompanyDto | null>(null);
 
   const dispatch = useDispatch();
 
@@ -50,6 +52,19 @@ export default function SocialMediaResults() {
       dispatch(fetchPosts(project?.id));
     }
   }, [postsStatus, dispatch, project]);
+
+  useEffect(() => {
+    const fetchCompany = async () => {
+      try {
+        const companyData = await api.company.getCompany();
+        setCompany(companyData);
+      } catch (error) {
+        console.error("Failed to fetch company data:", error);
+      }
+    };
+
+    fetchCompany();
+  }, [project, dispatch]);
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -173,7 +188,9 @@ export default function SocialMediaResults() {
               </ScrollArea>
             </div>
           )}
-          {activeTab === "configuration" && <ConfigurationSettings project={project} />}
+          {activeTab === "configuration" && (
+            <ConfigurationSettings project={project} company={company} />
+          )}
           {activeTab === "analytics" && (
             <ProjectAnalytics projectId={project?.id} />
           )}

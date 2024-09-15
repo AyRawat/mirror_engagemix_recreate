@@ -10,11 +10,9 @@ const create = async (requestDto: CreateCompanyRequestDto): Promise<CompanyDto> 
   }
 };
 
-const getCompany = async (userId: string): Promise<CompanyDto> => {
+const getCompany = async (): Promise<CompanyDto> => {
   try {
-    const { data } = await axiosInstance.get(`/company`, {
-      headers: { 'User-Id': userId }
-    });
+    const { data } = await axiosInstance.get(`/company`);
     return data as CompanyDto;
   } catch {
     throw new Error("Failed to fetch company");
@@ -32,8 +30,18 @@ const getDescriptionFromUrl = async (url: string): Promise<string> => {
   }
 };
 
+const getCompanyById = async (companyId: string): Promise<CompanyDto> => {
+  try {
+    const { data } = await axiosInstance.get(`/company/${companyId}`);
+    return data as CompanyDto;
+  } catch {
+    throw new Error("Failed to fetch company");
+  }
+};
+
 export const company = {
   create,
   getCompany,
-  getDescriptionFromUrl
+  getDescriptionFromUrl,
+  getCompanyById
 };

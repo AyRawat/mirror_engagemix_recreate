@@ -188,6 +188,7 @@ export default function Dashboard() {
               <ProjectManagement
                 isProjectsSection={false}
                 projects={projects}
+                handleNewProject={handleNewProjectClick}
               />
             )}
           </>

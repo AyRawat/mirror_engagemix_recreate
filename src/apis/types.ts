@@ -91,6 +91,7 @@ export type GenerateReplyResponseDto = {
 };
 
 export type ProjectDto = {
+  companyId: string;
   id: string;
   companyDomain: string;
   companyDescription: string;
@@ -101,6 +102,7 @@ export type ProjectDto = {
   createdAt: number;
   processedAt: number;
   lastPostRemoteId: string;
+  description: string;
 };
 
 export type CreateProjectDto = {

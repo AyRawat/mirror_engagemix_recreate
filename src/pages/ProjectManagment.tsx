@@ -7,15 +7,18 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProjectDto } from "@/apis/types";
 import { useEffect, useState } from "react";
 import { api } from "@/apis";
+import NoPostsCard from "@/components/social-media/NoPostsCard";
 
 interface ProjectManagementProps {
   isProjectsSection: boolean;
   projects: ProjectDto[];
+  handleNewProject?: () => void;
 }
 
 export default function ProjectManagement({
   isProjectsSection,
   projects,
+  handleNewProject,
 }: ProjectManagementProps) {
   const navigate = useNavigate();
   const [analyticsData, setAnalyticsData] = useState<{ [key: string]: number }>(
@@ -76,14 +79,24 @@ export default function ProjectManagement({
               : "max-h-[calc(100vh-32rem)]"
           }`}
         >
-          {sortedProjects.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onClick={() => handleCardClick(project)}
-              mentions={analyticsData[project.id] || 0} // Pass mentions prop
+          {sortedProjects.length > 0 ? (
+            sortedProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onClick={() => handleCardClick(project)}
+                mentions={analyticsData[project.id] || 0} // Pass mentions prop
+              />
+            ))
+          ) : (
+            <NoPostsCard
+              headerText="No projects yet"
+              helperText="Create your first project to get started"
+              showButton={true}
+              buttonText="Create Project"
+              buttonOnClick={handleNewProject}
             />
-          ))}
+          )}
         </div>
       </ScrollArea>
     </div>

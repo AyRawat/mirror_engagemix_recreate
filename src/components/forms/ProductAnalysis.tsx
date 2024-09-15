@@ -6,23 +6,31 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductData } from "@/store/formSlice";
 import { RootState } from "@/store/store";
-import { company } from "@/apis/company";
+import { CompanyDto } from "@/apis/types";
+import { api } from "@/apis";
 
 const ProductAnalysis = ({
   onNext,
   onBack,
   isConfigSetting = false,
+  company,
 }: {
   onNext: () => void;
   onBack: () => void;
   isConfigSetting?: boolean;
+  company?: CompanyDto;
 }) => {
   const dispatch = useDispatch();
   const productData = useSelector((state: RootState) => state.form.productData);
-  const [companyName, setCompanyName] = useState(productData.companyName);
-  const [companyDomain, setCompanyDomain] = useState(productData.companyDomain);
+  const [companyName, setCompanyName] = useState(
+    productData.companyName || company?.name
+  );
+  const [companyDomain, setCompanyDomain] = useState(
+    productData.companyDomain || company?.domain
+  );
   const [companyDescription, setCompanyDescription] = useState(
     productData.companyDescription ||
+      company?.description ||
       "Travelcoup specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kaijago aims to make travel planning hassle-free and enjoyable..."
   );
   const [companyNameError, setCompanyNameError] = useState<string | null>(null);
@@ -71,7 +79,9 @@ const ProductAnalysis = ({
   const handleGenerateDescription = async () => {
     setIsGeneratingDescription(true);
     try {
-      const description = await company.getDescriptionFromUrl(companyDomain);
+      const description = await api.company.getDescriptionFromUrl(
+        companyDomain
+      );
       setCompanyDescription(description);
     } catch (error) {
       console.error("Failed to generate description", error);

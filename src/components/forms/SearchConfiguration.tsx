@@ -12,15 +12,7 @@ import RedditIcon from "@/assets/icons/redditIcon.svg";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import QuoraIcon from "@/assets/icons/quora.svg";
 import TwitterIcon from "@/assets/icons/twitter.svg";
-import FacebookIcon from "@/assets/icons/facebook.svg";
-
-type Source =
-  | "hackernews"
-  | "reddit"
-  | "linkedin"
-  | "twitter"
-  | "quora"
-  | "facebook";
+import { ProjectDto, Source } from "@/apis/types";
 
 const BrandToneOptions = [
   {
@@ -46,31 +38,32 @@ const platformIcons: { [key in Source]: string } = {
   linkedin: LinkedInIcon,
   twitter: TwitterIcon,
   quora: QuoraIcon,
-  facebook: FacebookIcon,
 };
 
 const SearchConfiguration = ({
   onNext,
   onBack,
   isConfigSetting = false,
+  project,
 }: {
   onNext: () => void;
   onBack: () => void;
   isConfigSetting?: boolean;
+  project?: ProjectDto;
 }) => {
   const dispatch = useDispatch();
   const searchConfigData = useSelector(
     (state: RootState) => state.form.searchConfig
   );
   const [platforms, setPlatforms] = useState<Source[]>(
-    searchConfigData.platforms
+    searchConfigData.platforms || project?.sources || []
   );
   const [searchFrequency, setSearchFrequency] = useState("daily");
   const [brandTone, setBrandTone] = useState("professional");
   const [helpText, setHelpText] = useState("");
 
   useEffect(() => {
-    dispatch(setSearchConfig({ platforms }));
+    dispatch(setSearchConfig({ platforms: platforms as Source[] }));
   }, [platforms, dispatch]);
 
   const handlePlatformChange = (platform: Source) => {
@@ -139,7 +132,10 @@ const SearchConfiguration = ({
                 <Checkbox
                   id={platform}
                   className="text-blue-600 focus:ring-0 focus:outline-none"
-                  checked={platforms.includes(platform as Source)}
+                  checked={(platforms.length > 0
+                    ? platforms
+                    : project?.sources || []
+                  ).includes(platform as Source)}
                   onCheckedChange={() =>
                     handlePlatformChange(platform as Source)
                   }

@@ -12,30 +12,41 @@ import {
 } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 import { projects } from "@/apis/projects";
+import { ProjectDto } from "@/apis/types";
 
 const KeywordConfiguration = ({
   onNext,
   onBack,
   isConfigSetting = false,
+  project,
+  existingKeywords,
 }: {
   onNext: () => void;
   onBack: () => void;
   isConfigSetting?: boolean;
+  project?: ProjectDto;
+  existingKeywords?: string[];
 }) => {
   const dispatch = useDispatch();
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectNameData = useSelector(
     (state: RootState) => state.form.projectName
   );
+  console.log(project);
+
   const projectDescriptionData = useSelector(
     (state: RootState) => state.form.projectDescription
   );
-  const [keywords, setLocalKeywords] = useState<string[]>(keywordsData);
+  const [keywords, setLocalKeywords] = useState<string[]>(
+    keywordsData || project?.keywords || existingKeywords || []
+  );
   const [newKeyword, setNewKeyword] = useState("");
   const [helpText, setHelpText] = useState("");
-  const [projectName, setLocalProjectName] = useState(projectNameData);
+  const [projectName, setLocalProjectName] = useState(
+    projectNameData || project?.name
+  );
   const [projectDescription, setLocalProjectDescription] = useState(
-    projectDescriptionData
+    projectDescriptionData || project?.description
   );
   const [isFetchingKeywords, setIsFetchingKeywords] = useState(false);
 
@@ -99,71 +110,67 @@ const KeywordConfiguration = ({
           Keyword Configuration
         </h1>
       )}
-      {!isConfigSetting && (
-        <div className="mb-6">
-          <h2 className="text-sm font-medium text-gray-700 mb-2">
-            Project Name
-          </h2>
-          <Input
-            className="w-full h-[56px] bg-gray-100"
-            placeholder="Enter project name"
-            value={projectName}
-            onChange={(e) => setLocalProjectName(e.target.value)}
-          />
-          {helpText && !projectName && (
-            <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
-              {helpText}
-            </p>
-          )}
-        </div>
-      )}
-      {!isConfigSetting && (
-        <div className="mb-6">
-          <h2 className="text-sm font-medium text-gray-700 mb-2">
-            Project Description
-          </h2>
-          <Textarea
-            className="w-full h-[56px] bg-gray-100"
-            placeholder="Enter project description"
-            value={projectDescription}
-            onChange={(e: any) => setLocalProjectDescription(e.target.value)}
-          />
-          {projectDescription && (
-            <Button
-              variant="secondary"
-              className="mt-2"
-              onClick={handleGetSuggestedKeywords}
-              disabled={isFetchingKeywords}
-            >
-              {isFetchingKeywords ? "Fetching..." : "Get Suggested Keywords"}
-            </Button>
-          )}
-        </div>
-      )}
+      <div className="mb-6">
+        <h2 className="text-sm font-medium text-gray-700 mb-2">Project Name</h2>
+        <Input
+          className="w-full h-[56px] bg-gray-100"
+          placeholder="Enter project name"
+          value={projectName}
+          onChange={(e) => setLocalProjectName(e.target.value)}
+        />
+        {helpText && !projectName && (
+          <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
+            {helpText}
+          </p>
+        )}
+      </div>
+      <div className="mb-6">
+        <h2 className="text-sm font-medium text-gray-700 mb-2">
+          Project Description
+        </h2>
+        <Textarea
+          className="w-full h-auto bg-gray-100 scrollbar-hide overflow-hidden"
+          placeholder="Enter project description"
+          value={projectDescription}
+          onChange={(e: any) => setLocalProjectDescription(e.target.value)}
+        />
+        {projectDescription && (
+          <Button
+            variant="secondary"
+            className="mt-2"
+            onClick={handleGetSuggestedKeywords}
+            disabled={isFetchingKeywords}
+          >
+            {isFetchingKeywords ? "Fetching..." : "Get Suggested Keywords"}
+          </Button>
+        )}
+      </div>
       <div className="mb-6">
         {!isConfigSetting && keywords.length > 0 && (
           <h2 className="text-sm font-medium text-gray-700 mb-2">Keywords</h2>
         )}
         <div className="overflow-auto max-h-32">
           <div className="flex flex-wrap gap-2">
-            {keywords.map((keyword) => (
-              <Badge
-                key={keyword}
-                variant="secondary"
-                className="px-3 py-1 pr-1 p-2 flex items-center rounded-full bg-transparent border border-gray-300 text-gray-500"
-              >
-                <Info className="size-4" />
-                <span className="px-1">{keyword}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="ml-2 h-auto p-0 hover:bg-transparent"
-                  onClick={() => removeKeyword(keyword)}
+            {(keywords.length > 0 ? keywords : existingKeywords || []).map(
+              (keyword) => (
+                <Badge
+                  key={keyword}
+                  variant="secondary"
+                  className="px-3 py-1 pr-1 p-2 flex items-center rounded-full bg-transparent border border-gray-300 text-gray-500"
                 >
-                  <X className="h-4 w-4" />
-                </Button>
-              </Badge>
-            ))}
+                  <Info className="size-4" />
+                  <span className="px-1">{keyword}</span>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="ml-2 h-auto p-0 hover:bg-transparent"
+                    onClick={() => removeKeyword(keyword)}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </Badge>
+              )
+            )}
           </div>
         </div>
       </div>

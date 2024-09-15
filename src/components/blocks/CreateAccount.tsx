@@ -85,6 +85,7 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
 
   useEffect(() => {
     if (authContext.isAuthenticated) {
+      authContext.logout();
       setIsLoginMode(true);
     }
     dispatch(setAccountData({ email, password, firstName, lastName }));
@@ -103,16 +104,26 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
     setFirstNameError(firstNameValidationError);
     setLastNameError(lastNameValidationError);
 
-    if (
-      emailValidationError ||
-      passwordValidationError ||
-      firstNameValidationError ||
-      lastNameValidationError
-    ) {
-      return;
+    if (isLoginMode) {
+      // Only email and password are required
+      if (emailValidationError || passwordValidationError) {
+        return;
+      }
+    } else {
+      if (
+        emailValidationError ||
+        passwordValidationError ||
+        firstNameValidationError ||
+        lastNameValidationError
+      ) {
+        return;
+      }
     }
-
-    register({ email, password, name: `${firstName} ${lastName}` });
+    if (!isLoginMode) {
+      register({ email, password, name: `${firstName} ${lastName}` });
+    } else {
+      register({ email, password });
+    }
   };
 
   return (
