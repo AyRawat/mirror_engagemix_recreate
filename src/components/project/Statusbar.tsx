@@ -2,7 +2,7 @@
 import { MessageSquare, Calendar } from "lucide-react";
 
 interface StatusBarProps {
-  createdAt: string;
+  createdAt: number;
   mentions: number; // Add mentions prop
 }
 

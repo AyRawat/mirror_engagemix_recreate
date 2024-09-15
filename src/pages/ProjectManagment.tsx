@@ -1,8 +1,7 @@
 // src/pages/ProjectManagment.tsx
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Filter, Calendar, Download } from "lucide-react";
-import FilterButton from "@/components/common/FilterButton";
+
 import ProjectCard from "@/components/project/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProjectDto } from "@/apis/types";
@@ -44,8 +43,8 @@ export default function ProjectManagement({
     fetchAnalyticsData();
   }, [projects]);
 
-  const handleCardClick = (projectId: string) => {
-    navigate("/social-media-results", { state: { projectId } });
+  const handleCardClick = (project: ProjectDto) => {
+    navigate("/social-media-results", { state: { project } });
   };
 
   // Sort projects based on the processedAt field
@@ -68,20 +67,6 @@ export default function ProjectManagement({
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className="flex space-x-2">
-          <FilterButton>
-            <Filter className="mr-2 h-4 w-4" />
-            All platforms
-          </FilterButton>
-          <FilterButton>
-            <Calendar className="mr-2 h-4 w-4" />
-            Last 24 hours
-          </FilterButton>
-          <FilterButton>
-            <Download className="mr-2 h-4 w-4" />
-            Import/export
-          </FilterButton>
-        </div>
       </div>
       <ScrollArea className="border border-gray-300 rounded-2xl w-full">
         <div
@@ -95,7 +80,7 @@ export default function ProjectManagement({
             <ProjectCard
               key={project.id}
               project={project}
-              onClick={() => handleCardClick(project.id)}
+              onClick={() => handleCardClick(project)}
               mentions={analyticsData[project.id] || 0} // Pass mentions prop
             />
           ))}

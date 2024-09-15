@@ -4,20 +4,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExternalLink, MoreHorizontal, Archive, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import StatusBar from "./Statusbar";
+import StatusBar from "@/components/project/Statusbar";
 import DropdownMenuItems from "@/components/blocks/DropDownMenu";
 import FacebookIcon from "@/assets/icons/facebook.svg";
 import TwitterIcon from "@/assets/icons/twitter.svg";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import { ProjectDto } from "@/apis/types";
-import { useDispatch } from "@/hooks/DispatchHook";
-import { fetchPosts } from "@/store/postSlice";
 import { useAuth } from "@/contexts/auth/AuthContext"; // Import useAuth
 
 interface ProjectCardProps {
   project: ProjectDto;
-  onClick: () => void;
+  onClick: (project: ProjectDto) => void;
   mentions: number; // Add mentions prop
 }
 
@@ -27,7 +25,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   mentions,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dispatch = useDispatch();
   const { user } = useAuth(); // Extract user data from AuthContext
 
   const handleDropdownToggle = () => {
@@ -47,8 +44,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   const handleProjectClick = () => {
-    dispatch(fetchPosts(project.id));
-    onClick();
+    onClick(project);
   };
 
   const options = [
@@ -128,10 +124,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-1" />
-        <StatusBar
-          createdAt={project.processedAt.toString()}
-          mentions={mentions}
-        />{" "}
+        <StatusBar createdAt={project?.createdAt} mentions={mentions} />{" "}
         {/* Pass mentions prop */}
       </CardContent>
     </Card>

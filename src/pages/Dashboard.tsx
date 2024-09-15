@@ -1,14 +1,13 @@
-// src/pages/Dashboard.tsx
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
-import { fetchProjects } from "@/store/projectsSlice";
 import { RootState } from "@/store/store";
+import { api } from "@/apis";
+import { ProjectDto, AnalyticsDto, Source } from "@/apis/types";
+import { useAuth } from "@/contexts/auth/AuthContext";
 import StatsComponent from "@/components/common/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
-import { api } from "@/apis";
-import { Source } from "@/apis/types";
-import { useAuth } from "@/contexts/auth/AuthContext";
 import Banner from "@/components/common/Banner";
 import Header from "@/components/layout/Header";
 import Sidebar from "@/components/layout/Sidebar";
@@ -17,7 +16,6 @@ import SocialMedia from "@/components/social-media/SocialMedia";
 import Analytics from "@/components/Custom/Analytics/Analytics";
 import DashboardBanner from "@/assets/Dashboard/Banner.svg";
 import InviteMemberModal from "@/components/project/InviteMember";
-import { AnalyticsDto } from "@/apis/types";
 import {
   setAccountData,
   setProductData,
@@ -25,43 +23,41 @@ import {
   setSearchConfig,
   setProjectName,
   setProjectDescription,
-} from "@/store/formSlice"; // Ensure this import is correct
+} from "@/store/formSlice";
 
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // Add currentStep state
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsDto | null>(null); // Add state for analytics data
+  const [currentStep, setCurrentStep] = useState(1);
+  const { user } = useAuth();
   const dispatch = useDispatch();
+
+  // Redux state for form data
   const productData = useSelector((state: RootState) => state.form.productData);
-  const projects = useSelector((state: RootState) => state.projects.projects);
-  const projectsStatus = useSelector(
-    (state: RootState) => state.projects.status
-  );
-  const projectName = useSelector((state: RootState) => state.form.projectName); // Select projectName from Redux store
+  const projectName = useSelector((state: RootState) => state.form.projectName);
   const projectDescription = useSelector(
     (state: RootState) => state.form.projectDescription
-  ); // Select projectDescription from Redux store
+  );
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const searchConfig = useSelector(
     (state: RootState) => state.form.searchConfig
   );
-  const { user } = useAuth();
-  const hasFetchedData = useRef(false);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (projectsStatus === "idle") {
-      dispatch(fetchProjects());
-    }
-  }, [projectsStatus, dispatch]);
+  // React Query for data fetching
+  const { data: projects, isLoading: isProjectsLoading } = useQuery<
+    ProjectDto[]
+  >({
+    queryKey: ["projects"],
+    queryFn: () => api.projects.getAll(),
+  });
 
-  useEffect(() => {
-    if (!hasFetchedData.current) {
-      fetchAnalyticsData();
-      hasFetchedData.current = true;
-    }
-  }, [activeSection]);
+  const { data: analyticsData, isLoading: isAnalyticsLoading } =
+    useQuery<AnalyticsDto>({
+      queryKey: ["analytics"],
+      queryFn: () => api.projects.getAnalytics(),
+    });
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -69,16 +65,6 @@ export default function Dashboard() {
 
   const handleCloseModal = () => {
     setInviteModalOpen(false);
-  };
-
-  const fetchAnalyticsData = async () => {
-    try {
-      const data = await api.projects.getAnalytics();
-
-      setAnalyticsData(data);
-    } catch (error) {
-      console.error("Failed to fetch analytics data:", error);
-    }
   };
 
   const handleNewProjectClick = () => {
@@ -111,12 +97,11 @@ export default function Dashboard() {
       };
 
       try {
-        // Create the company first
         const createdCompany = await api.company.create(companyData);
         console.log("Created Company", createdCompany);
         const projectData = {
-          companyId: createdCompany.id, // Use company ID from the created company
-          name: projectName, // Use projectName from Redux store
+          companyId: createdCompany.id,
+          name: projectName,
           description: projectDescription,
           keywords: keywordsData,
           sources: searchConfig.platforms.map(
@@ -127,10 +112,9 @@ export default function Dashboard() {
         const createdProject = await api.projects.create(projectData);
         console.log("Created Project", createdProject);
 
-        // Fetch the updated projects list
-        dispatch(fetchProjects());
+        queryClient.invalidateQueries({ queryKey: ["projects"] }); //refetch projects
+        queryClient.invalidateQueries({ queryKey: ["analytics"] }); //refetch analytics
 
-        // Close the sheet
         setIsSheetOpen(false);
       } catch (error) {
         console.error("Failed to create company or project:", error);
@@ -145,34 +129,22 @@ export default function Dashboard() {
   };
 
   const handleCloseSheet = () => {
-    setCurrentStep(1); // Reset step to 1
-    handleResetForms(); // Call the reset function
-    setIsSheetOpen(false); // Close the sheet
+    setCurrentStep(1);
+    handleResetForms();
+    setIsSheetOpen(false);
   };
 
   const stats = analyticsData
     ? [
-        { label: "Projects", value: analyticsData?.projects.toString() || "0" },
-        {
-          label: "Keywords Tracked",
-          value: analyticsData?.keywords.toString() || "0",
-        },
-        {
-          label: "Mentions",
-          value: analyticsData?.posts?.toString() || "0",
-        },
-        { label: "Leads", value: analyticsData?.leads.toString() || "0" },
-        {
-          label: "Link Clicks",
-          value: analyticsData?.clicks.toString() || "0",
-        },
-        {
-          label: "Impressions",
-          value: analyticsData?.impressions.toString() || "0",
-        },
+        { label: "Projects", value: analyticsData.projects.toString() },
+        { label: "Keywords Tracked", value: analyticsData.keywords.toString() },
+        { label: "Mentions", value: analyticsData.posts?.toString() || "0" },
+        { label: "Leads", value: analyticsData.leads.toString() },
+        { label: "Link Clicks", value: analyticsData.clicks.toString() },
+        { label: "Impressions", value: analyticsData.impressions.toString() },
       ]
     : [
-        { label: "Projects", value: projects.length.toString() },
+        { label: "Projects", value: projects?.length.toString() || "0" },
         { label: "Keywords Tracked", value: "0" },
         { label: "Mentions", value: "0" },
         { label: "Leads", value: "0" },
@@ -196,7 +168,9 @@ export default function Dashboard() {
               onInviteClick={handleInviteClick}
             />
             <StatsComponent stats={stats} />
-            <ProjectManagement isProjectsSection={true} projects={projects} />
+            {!isProjectsLoading && projects && (
+              <ProjectManagement isProjectsSection={true} projects={projects} />
+            )}
           </>
         );
       default:
@@ -210,7 +184,12 @@ export default function Dashboard() {
             />
             <Banner bannerSvg={DashboardBanner} />
             <StatsComponent stats={stats} />
-            <ProjectManagement isProjectsSection={false} projects={projects} />
+            {!isProjectsLoading && projects && (
+              <ProjectManagement
+                isProjectsSection={false}
+                projects={projects}
+              />
+            )}
           </>
         );
     }
@@ -225,11 +204,11 @@ export default function Dashboard() {
       <CustomSheet
         isOpen={isSheetOpen}
         onClose={handleCloseSheet}
-        onReset={handleResetForms} // Pass the reset function
-        component={null} // Ensure no component is passed
-        step={currentStep} // Pass the current step
-        onNext={handleNextStep} // Pass the next step handler
-        onBack={handleBackStep} // Pass the back step handler
+        onReset={handleResetForms}
+        component={null}
+        step={currentStep}
+        onNext={handleNextStep}
+        onBack={handleBackStep}
       />
       {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
     </div>

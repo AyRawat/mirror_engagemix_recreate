@@ -11,16 +11,17 @@ import PostCard from "@/components/social-media/PostCard";
 import NoPostsCard from "@/components/social-media/NoPostsCard";
 import InviteMemberModal from "@/components/project/InviteMember";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
-import { PostResponseDto } from "@/apis/types";
+import { PostResponseDto, ProjectDto } from "@/apis/types";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
 import ProjectAnalytics from "@/components/social-media/ProjectAnalytics";
+import { Filter, Calendar } from "lucide-react";
+import FilterButton from "@/components/common/FilterButton";
 
 export default function SocialMediaResults() {
   const location = useLocation();
-  const projectId = location.state?.projectId;
-
+  const project = location.state?.project as ProjectDto;
   const [progress, setProgress] = useState(10);
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
@@ -34,8 +35,7 @@ export default function SocialMediaResults() {
 
   const posts = useSelector((state: RootState) => state.posts.posts);
   const postsStatus = useSelector((state: RootState) => state.posts.status);
-  const projects = useSelector((state: RootState) => state.projects.projects);
-  const project = projects.find((project) => project.id === projectId);
+
   const keywords = project?.keywords || [];
 
   const dispatch = useDispatch();
@@ -47,9 +47,9 @@ export default function SocialMediaResults() {
 
   useEffect(() => {
     if (postsStatus === "idle") {
-      dispatch(fetchPosts(projectId));
+      dispatch(fetchPosts(project?.id));
     }
-  }, [postsStatus, dispatch, projectId]);
+  }, [postsStatus, dispatch, project]);
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -116,16 +116,28 @@ export default function SocialMediaResults() {
           <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
           {activeTab === "results" && (
             <div>
-              <SocialMediaCounts
-                redditCount={sourceCounts.reddit}
-                twitterCount={sourceCounts.twitter}
-                facebookCount={sourceCounts.facebook}
-                linkedinCount={sourceCounts.linkedin}
-                instagramCount={sourceCounts.instagram}
-                quoraCount={sourceCounts.quora}
-                hackernewsCount={sourceCounts.hackernews}
-                onPlatformClick={handlePlatformClick}
-              />
+              <div className="flex justify-between items-center mb-4">
+                <SocialMediaCounts
+                  redditCount={sourceCounts.reddit}
+                  twitterCount={sourceCounts.twitter}
+                  facebookCount={sourceCounts.facebook}
+                  linkedinCount={sourceCounts.linkedin}
+                  instagramCount={sourceCounts.instagram}
+                  quoraCount={sourceCounts.quora}
+                  hackernewsCount={sourceCounts.hackernews}
+                  onPlatformClick={handlePlatformClick}
+                />
+                <div className="flex space-x-2">
+                  <FilterButton>
+                    <Filter className="mr-2 h-4 w-4" />
+                    All platforms
+                  </FilterButton>
+                  <FilterButton>
+                    <Calendar className="mr-2 h-4 w-4" />
+                    Last 24 hours
+                  </FilterButton>
+                </div>
+              </div>
               <ScrollArea className="max-h-[100vh] border border-gray-300 rounded-2xl">
                 <div className="p-3 h-[72vh]">
                   {filteredPosts.length === 0 ? (
@@ -163,7 +175,7 @@ export default function SocialMediaResults() {
           )}
           {activeTab === "configuration" && <ConfigurationSettings />}
           {activeTab === "analytics" && (
-            <ProjectAnalytics projectId={projectId} />
+            <ProjectAnalytics projectId={project?.id} />
           )}
           {isInviteModalOpen && (
             <InviteMemberModal onClose={handleCloseModal} />

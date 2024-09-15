@@ -98,6 +98,7 @@ export type ProjectDto = {
   name: string;
   sources: Source[];
   keywords: string[];
+  createdAt: number;
   processedAt: number;
   lastPostRemoteId: string;
 };
