@@ -72,6 +72,7 @@ export default function ProjectManagement({
               <Loader
                 text="Loading projects..."
                 helperText="Please wait while we fetch the data"
+                size="medium"
               />
             </div>
           ) : sortedProjects.length > 0 ? (

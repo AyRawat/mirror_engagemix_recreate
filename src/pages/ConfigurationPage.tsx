@@ -86,10 +86,12 @@ export function ConfigurationPage() {
   const renderStepContent = () => {
     if (showLoader) {
       return (
-        <Loader
-          text={getTextForStep(currentStep)}
-          helperText="This will only take a few seconds.."
-        />
+        <div className="flex justify-center items-center h-64">
+          <Loader
+            text={getTextForStep(currentStep)}
+            helperText="This will only take a few seconds.."
+          />
+        </div>
       );
     }
 
@@ -154,7 +156,7 @@ export function ConfigurationPage() {
               <div
                 className={`mx-auto px-16 ${
                   currentStep === 3 || currentStep === 4
-                    ? "max-w-2xl py-16"
+                    ? "max-w-2xl pt-5"
                     : "max-w-xl py-20"
                 }`}
               >

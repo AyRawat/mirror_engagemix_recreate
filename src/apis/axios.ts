@@ -3,7 +3,7 @@ import { TokenManager } from "@/contexts/auth/TokenManager";
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://em-apidev.ap-south-1.elasticbeanstalk.com",
   withCredentials: true,
 });
 
