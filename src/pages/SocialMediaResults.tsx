@@ -173,7 +173,7 @@ export default function SocialMediaResults() {
               </ScrollArea>
             </div>
           )}
-          {activeTab === "configuration" && <ConfigurationSettings />}
+          {activeTab === "configuration" && <ConfigurationSettings project={project} />}
           {activeTab === "analytics" && (
             <ProjectAnalytics projectId={project?.id} />
           )}

@@ -3,8 +3,9 @@ import ProductAnalysis from "../forms/ProductAnalysis";
 import SearchConfiguration from "../forms/SearchConfiguration";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ProjectDto } from "@/apis/types";
 
-const ConfigurationSettings = () => {
+const ConfigurationSettings = ({ project }: { project: ProjectDto }) => {
   const handleNext = () => {
     // Handle next action
   };

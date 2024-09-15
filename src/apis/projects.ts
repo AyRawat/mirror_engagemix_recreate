@@ -4,6 +4,8 @@ import {
   PostResponseDto,
   ProjectDto,
   UpdateProjectDto,
+  AnalyticsDto,
+  IProjectAnalytics,
 } from "./types";
 
 const getAll = async (): Promise<ProjectDto[]> => {
