@@ -53,11 +53,10 @@ export default function Dashboard() {
     queryFn: () => api.projects.getAll(),
   });
 
-  const { data: analyticsData, isLoading: isAnalyticsLoading } =
-    useQuery<AnalyticsDto>({
-      queryKey: ["analytics"],
-      queryFn: () => api.projects.getAnalytics(),
-    });
+  const { data: analyticsData } = useQuery<AnalyticsDto>({
+    queryKey: ["analytics"],
+    queryFn: () => api.projects.getAnalytics(),
+  });
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);

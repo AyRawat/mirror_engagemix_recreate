@@ -57,14 +57,18 @@ const ProductAnalysis = ({
 
   useEffect(() => {
     dispatch(
-      setProductData({ companyName, companyDomain, companyDescription })
+      setProductData({
+        companyName: companyName || '',
+        companyDomain: companyDomain || '',
+        companyDescription: companyDescription || ''
+      })
     );
   }, [companyName, companyDomain, companyDescription, dispatch]);
 
   const handleNext = (event: React.FormEvent) => {
     event.preventDefault();
-    const companyNameValidationError = validateCompanyName(companyName);
-    const companyDomainValidationError = validateCompanyDomain(companyDomain);
+    const companyNameValidationError = validateCompanyName(companyName ?? '');
+    const companyDomainValidationError = validateCompanyDomain(companyDomain ?? '');
 
     setCompanyNameError(companyNameValidationError);
     setCompanyDomainError(companyDomainValidationError);
@@ -79,10 +83,10 @@ const ProductAnalysis = ({
   const handleGenerateDescription = async () => {
     setIsGeneratingDescription(true);
     try {
-      const description = await api.company.getDescriptionFromUrl(
-        companyDomain
-      );
-      setCompanyDescription(description);
+      if (companyDomain) {
+        const description = await api.company.getDescriptionFromUrl(companyDomain);
+        setCompanyDescription(description);
+      }
     } catch (error) {
       console.error("Failed to generate description", error);
     } finally {

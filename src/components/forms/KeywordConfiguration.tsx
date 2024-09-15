@@ -55,11 +55,11 @@ const KeywordConfiguration = ({
   }, [keywords, dispatch]);
 
   useEffect(() => {
-    dispatch(setProjectName(projectName));
+    dispatch(setProjectName(projectName || ''));
   }, [projectName, dispatch]);
 
   useEffect(() => {
-    dispatch(setProjectDescription(projectDescription));
+    dispatch(setProjectDescription(projectDescription ?? ''));
   }, [projectDescription, dispatch]);
 
   const addKeyword = () => {
@@ -92,10 +92,10 @@ const KeywordConfiguration = ({
   const handleGetSuggestedKeywords = async () => {
     setIsFetchingKeywords(true);
     try {
-      const suggestedKeywords = await projects.getSuggestedKeywords(
-        projectDescription
-      );
-      setLocalKeywords([...keywords, ...suggestedKeywords]);
+      if (projectDescription) {
+        const suggestedKeywords = await projects.getSuggestedKeywords(projectDescription);
+        setLocalKeywords([...keywords, ...suggestedKeywords]);
+      }
     } catch (error) {
       console.error("Failed to fetch suggested keywords", error);
     } finally {
