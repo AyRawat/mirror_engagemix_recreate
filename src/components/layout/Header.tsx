@@ -5,6 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/auth/AuthContext";
 import AddMemberIcon from "@/assets/icons/addmember.svg";
+import { useDispatch } from "@/hooks/DispatchHook";
+import {
+  setAccountData,
+  setProductData,
+  setKeywords,
+  setSearchConfig,
+  setProjectName,
+  setProjectDescription,
+} from "@/store/formSlice";
 
 interface HeaderProps {
   title?: string;
@@ -25,8 +34,23 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const dispatch = useDispatch();
 
   const handleBackClick = () => {
+    dispatch(
+      setAccountData({ email: "", password: "", firstName: "", lastName: "" })
+    );
+    dispatch(
+      setProductData({
+        companyName: "",
+        companyDomain: "",
+        companyDescription: "",
+      })
+    );
+    dispatch(setKeywords([]));
+    dispatch(setSearchConfig({ platforms: [] }));
+    dispatch(setProjectName(""));
+    dispatch(setProjectDescription(""));
     navigate("/dashboard");
   };
 

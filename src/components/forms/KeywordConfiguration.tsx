@@ -38,7 +38,7 @@ const KeywordConfiguration = ({
     (state: RootState) => state.form.projectDescription
   );
   const [keywords, setLocalKeywords] = useState<string[]>(
-    keywordsData || project?.keywords || existingKeywords || []
+    keywordsData || existingKeywords || project?.keywords || []
   );
   const [newKeyword, setNewKeyword] = useState("");
   const [helpText, setHelpText] = useState("");
@@ -51,15 +51,19 @@ const KeywordConfiguration = ({
   const [isFetchingKeywords, setIsFetchingKeywords] = useState(false);
 
   useEffect(() => {
-    dispatch(setKeywords(keywords));
-  }, [keywords, dispatch]);
+    if (keywords.length > 0) {
+      dispatch(setKeywords(keywords));
+    } else {
+      dispatch(setKeywords(existingKeywords || []));
+    }
+  }, [keywords, dispatch, existingKeywords]);
 
   useEffect(() => {
-    dispatch(setProjectName(projectName || ''));
+    dispatch(setProjectName(projectName || ""));
   }, [projectName, dispatch]);
 
   useEffect(() => {
-    dispatch(setProjectDescription(projectDescription ?? ''));
+    dispatch(setProjectDescription(projectDescription ?? ""));
   }, [projectDescription, dispatch]);
 
   const addKeyword = () => {
@@ -93,7 +97,9 @@ const KeywordConfiguration = ({
     setIsFetchingKeywords(true);
     try {
       if (projectDescription) {
-        const suggestedKeywords = await projects.getSuggestedKeywords(projectDescription);
+        const suggestedKeywords = await projects.getSuggestedKeywords(
+          projectDescription
+        );
         setLocalKeywords([...keywords, ...suggestedKeywords]);
       }
     } catch (error) {
