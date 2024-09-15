@@ -4,19 +4,20 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { fetchProjects } from "@/store/projectsSlice";
 import { RootState } from "@/store/store";
-import StatsComponent from "@/components/Custom/StatsComponent";
+import StatsComponent from "@/components/common/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
 import { api } from "@/apis";
 import { Source } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext";
-import Banner from "@/components/Custom/Banner";
-import Header from "@/components/Custom/Header";
-import Sidebar from "@/components/blocks/Sidebar";
+import Banner from "@/components/common/Banner";
+import Header from "@/components/layout/Header";
+import Sidebar from "@/components/layout/Sidebar";
 import CustomSheet from "@/components/Custom/CustomSheet";
-import SocialMedia from "@/components/Custom/SocialMedia";
+import SocialMedia from "@/components/social-media/SocialMedia";
 import Analytics from "@/components/Custom/Analytics/Analytics";
 import DashboardBanner from "@/assets/Dashboard/Banner.svg";
-import InviteMemberModal from "@/components/blocks/InviteMember";
+import InviteMemberModal from "@/components/project/InviteMember";
+import { AnalyticsDto } from "@/apis/types";
 import {
   setAccountData,
   setProductData,
@@ -31,7 +32,7 @@ export default function Dashboard() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // Add currentStep state
-  const [analyticsData, setAnalyticsData] = useState(null); // Add state for analytics data
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsDto | null>(null); // Add state for analytics data
   const dispatch = useDispatch();
   const productData = useSelector((state: RootState) => state.form.productData);
   const projects = useSelector((state: RootState) => state.projects.projects);
@@ -84,8 +85,7 @@ export default function Dashboard() {
     setIsSheetOpen(true);
   };
 
-  const handleResetForms = (event: React.FormEvent) => {
-    event?.preventDefault();
+  const handleResetForms = () => {
     dispatch(
       setAccountData({ email: "", password: "", firstName: "", lastName: "" })
     );
@@ -159,7 +159,7 @@ export default function Dashboard() {
         },
         {
           label: "Mentions",
-          value: analyticsData?.mentions?.toString() || "0",
+          value: analyticsData?.posts?.toString() || "0",
         },
         { label: "Leads", value: analyticsData?.leads.toString() || "0" },
         {

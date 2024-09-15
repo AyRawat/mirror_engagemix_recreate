@@ -1,6 +1,5 @@
 // src/components/Custom/StatsComponent.tsx
 import React from "react";
-import { ChevronRight } from "lucide-react";
 import ChevronRightIcon from "@/assets/icons/bigchevron.svg";
 
 const StatItem = ({ label, value }: { label: string; value: string }) => (

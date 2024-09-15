@@ -1,6 +1,6 @@
-import KeywordConfiguration from "./KeywordConfiguration";
-import ProductAnalysis from "./ProductAnalysis";
-import SearchConfiguration from "./SearchConfiguration";
+import KeywordConfiguration from "../forms/KeywordConfiguration";
+import ProductAnalysis from "../forms/ProductAnalysis";
+import SearchConfiguration from "../forms/SearchConfiguration";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 

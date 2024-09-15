@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ExternalLink, MoreHorizontal, Archive, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import StatusBar from "../Custom/Statusbar";
+import StatusBar from "./Statusbar";
 import DropdownMenuItems from "@/components/blocks/DropDownMenu";
 import FacebookIcon from "@/assets/icons/facebook.svg";
 import TwitterIcon from "@/assets/icons/twitter.svg";
@@ -128,7 +128,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-1" />
-        <StatusBar createdAt={project.processedAt} mentions={mentions} />{" "}
+        <StatusBar
+          createdAt={project.processedAt.toString()}
+          mentions={mentions}
+        />{" "}
         {/* Pass mentions prop */}
       </CardContent>
     </Card>

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import CustomSheet from "./CustomSheet";
-import GoalSettingForm from "./GoalSettingForm";
-import Banner from "@/components/Custom/Banner";
-import Header from "@/components/Custom/Header";
+import CustomSheet from "@/components/Custom/CustomSheet";
+import GoalSettingForm from "../social-media/GoalSettingForm";
+import Banner from "@/components/common/Banner";
+import Header from "@/components/layout/Header";
 import NoAccountSection from "@/components/Custom/NoAccountSection";
 import SocialMediaBanner from "@/assets/SocialMedia/Banner.svg";
 import { useDispatch } from "@/hooks/DispatchHook";

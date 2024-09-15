@@ -1,9 +1,9 @@
 import { useState } from "react";
 import CreateAccount from "@/components/blocks/CreateAccount";
-import ProductAnalysis from "@/components/blocks/ProductAnalysis";
-import SearchConfiguration from "@/components/blocks/SearchConfiguration";
-import KeywordConfiguration from "@/components/blocks/KeywordConfiguration";
-import { StepIndicator } from "@/components/Custom/StepIndicator";
+import ProductAnalysis from "@/components/forms/ProductAnalysis";
+import SearchConfiguration from "@/components/forms/SearchConfiguration";
+import KeywordConfiguration from "@/components/forms/KeywordConfiguration";
+import { StepIndicator } from "@/components/forms/StepIndicator";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/apis";
 import { Source } from "@/apis/types";

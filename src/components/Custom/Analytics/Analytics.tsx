@@ -1,6 +1,6 @@
-import Banner from "@/components/Custom/Banner";
+import Banner from "@/components/common/Banner";
 import AnalyticsBannerSVG from "@/assets/Analytics/Banner.svg";
-import Header from "../Header";
+import Header from "../../layout/Header";
 import { useAuth } from "@/contexts/auth/AuthContext";
 
 export default function Analytics() {

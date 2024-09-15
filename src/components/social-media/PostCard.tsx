@@ -11,8 +11,8 @@ import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import FeatherIcon from "@/assets/icons/feather.svg";
 import InfoIcon from "@/assets/icons/info.svg";
-import Reply from "@/components/Custom/Reply";
-import ReplySent from "@/components/Custom/ReplySent";
+import Reply from "@/components/social-media/Reply";
+import ReplySent from "@/components/social-media/ReplySent";
 import { replies } from "@/apis/replies";
 
 interface PostCardProps {

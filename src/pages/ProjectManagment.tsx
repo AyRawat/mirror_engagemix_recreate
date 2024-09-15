@@ -2,8 +2,8 @@
 import { useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Filter, Calendar, Download } from "lucide-react";
-import FilterButton from "@/components/Custom/FilterButton";
-import ProjectCard from "@/components/blocks/ProjectCard";
+import FilterButton from "@/components/common/FilterButton";
+import ProjectCard from "@/components/project/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ProjectDto } from "@/apis/types";
 import { useEffect, useState } from "react";

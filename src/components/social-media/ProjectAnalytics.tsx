@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { api } from "@/apis";
-import StatsComponent from "@/components/Custom/StatsComponent";
-import Banner from "@/components/Custom/Banner";
+import StatsComponent from "@/components/common/StatsComponent";
+import Banner from "@/components/common/Banner";
 import BannerSVG from "@/assets/Analytics/Banner.svg";
 
 interface AnalyticsData {

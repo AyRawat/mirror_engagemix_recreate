@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
 import StepChevronRight from "@/assets/icons/stepIndicatorChevronRight.svg";
 
 interface StepIndicatorProps {

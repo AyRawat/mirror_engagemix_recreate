@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { RootState } from "@/store/store";
 import { fetchPosts } from "@/store/postSlice";
-import Header from "@/components/Custom/Header";
-import NavigationTabs from "@/components/Custom/SocialMediaResults/NavigationTabs";
-import SocialMediaCounts from "@/components/Custom/SocialMediaResults/SocialMediaCounts";
-import PostCard from "@/components/Custom/SocialMediaResults/PostCard";
-import NoPostsCard from "@/components/Custom/SocialMediaResults/NoPostsCard";
-import InviteMemberModal from "@/components/blocks/InviteMember";
+import Header from "@/components/layout/Header";
+import NavigationTabs from "@/components/social-media/NavigationTabs";
+import SocialMediaCounts from "@/components/social-media/SocialMediaCounts";
+import PostCard from "@/components/social-media/PostCard";
+import NoPostsCard from "@/components/social-media/NoPostsCard";
+import InviteMemberModal from "@/components/project/InviteMember";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
 import { PostResponseDto } from "@/apis/types";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
-import ProjectAnalytics from "@/components/Custom/SocialMediaResults/ProjectAnalytics";
+import ProjectAnalytics from "@/components/social-media/ProjectAnalytics";
 
 export default function SocialMediaResults() {
   const location = useLocation();
