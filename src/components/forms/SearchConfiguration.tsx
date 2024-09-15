@@ -144,7 +144,7 @@ const SearchConfiguration = ({
             ))}
           </div>
           {helpText && (
-            <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
+            <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
               {helpText}
             </p>
           )}

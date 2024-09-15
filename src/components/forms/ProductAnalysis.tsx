@@ -67,15 +67,7 @@ const ProductAnalysis = ({
 
   const handleNext = (event: React.FormEvent) => {
     event.preventDefault();
-    const companyNameValidationError = validateCompanyName(companyName ?? '');
-    const companyDomainValidationError = validateCompanyDomain(companyDomain ?? '');
-
-    setCompanyNameError(companyNameValidationError);
-    setCompanyDomainError(companyDomainValidationError);
-
-    if (companyNameValidationError || companyDomainValidationError) {
-      return; // Prevent navigation if there are validation errors
-    } else {
+    if (!companyNameError && !companyDomainError) {
       onNext();
     }
   };
@@ -115,10 +107,13 @@ const ProductAnalysis = ({
             type="text"
             placeholder="Company name"
             value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
+            onChange={(e) => {
+              setCompanyName(e.target.value);
+              setCompanyNameError(validateCompanyName(e.target.value));
+            }}
           />
           {companyNameError && (
-            <p className="text-red-500 text-sm text-left">{companyNameError}</p>
+            <p className="text-[#D75959] text-sm text-left mt-2 font-normal">{companyNameError}</p>
           )}
         </div>
         <div>
@@ -135,7 +130,10 @@ const ProductAnalysis = ({
               type="url"
               placeholder="https://"
               value={companyDomain}
-              onChange={(e) => setCompanyDomain(e.target.value)}
+              onChange={(e) => {
+                setCompanyDomain(e.target.value);
+                setCompanyDomainError(validateCompanyDomain(e.target.value));
+              }}
             />
             <Button
               variant="secondary"
@@ -147,7 +145,7 @@ const ProductAnalysis = ({
             </Button>
           </div>
           {companyDomainError && (
-            <p className="text-red-500 text-sm text-left">
+            <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
               {companyDomainError}
             </p>
           )}

@@ -27,7 +27,7 @@ export function ConfigurationPage() {
   );
 
   const handleNext = async () => {
-    if (currentStep >= 3) {
+    if (currentStep >= 1) {
       setShowLoader(true);
       setTimeout(() => {
         setShowLoader(false);
@@ -74,9 +74,9 @@ export function ConfigurationPage() {
 
   const getTextForStep = (step: number): string => {
     const texts = [
-      "Creating your account...",
-      "Generating your project...",
+      "Setting up your account...",
       "Analysing your website information to be able to suggest key themes and keywords...",
+      "Generating your project...",
       "Setting up search configuration...",
       "Generating results based on your search...",
     ];

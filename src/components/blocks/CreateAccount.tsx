@@ -45,17 +45,11 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   };
 
   const validateFirstName = (firstName: string): string | null => {
-    if (!firstName) {
-      return "First name is required";
-    }
-    return null;
+    return !firstName ? "First name is required" : null;
   };
 
   const validateLastName = (lastName: string): string | null => {
-    if (!lastName) {
-      return "Last name is required";
-    }
-    return null;
+    return !lastName ? "Last name is required" : null;
   };
 
   const { mutate: register } = useMutation({
@@ -148,7 +142,10 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             type="email"
             placeholder="Enter email here"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setEmailError(validateEmail(e.target.value));
+            }}
           />
           {emailError && (
             <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
@@ -192,7 +189,10 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
                 type="text"
                 placeholder="Enter last name here"
                 value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={(e) => {
+                  setLastName(e.target.value);
+                  setLastNameError(validateLastName(e.target.value));
+                }}
               />
               {lastNameError && (
                 <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
@@ -216,7 +216,10 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setPasswordError(validatePassword(e.target.value));
+            }}
           />
           {passwordError && (
             <p className="text-[#D75959] text-sm mt-2 text-left font-normal">

@@ -50,6 +50,23 @@ const KeywordConfiguration = ({
   );
   const [isFetchingKeywords, setIsFetchingKeywords] = useState(false);
 
+  const [projectNameError, setProjectNameError] = useState<string | null>(null);
+  const [keywordError, setKeywordError] = useState<string | null>(null);
+
+  const validateProjectName = (name: string): string | null => {
+    return !name ? "Project name is required" : null;
+  };
+
+  const validateKeyword = (keyword: string): string | null => {
+    if (!keyword) {
+      return "Keyword cannot be empty.";
+    }
+    if (keywords.includes(keyword)) {
+      return `Keyword "${keyword}" is already present.`;
+    }
+    return null;
+  };
+
   useEffect(() => {
     if (keywords.length > 0) {
       dispatch(setKeywords(keywords));
@@ -67,17 +84,14 @@ const KeywordConfiguration = ({
   }, [projectDescription, dispatch]);
 
   const addKeyword = () => {
-    if (!newKeyword) {
-      setHelpText("Keyword cannot be empty.");
-      return;
-    }
-    if (keywords.includes(newKeyword)) {
-      setHelpText(`Keyword "${newKeyword}" is already present.`);
+    const error = validateKeyword(newKeyword);
+    if (error) {
+      setKeywordError(error);
       return;
     }
     setLocalKeywords([...keywords, newKeyword]);
     setNewKeyword("");
-    setHelpText("");
+    setKeywordError(null);
   };
 
   const removeKeyword = (keywordToRemove: string) => {
@@ -85,12 +99,11 @@ const KeywordConfiguration = ({
   };
 
   const handleNext = () => {
-    if (!projectName) {
-      setHelpText("Project name cannot be empty.");
-      return;
+    const projectNameError = validateProjectName(projectName || "");
+    setProjectNameError(projectNameError);
+    if (!projectNameError) {
+      onNext();
     }
-    setHelpText("");
-    onNext();
   };
 
   const handleGetSuggestedKeywords = async () => {
@@ -122,11 +135,14 @@ const KeywordConfiguration = ({
           className="w-full h-[56px] bg-gray-100"
           placeholder="Enter project name"
           value={projectName}
-          onChange={(e) => setLocalProjectName(e.target.value)}
+          onChange={(e) => {
+            setLocalProjectName(e.target.value);
+            setProjectNameError(validateProjectName(e.target.value));
+          }}
         />
-        {helpText && !projectName && (
-          <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
-            {helpText}
+        {projectNameError && (
+          <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
+            {projectNameError}
           </p>
         )}
       </div>
@@ -187,7 +203,10 @@ const KeywordConfiguration = ({
             className="w-full h-[56px] bg-[#FAFAFA]"
             placeholder="Type keyword here"
             value={newKeyword}
-            onChange={(e) => setNewKeyword(e.target.value)}
+            onChange={(e) => {
+              setNewKeyword(e.target.value);
+              setKeywordError(null);
+            }}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 addKeyword();
@@ -207,9 +226,9 @@ const KeywordConfiguration = ({
             Add
           </Button>
         </div>
-        {helpText && newKeyword && (
-          <p className="text-red-500 text-sm text-left mt-2 bg-red-100 p-2 rounded-md">
-            {helpText}
+        {keywordError && (
+          <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
+            {keywordError}
           </p>
         )}
       </div>
