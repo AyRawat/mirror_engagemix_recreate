@@ -10,7 +10,6 @@ import { Source } from "@/apis/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
-import { useAuth } from "@/contexts/auth/AuthContext";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -98,7 +97,7 @@ export function ConfigurationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-8 w-full max-w-[1920px]">
           {/* Left Column - Social Media Post Card */}
           <div
-            className="bg-gradient-to-br p-4 rounded-2xl shadow-lg relative w-[34rem]"
+            className="bg-gradient-to-br p-4 rounded-2xl shadow-2xl relative w-[34rem]"
             style={{
               backgroundImage: `url(${KeywordCardBackground})`,
               backgroundSize: "cover",

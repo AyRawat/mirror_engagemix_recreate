@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ChevronRight } from "lucide-react";
+import StepChevronRight from "@/assets/icons/stepIndicatorChevronRight.svg";
 
 interface StepIndicatorProps {
   steps: string[];
@@ -32,7 +33,11 @@ export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
             {step}
           </span>
           {index < steps.length - 1 && (
-            <ChevronRight className="text-gray-400 w-5 h-5 mx-4" />
+            <img
+              src={StepChevronRight}
+              alt="chevron-right"
+              className="w-8 h-8 mx-2 -my-5"
+            />
           )}
         </div>
       ))}
