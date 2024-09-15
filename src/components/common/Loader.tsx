@@ -22,7 +22,9 @@ const Loader: React.FC<LoaderProps> = ({ text, helperText }) => {
   return (
     <div className="flex flex-col justify-center items-center w-72">
       <object type="image/svg+xml" data={LoaderSvg}></object>
-      {text && <div className="mt-4 text-lg font-semibold">{text}</div>}
+      {text && (
+        <div className="mt-4 text-lg text-center font-semibold">{text}</div>
+      )}
       {helperText && (
         <div className="mt-2 text-sm text-gray-500">{helperText}</div>
       )}

@@ -30,6 +30,8 @@ export default function Dashboard() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("");
   const { user } = useAuth();
   const dispatch = useDispatch();
 
@@ -88,39 +90,45 @@ export default function Dashboard() {
   };
 
   const handleNextStep = async () => {
-    if (currentStep === 3) {
-      const companyData = {
-        domain: productData.companyDomain,
-        description: productData.companyDescription,
-        name: productData.companyName,
-      };
+    setIsLoading(true);
+    setLoadingText(getTextForStep(currentStep));
 
-      try {
-        const createdCompany = await api.company.create(companyData);
-        console.log("Created Company", createdCompany);
-        const projectData = {
-          companyId: createdCompany.id,
-          name: projectName,
-          description: projectDescription,
-          keywords: keywordsData,
-          sources: searchConfig.platforms.map(
-            (str) => str.toLowerCase() as Source
-          ),
+    setTimeout(async () => {
+      if (currentStep === 3) {
+        const companyData = {
+          domain: productData.companyDomain,
+          description: productData.companyDescription,
+          name: productData.companyName,
         };
 
-        const createdProject = await api.projects.create(projectData);
-        console.log("Created Project", createdProject);
+        try {
+          const createdCompany = await api.company.create(companyData);
+          console.log("Created Company", createdCompany);
+          const projectData = {
+            companyId: createdCompany.id,
+            name: projectName,
+            description: projectDescription,
+            keywords: keywordsData,
+            sources: searchConfig.platforms.map(
+              (str) => str.toLowerCase() as Source
+            ),
+          };
 
-        queryClient.invalidateQueries({ queryKey: ["projects"] }); //refetch projects
-        queryClient.invalidateQueries({ queryKey: ["analytics"] }); //refetch analytics
+          const createdProject = await api.projects.create(projectData);
+          console.log("Created Project", createdProject);
 
-        setIsSheetOpen(false);
-      } catch (error) {
-        console.error("Failed to create company or project:", error);
+          queryClient.invalidateQueries({ queryKey: ["projects"] });
+          queryClient.invalidateQueries({ queryKey: ["analytics"] });
+
+          setIsSheetOpen(false);
+        } catch (error) {
+          console.error("Failed to create company or project:", error);
+        }
+      } else {
+        setCurrentStep(currentStep + 1);
       }
-    } else {
-      setCurrentStep(currentStep + 1);
-    }
+      setIsLoading(false);
+    }, 2000);
   };
 
   const handleBackStep = () => {
@@ -131,6 +139,15 @@ export default function Dashboard() {
     setCurrentStep(1);
     handleResetForms();
     setIsSheetOpen(false);
+  };
+
+  const getTextForStep = (step: number): string => {
+    const texts = [
+      "Analysing your website information to be able to suggest key themes and keywords...",
+      "Generating your project...",
+      "Generating results based on your search...",
+    ];
+    return texts[step - 1] || "Processing...";
   };
 
   const stats = analyticsData
@@ -209,6 +226,8 @@ export default function Dashboard() {
         step={currentStep}
         onNext={handleNextStep}
         onBack={handleBackStep}
+        isLoading={isLoading}
+        loadingText={loadingText}
       />
       {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
     </div>

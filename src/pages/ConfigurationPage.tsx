@@ -10,9 +10,11 @@ import { Source } from "@/apis/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
+import Loader from "@/components/common/Loader";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
@@ -25,57 +27,86 @@ export function ConfigurationPage() {
   );
 
   const handleNext = async () => {
-    if (currentStep === 4) {
-      // Collect all data and make the API call
-      const companyData = {
-        domain: productData.companyDomain,
-        description: productData.companyDescription,
-        name: productData.companyName,
-      };
-
-      try {
-        // Create the company first
-        const createdCompany = await api.company.create(companyData);
-        console.log("Created Company", createdCompany);
-
-        // Use the created company ID to create the project
-        const projectData = {
-          companyId: createdCompany.id, // Use company ID from the created company
-          name: projectName, // Use projectName from Redux store
-          description: projectDescription,
-          keywords: keywordsData,
-          sources: searchConfig.platforms.map(
-            (str) => str.toLowerCase() as Source
-          ),
-        };
-
-        const createdProject = await api.projects.create(projectData);
-        console.log("Created Project", createdProject);
-
-        navigate("/dashboard");
-      } catch (error) {
-        console.error("Failed to create company or project:", error);
-      }
+    if (currentStep >= 3) {
+      setShowLoader(true);
+      setTimeout(() => {
+        setShowLoader(false);
+        if (currentStep === 4) {
+          handleFinalStep();
+        } else {
+          setCurrentStep(currentStep + 1);
+        }
+      }, 2000); // Show loader for 2 seconds
     } else {
       setCurrentStep(currentStep + 1);
     }
   };
 
+  const handleFinalStep = async () => {
+    const companyData = {
+      domain: productData.companyDomain,
+      description: productData.companyDescription,
+      name: productData.companyName,
+    };
+
+    try {
+      const createdCompany = await api.company.create(companyData);
+      console.log("Created Company", createdCompany);
+
+      const projectData = {
+        companyId: createdCompany.id,
+        name: projectName,
+        description: projectDescription,
+        keywords: keywordsData,
+        sources: searchConfig.platforms.map(
+          (str) => str.toLowerCase() as Source
+        ),
+      };
+
+      const createdProject = await api.projects.create(projectData);
+      console.log("Created Project", createdProject);
+
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Failed to create company or project:", error);
+    }
+  };
+
+  const getTextForStep = (step: number): string => {
+    const texts = [
+      "Creating your account...",
+      "Generating your project...",
+      "Analysing your website information to be able to suggest key themes and keywords...",
+      "Setting up search configuration...",
+      "Generating results based on your search...",
+    ];
+    return texts[step - 1] || "Processing...";
+  };
+
   const renderStepContent = () => {
+    if (showLoader) {
+      return (
+        <Loader
+          text={getTextForStep(currentStep)}
+          helperText="This will only take a few seconds.."
+        />
+      );
+    }
+
     switch (currentStep) {
       case 1:
-        return <CreateAccount onNext={() => setCurrentStep(2)} />;
+        return <CreateAccount onNext={handleNext} />;
       case 2:
         return (
           <ProductAnalysis
-            onNext={() => setCurrentStep(3)}
+            onNext={handleNext}
             onBack={() => setCurrentStep(1)}
           />
         );
       case 3:
         return (
           <KeywordConfiguration
-            onNext={() => setCurrentStep(4)}
+            onNext={handleNext}
             onBack={() => setCurrentStep(2)}
           />
         );

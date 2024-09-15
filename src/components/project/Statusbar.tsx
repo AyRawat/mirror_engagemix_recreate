@@ -4,9 +4,14 @@ import { MessageSquare, Calendar } from "lucide-react";
 interface StatusBarProps {
   createdAt: number;
   mentions: number; // Add mentions prop
+  posts: number;
 }
 
-export default function StatusBar({ createdAt, mentions }: StatusBarProps) {
+export default function StatusBar({
+  createdAt,
+  mentions,
+  posts,
+}: StatusBarProps) {
   const formattedDate = new Date(createdAt).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
@@ -18,6 +23,10 @@ export default function StatusBar({ createdAt, mentions }: StatusBarProps) {
         <div className="flex items-center space-x-1">
           <MessageSquare className="w-4 h-4" />
           <span>{mentions}</span> {/* Use mentions prop */}
+        </div>
+        <div className="flex items-center space-x-1">
+          <MessageSquare className="w-4 h-4" />
+          <span>{posts}</span> {/* Use mentions prop */}
         </div>
       </div>
       <div className="flex items-center space-x-1">

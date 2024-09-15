@@ -41,6 +41,7 @@ export default function ProjectManagement({
         }
       }
       setAnalyticsData(data);
+      console.log("analyticsData", analyticsData);
     };
 
     fetchAnalyticsData();
@@ -85,7 +86,7 @@ export default function ProjectManagement({
                 key={project.id}
                 project={project}
                 onClick={() => handleCardClick(project)}
-                mentions={analyticsData[project.id] || 0} // Pass mentions prop
+                analyticsData={analyticsData[project.id] || 0} // Pass mentions prop
               />
             ))
           ) : (

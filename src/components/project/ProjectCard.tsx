@@ -16,16 +16,17 @@ import { useAuth } from "@/contexts/auth/AuthContext"; // Import useAuth
 interface ProjectCardProps {
   project: ProjectDto;
   onClick: (project: ProjectDto) => void;
-  mentions: number; // Add mentions prop
+  analyticsData: { [key: string]: number }; // Add mentions prop
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   project,
   onClick,
-  mentions,
+  analyticsData,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { user } = useAuth(); // Extract user data from AuthContext
+  console.log("mentions", analyticsData);
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -124,7 +125,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-1" />
-        <StatusBar createdAt={project?.createdAt} mentions={mentions} />{" "}
+        <StatusBar createdAt={project?.createdAt} mentions={analyticsData.replies} posts={analyticsData.posts} />{" "}
         {/* Pass mentions prop */}
       </CardContent>
     </Card>

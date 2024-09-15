@@ -4,6 +4,7 @@ import { api } from "@/apis";
 import { LoginRequestDto, UserDto } from "@/apis/types";
 import AuthContext from "./AuthContext";
 import { TokenManager } from "./TokenManager";
+import Loader from "@/components/common/Loader";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<UserDto | null>(null);
@@ -55,7 +56,10 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   return isLoading ? (
     <div className="flex items-center justify-center min-h-screen">
-      <div>Loading...</div>
+      <Loader
+        text="Loading..."
+        helperText="Please wait while we fetch your data"
+      />
     </div>
   ) : (
     <AuthContext.Provider value={{ login, logout, user, isAuthenticated }}>
