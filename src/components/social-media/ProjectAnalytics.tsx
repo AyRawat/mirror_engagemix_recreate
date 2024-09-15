@@ -1,70 +1,46 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { api } from "@/apis";
 import StatsComponent from "@/components/common/StatsComponent";
 import Banner from "@/components/common/Banner";
 import BannerSVG from "@/assets/Analytics/Banner.svg";
-
-interface AnalyticsData {
-  keywords: number;
-  mentions: number;
-  leads: number;
-  clicks: number;
-  impressions: number;
-}
+import { IProjectAnalytics } from "@/apis/types";
+import Loader from "@/components/common/Loader";
 
 interface ProjectAnalyticsProps {
   projectId: string;
 }
 
+const useProjectAnalytics = (projectId: string) => {
+  return useQuery<IProjectAnalytics, Error>({
+    queryKey: ["projectAnalytics", projectId],
+    queryFn: () => api.projects.getProjectAnalytics(projectId),
+  });
+};
+
 const ProjectAnalytics: React.FC<ProjectAnalyticsProps> = ({ projectId }) => {
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(
-    null
-  );
-  const hasFetchedData = useRef(false);
+  const { data: analyticsData, isLoading, error } = useProjectAnalytics(projectId);
 
-  useEffect(() => {
-    const fetchAnalyticsData = async () => {
-      try {
-        const data = await api.projects.getProjectAnalytics(projectId);
-        setAnalyticsData(data);
-      } catch (error) {
-        console.error("Failed to fetch project analytics:", error);
-      }
-    };
+  const stats = useMemo(() => {
+    if (!analyticsData) return [];
+    return [
+      { label: "Keywords Tracked", value: analyticsData.keywords.toString() },
+      { label: "Mentions", value: analyticsData.posts.toString() },
+      { label: "Leads", value: analyticsData.leads.toString() },
+      { label: "Link Clicks", value: analyticsData.clicks.toString() },
+      { label: "Impressions", value: analyticsData.impressions.toString() },
+    ];
+  }, [analyticsData]);
 
-    if (!hasFetchedData.current) {
-      fetchAnalyticsData();
-      hasFetchedData.current = true;
-    }
-  }, [projectId]);
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Loader text="Loading analytics..." helperText="Please wait while we fetch the data" />
+      </div>
+    );
+  }
 
-  const stats = analyticsData
-    ? [
-        {
-          label: "Keywords Tracked",
-          value: analyticsData?.keywords.toString() || "0",
-        },
-        {
-          label: "Mentions",
-          value: analyticsData?.mentions?.toString() || "0",
-        },
-        { label: "Leads", value: analyticsData?.leads.toString() || "0" },
-        {
-          label: "Link Clicks",
-          value: analyticsData?.clicks.toString() || "0",
-        },
-        {
-          label: "Impressions",
-          value: analyticsData?.impressions.toString() || "0",
-        },
-      ]
-    : [
-        { label: "Keywords Tracked", value: "0" },
-        { label: "Mentions", value: "0" },
-        { label: "Leads", value: "0" },
-        { label: "Link Clicks", value: "0" },
-        { label: "Impressions", value: "0" },
-      ];
+  if (error) return <div>Error loading analytics: {error.message}</div>;
 
   return (
     <div className="gap space-y-14">
