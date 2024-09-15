@@ -31,6 +31,7 @@ export type UpdateUserProfile = {
 };
 
 export type Source = "hackernews" | "reddit" | "linkedin" | "twitter" | "quora";
+export type PostSource = 'twitter' | 'facebook' | 'linkedin' | 'instagram' | 'quora' | 'reddit' | 'hackernews';
 
 type SemanticScore = {
   openai: number;

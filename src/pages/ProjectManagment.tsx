@@ -4,10 +4,11 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import ProjectCard from "@/components/project/ProjectCard";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ProjectDto } from "@/apis/types";
-import { useEffect, useState } from "react";
-import { api } from "@/apis";
+import { IProjectAnalytics, ProjectDto } from "@/apis/types";
+import { useMemo } from "react";
 import NoPostsCard from "@/components/social-media/NoPostsCard";
+import Loader from "@/components/common/Loader";
+import { useProjectsAnalytics } from "@/hooks/useProjectAnalytics";
 
 interface ProjectManagementProps {
   isProjectsSection: boolean;
@@ -21,31 +22,17 @@ export default function ProjectManagement({
   handleNewProject,
 }: ProjectManagementProps) {
   const navigate = useNavigate();
-  const [analyticsData, setAnalyticsData] = useState<{ [key: string]: number }>(
-    {}
-  );
+  const analyticsQueries = useProjectsAnalytics(projects);
+  const isLoading = analyticsQueries.some((query) => query.isLoading);
 
-  useEffect(() => {
-    const fetchAnalyticsData = async () => {
-      const data: { [key: string]: number } = {};
-      for (const project of projects) {
-        try {
-          const analytics = await api.projects.getProjectAnalytics(project.id);
-          data[project.id] = analytics.replies;
-          data["posts"] = analytics.posts;
-        } catch (error) {
-          console.error(
-            `Failed to fetch analytics for project ${project.id}:`,
-            error
-          );
-        }
+  const analyticsData = useMemo(() => {
+    return analyticsQueries.reduce((acc, query, index) => {
+      if (query.data) {
+        acc[projects[index].id] = query.data;
       }
-      setAnalyticsData(data);
-      console.log("analyticsData", analyticsData);
-    };
-
-    fetchAnalyticsData();
-  }, [projects]);
+      return acc;
+    }, {} as { [key: string]: IProjectAnalytics });
+  }, [analyticsQueries, projects]);
 
   const handleCardClick = (project: ProjectDto) => {
     navigate("/social-media-results", { state: { project } });
@@ -80,7 +67,14 @@ export default function ProjectManagement({
               : "max-h-[calc(100vh-32rem)]"
           }`}
         >
-          {sortedProjects.length > 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center h-64">
+              <Loader
+                text="Loading projects..."
+                helperText="Please wait while we fetch the data"
+              />
+            </div>
+          ) : sortedProjects.length > 0 ? (
             sortedProjects.map((project) => (
               <ProjectCard
                 key={project.id}

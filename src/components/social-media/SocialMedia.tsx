@@ -55,8 +55,13 @@ export default function SocialMedia() {
       <CustomSheet
         isOpen={isSheetOpen}
         onClose={() => setIsSheetOpen(false)}
-        onReset={handleResetForms} // Pass the reset function
+        onReset={handleResetForms}
         component={GoalSettingForm}
+        step={1}
+        onNext={() => {}}
+        onBack={() => {}}
+        isLoading={false}
+        loadingText=""
       />
     </div>
   );

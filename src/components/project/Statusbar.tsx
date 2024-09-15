@@ -1,5 +1,5 @@
 // src/components/Custom/Statusbar.tsx
-import { MessageSquare, Calendar } from "lucide-react";
+import { MessageSquare, Calendar, ClipboardList } from "lucide-react";
 
 interface StatusBarProps {
   createdAt: number;
@@ -21,12 +21,12 @@ export default function StatusBar({
     <div className="flex justify-between items-center w-full py-2 px-4 text-sm text-gray-500">
       <div className="flex items-center space-x-4">
         <div className="flex items-center space-x-1">
-          <MessageSquare className="w-4 h-4" />
-          <span>{mentions}</span> {/* Use mentions prop */}
+          <ClipboardList className="w-4 h-4" />
+          <span>{posts}</span> {/* Use mentions prop */}
         </div>
         <div className="flex items-center space-x-1">
           <MessageSquare className="w-4 h-4" />
-          <span>{posts}</span> {/* Use mentions prop */}
+          <span>{mentions}</span> {/* Use mentions prop */}
         </div>
       </div>
       <div className="flex items-center space-x-1">

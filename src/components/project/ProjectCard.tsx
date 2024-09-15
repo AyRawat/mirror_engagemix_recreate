@@ -10,13 +10,13 @@ import FacebookIcon from "@/assets/icons/facebook.svg";
 import TwitterIcon from "@/assets/icons/twitter.svg";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
-import { ProjectDto } from "@/apis/types";
+import { IProjectAnalytics, ProjectDto } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext"; // Import useAuth
 
 interface ProjectCardProps {
   project: ProjectDto;
   onClick: (project: ProjectDto) => void;
-  analyticsData: { [key: string]: number }; // Add mentions prop
+  analyticsData: IProjectAnalytics; // Add mentions prop
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -125,7 +125,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           </div>
         </div>
         <div className="w-full h-px bg-[#dfe1e6] my-1" />
-        <StatusBar createdAt={project?.createdAt} mentions={analyticsData.replies} posts={analyticsData.posts} />{" "}
+        <StatusBar
+          createdAt={project?.createdAt}
+          mentions={analyticsData.replies || 0}
+          posts={analyticsData.posts || 0}
+        />{" "}
         {/* Pass mentions prop */}
       </CardContent>
     </Card>

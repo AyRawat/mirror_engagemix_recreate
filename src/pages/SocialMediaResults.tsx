@@ -16,6 +16,7 @@ import { Filter, Calendar } from "lucide-react";
 import FilterButton from "@/components/common/FilterButton";
 import { api } from "@/apis";
 import { usePosts } from "@/hooks/usePosts";
+import { PostSource } from "@/apis/types"; // Add this import
 
 import Loader from "@/components/common/Loader";
 
@@ -95,22 +96,14 @@ export default function SocialMediaResults() {
     }));
   };
 
-  const sourceCounts =
+  const sourceCounts: Record<PostSource, number> =
     posts?.reduce(
       (counts, post) => {
         counts[post.source] = (counts[post.source] || 0) + 1;
         return counts;
       },
-      {
-        twitter: 0,
-        facebook: 0,
-        linkedin: 0,
-        instagram: 0,
-        quora: 0,
-        reddit: 0,
-        hackernews: 0,
-      }
-    ) || {};
+      { twitter: 0, facebook: 0, linkedin: 0, instagram: 0, quora: 0, reddit: 0, hackernews: 0 }
+    ) || { twitter: 0, facebook: 0, linkedin: 0, instagram: 0, quora: 0, reddit: 0, hackernews: 0 };
 
   const keywords = project?.keywords || [];
 
