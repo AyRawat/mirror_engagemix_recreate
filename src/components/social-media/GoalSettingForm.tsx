@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import LinkedinIcon from "@/assets/icons/linkedinIcon.svg";
@@ -20,7 +19,7 @@ import { useState } from "react";
 
 export default function GoalSettingForm() {
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
-  const [mode, setMode] = useState<'copilot' | 'auto-pilot'>('copilot');
+  const [mode, setMode] = useState<"copilot" | "auto-pilot">("copilot");
 
   const channels = [
     { value: "twitter", label: "Twitter", icon: TwitterIcon },
@@ -125,18 +124,18 @@ export default function GoalSettingForm() {
             <Label
               htmlFor="copilot"
               className={`flex-1 text-center py-2 px-4 rounded-full cursor-pointer text-sm font-medium ${
-                mode === 'copilot' ? "bg-white shadow" : "text-gray-600"
+                mode === "copilot" ? "bg-white shadow" : "text-gray-600"
               }`}
-              onClick={() => setMode('copilot')}
+              onClick={() => setMode("copilot")}
             >
               Copilot
             </Label>
             <Label
               htmlFor="auto-pilot"
               className={`flex-1 text-center py-2 px-4 rounded-full cursor-pointer text-sm font-medium ${
-                mode === 'auto-pilot' ? "bg-white shadow" : "text-gray-600"
+                mode === "auto-pilot" ? "bg-white shadow" : "text-gray-600"
               }`}
-              onClick={() => setMode('auto-pilot')}
+              onClick={() => setMode("auto-pilot")}
             >
               Auto-pilot
             </Label>
@@ -144,7 +143,9 @@ export default function GoalSettingForm() {
         </div>
 
         <p className="text-base text-[#696969] font-normal mt-2">
-          {mode === 'auto-pilot' ? "AI will autonomously post content for you" : "AI will assist you in creating content"}
+          {mode === "auto-pilot"
+            ? "AI will autonomously post content for you"
+            : "AI will assist you in creating content"}
         </p>
 
         <div>

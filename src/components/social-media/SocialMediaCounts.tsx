@@ -15,7 +15,8 @@ interface SocialMediaCountsProps {
   quoraCount: number;
   redditCount: number;
   hackernewsCount: number;
-  onPlatformClick: (platform: string) => void; // Add this prop
+  onPlatformClick: (platform: string) => void;
+  selectedPlatform: string | null;
 }
 
 const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
@@ -26,9 +27,12 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
   quoraCount,
   redditCount,
   hackernewsCount,
-  onPlatformClick, // Destructure the prop
+  onPlatformClick,
+  selectedPlatform,
 }) => {
-  const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+  const handlePlatformClick = (name: string) => {
+    onPlatformClick(name.toLowerCase());
+  };
 
   const platforms = [
     {
@@ -74,11 +78,6 @@ const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({
       color: "text-[#475367]",
     },
   ];
-
-  const handlePlatformClick = (name: string) => {
-    setSelectedPlatform(name);
-    onPlatformClick(name.toLowerCase());
-  };
 
   return (
     <div className="flex space-x-2 mb-6 bg-[#F6F6F6] rounded-2xl p-2 w-fit">

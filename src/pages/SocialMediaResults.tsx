@@ -12,13 +12,19 @@ import { CompanyDto, PostResponseDto, ProjectDto } from "@/apis/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
 import ProjectAnalytics from "@/components/social-media/ProjectAnalytics";
-import { Filter, Calendar } from "lucide-react";
-import FilterButton from "@/components/common/FilterButton";
 import { api } from "@/apis";
 import { usePosts } from "@/hooks/usePosts";
 import { PostSource } from "@/apis/types"; // Add this import
 
 import Loader from "@/components/common/Loader";
+import RedditIcon from "@/assets/icons/redditIcon.svg";
+import LinkedinIcon from "@/assets/icons/linkedinIcon.svg";
+import HackernewsIcon from "@/assets/icons/hackernews.svg";
+import TwitterIcon from "@/assets/icons/twitter.svg";
+import FacebookIcon from "@/assets/icons/facebook.svg";
+import InstragramIcon from "@/assets/icons/instagram.svg";
+import QuoraIcon from "@/assets/icons/quora.svg";
+import FilterIcon from "@/assets/icons/filtericon.svg";
 
 export default function SocialMediaResults() {
   const location = useLocation();
@@ -38,12 +44,35 @@ export default function SocialMediaResults() {
 
   const { data: posts, isLoading } = usePosts(project?.id);
 
+  const [selectedTimeFilter, setSelectedTimeFilter] = useState("day");
+
+  const filterPostsByTime = (posts: PostResponseDto[], timeFilter: string) => {
+    const now = new Date().getTime() / 1000; // Current time in seconds
+    return posts.filter((post) => {
+      const postTime = post.createdAt || 0;
+      const timeDiff = now - postTime;
+      switch (timeFilter) {
+        case "day":
+          return timeDiff <= 24 * 60 * 60;
+        case "week":
+          return timeDiff <= 7 * 24 * 60 * 60;
+        case "month":
+          return timeDiff <= 30 * 24 * 60 * 60;
+        case "year":
+          return timeDiff <= 365 * 24 * 60 * 60;
+        default:
+          return true;
+      }
+    });
+  };
+
   const filteredPosts = useMemo(() => {
     if (!posts) return [];
-    return selectedPlatform
+    let filtered = selectedPlatform
       ? posts.filter((post) => post.source === selectedPlatform)
       : posts;
-  }, [posts, selectedPlatform]);
+    return filterPostsByTime(filtered, selectedTimeFilter);
+  }, [posts, selectedPlatform, selectedTimeFilter]);
 
   const paginatedPosts = useMemo(() => {
     return filteredPosts.slice(0, page * POSTS_PER_PAGE);
@@ -79,7 +108,7 @@ export default function SocialMediaResults() {
   };
 
   const handlePlatformClick = (platform: string) => {
-    setSelectedPlatform(platform);
+    setSelectedPlatform(platform === "all" ? null : platform);
   };
 
   const handleReplySent = (postId: string, reply: string) => {
@@ -96,16 +125,36 @@ export default function SocialMediaResults() {
     }));
   };
 
-  const sourceCounts: Record<PostSource, number> =
-    posts?.reduce(
-      (counts, post) => {
-        counts[post.source] = (counts[post.source] || 0) + 1;
-        return counts;
-      },
-      { twitter: 0, facebook: 0, linkedin: 0, instagram: 0, quora: 0, reddit: 0, hackernews: 0 }
-    ) || { twitter: 0, facebook: 0, linkedin: 0, instagram: 0, quora: 0, reddit: 0, hackernews: 0 };
+  const sourceCounts = useMemo(() => {
+    const counts: Record<PostSource, number> = {
+      twitter: 0,
+      facebook: 0,
+      linkedin: 0,
+      instagram: 0,
+      quora: 0,
+      reddit: 0,
+      hackernews: 0,
+    };
+
+    filteredPosts.forEach((post) => {
+      counts[post.source] = (counts[post.source] || 0) + 1;
+    });
+
+    return counts;
+  }, [filteredPosts]);
 
   const keywords = project?.keywords || [];
+
+  const platforms = [
+    { value: "all", label: "All platforms", icon: FilterIcon },
+    { value: "twitter", label: "Twitter", icon: TwitterIcon },
+    { value: "facebook", label: "Facebook", icon: FacebookIcon },
+    { value: "linkedin", label: "LinkedIn", icon: LinkedinIcon },
+    { value: "reddit", label: "Reddit", icon: RedditIcon },
+    { value: "hackernews", label: "Hackernews", icon: HackernewsIcon },
+    { value: "instagram", label: "Instagram", icon: InstragramIcon },
+    { value: "quora", label: "Quora", icon: QuoraIcon },
+  ];
 
   return (
     <div className="mx-auto max-h-screen max-w-[96vw] w-[98vw] h-[95vh]">
@@ -125,7 +174,15 @@ export default function SocialMediaResults() {
             onInviteClick={handleInviteClick}
             showBackButton={true}
           />
-          <NavigationTabs activeTab={activeTab} onTabChange={setActiveTab} />
+          <NavigationTabs
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            platforms={platforms}
+            selectedPlatform={selectedPlatform}
+            onPlatformChange={handlePlatformClick}
+            selectedTimeFilter={selectedTimeFilter}
+            onTimeFilterChange={setSelectedTimeFilter}
+          />
           {activeTab === "results" && (
             <div>
               <div className="flex justify-between items-center mb-4">
@@ -138,17 +195,8 @@ export default function SocialMediaResults() {
                   quoraCount={sourceCounts.quora}
                   hackernewsCount={sourceCounts.hackernews}
                   onPlatformClick={handlePlatformClick}
+                  selectedPlatform={selectedPlatform}
                 />
-                <div className="flex space-x-2">
-                  <FilterButton>
-                    <Filter className="mr-2 h-4 w-4" />
-                    All platforms
-                  </FilterButton>
-                  <FilterButton>
-                    <Calendar className="mr-2 h-4 w-4" />
-                    Last 24 hours
-                  </FilterButton>
-                </div>
               </div>
               <ScrollArea className="max-h-[100vh] border border-gray-300 rounded-2xl">
                 <div className="p-3 h-[72vh]">
