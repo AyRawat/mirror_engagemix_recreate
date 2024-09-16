@@ -1,11 +1,16 @@
 // src/axiosInstance.ts
 import { TokenManager } from "@/contexts/auth/TokenManager";
 import axios from "axios";
+import apiUrl from "@/config";
+
 
 const axiosInstance = axios.create({
-  baseURL: "http://em-apidev.ap-south-1.elasticbeanstalk.com",
+  baseURL: apiUrl,
   withCredentials: true,
 });
+
+console.log(apiUrl);
+
 
 axiosInstance.interceptors.request.use(
   (config) => {

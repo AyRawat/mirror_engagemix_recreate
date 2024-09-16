@@ -10,6 +10,8 @@ import FacebookIcon from "@/assets/icons/facebook.svg";
 import TwitterIcon from "@/assets/icons/twitter.svg";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
+import HackernewsIcon from "@/assets/icons/hackernews.svg";
+import QuoraIcon from "@/assets/icons/quora.svg";
 import { IProjectAnalytics, ProjectDto } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext"; // Import useAuth
 
@@ -58,6 +60,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     twitter: TwitterIcon,
     linkedin: LinkedInIcon,
     reddit: RedditIcon,
+    hackernews: HackernewsIcon,
+    quora: QuoraIcon,
   };
 
   // Compute initials from user name

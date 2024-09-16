@@ -126,7 +126,8 @@ const KeywordConfiguration = ({
     <div className="text-left">
       {!isConfigSetting && (
         <h1 className="text-xl text-[#344054] font-bold mb-6">
-          Keyword Configuration
+          After analysing business info, here are some keywords you should
+          track. Feel free too add more
         </h1>
       )}
       <div className="mb-6">
