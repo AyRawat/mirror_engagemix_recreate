@@ -155,7 +155,7 @@ export function ConfigurationPage() {
               </div>
               <div
                 className={`mx-auto px-16 ${
-                  currentStep === 3 || currentStep === 4
+                 currentStep === 1 ||  currentStep === 3 || currentStep === 4
                     ? "max-w-2xl pt-5"
                     : "max-w-xl py-20"
                 }`}

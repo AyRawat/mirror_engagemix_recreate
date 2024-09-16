@@ -15,7 +15,13 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 
-const InviteMemberModal = ({ onClose }: { onClose: () => void }) => {
+const InviteMemberModal = ({
+  onClose,
+  companyDomain,
+}: {
+  onClose: () => void;
+  companyDomain: string;
+}) => {
   return (
     <Dialog open={true} onOpenChange={onClose}>
       <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40" />
@@ -23,8 +29,8 @@ const InviteMemberModal = ({ onClose }: { onClose: () => void }) => {
         <DialogHeader>
           <DialogTitle className="text-center text-lg font-semibold">
             <div className="mb-4">
-              <div className="text-center text-sm text-gray-500">
-                www.homelade.io
+              <div className="text-center text-sm text-gray-500 border border-[#D0D5DD] rounded-full p-2">
+                {companyDomain}
               </div>
               <span>Customise your workspace</span>
             </div>

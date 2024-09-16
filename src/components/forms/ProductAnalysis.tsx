@@ -58,9 +58,9 @@ const ProductAnalysis = ({
   useEffect(() => {
     dispatch(
       setProductData({
-        companyName: companyName || '',
-        companyDomain: companyDomain || '',
-        companyDescription: companyDescription || ''
+        companyName: companyName || "",
+        companyDomain: companyDomain || "",
+        companyDescription: companyDescription || "",
       })
     );
   }, [companyName, companyDomain, companyDescription, dispatch]);
@@ -76,7 +76,9 @@ const ProductAnalysis = ({
     setIsGeneratingDescription(true);
     try {
       if (companyDomain) {
-        const description = await api.company.getDescriptionFromUrl(companyDomain);
+        const description = await api.company.getDescriptionFromUrl(
+          companyDomain
+        );
         setCompanyDescription(description);
       }
     } catch (error) {
@@ -89,7 +91,10 @@ const ProductAnalysis = ({
   return (
     <div className="w-full">
       {!isConfigSetting && (
-        <h1 className="text-3xl text-left font-bold mb-7">
+        <h1
+          className="text-xl text-left font-semibold letter-spacing mb-7 line-height-[25px]"
+          style={{ letterSpacing: "-0.4px" }}
+        >
           Tell us about your business
         </h1>
       )}
@@ -113,7 +118,9 @@ const ProductAnalysis = ({
             }}
           />
           {companyNameError && (
-            <p className="text-[#D75959] text-sm text-left mt-2 font-normal">{companyNameError}</p>
+            <p className="text-[#D75959] text-sm text-left mt-2 font-normal">
+              {companyNameError}
+            </p>
           )}
         </div>
         <div>

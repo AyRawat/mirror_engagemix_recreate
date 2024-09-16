@@ -7,10 +7,28 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import FeatherIcon from "@/assets/icons/feather.svg";
 import { Label } from "@/components/ui/label";
-import { Send, Twitter, X } from "lucide-react";
+import { Send, X } from "lucide-react";
 import { PostResponseDto } from "@/apis/types";
 import RegenerateIcon from "@/assets/icons/regenerateicon";
 import WhiteRegenerateIcon from "@/assets/icons/whiteregenerate.svg";
+import RedditIcon from "@/assets/icons/redditIcon.svg";
+import LinkedinIcon from "@/assets/icons/linkedinIcon.svg";
+import HackernewsIcon from "@/assets/icons/hackernews.svg";
+import TwitterIcon from "@/assets/icons/twitter.svg";
+import FacebookIcon from "@/assets/icons/facebook.svg";
+import InstragramIcon from "@/assets/icons/instagram.svg";
+import QuoraIcon from "@/assets/icons/quora.svg";
+import FilterIcon from "@/assets/icons/filtericon.svg";
+
+const platformIcons: { [key: string]: string } = {
+  twitter: TwitterIcon,
+  facebook: FacebookIcon,
+  linkedin: LinkedinIcon,
+  reddit: RedditIcon,
+  hackernews: HackernewsIcon,
+  instagram: InstragramIcon,
+  quora: QuoraIcon,
+};
 
 interface ReplyProps {
   post: PostResponseDto;
@@ -67,7 +85,11 @@ const Reply: React.FC<ReplyProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-3xl p-6 rounded-2xl">
         <div className="flex items-start space-x-3 mb-4">
-          <Twitter className="h-4 w-4 text-blue-400 mr-2" />
+          <img
+            src={platformIcons[post.source] || FilterIcon}
+            alt={post.source}
+            className="h-4 w-4 mr-2"
+          />
           <div className="flex-1">
             <p className="font-semibold text-sm">@{post.authorName}</p>
             <p className="text-xs text-gray-500">12 minutes ago</p>

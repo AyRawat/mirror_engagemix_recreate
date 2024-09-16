@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { useDispatch } from "@/hooks/DispatchHook";
 import { RootState } from "@/store/store";
 import { api } from "@/apis";
-import { ProjectDto, AnalyticsDto, Source } from "@/apis/types";
+import { ProjectDto, AnalyticsDto, Source, CompanyDto } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext";
 import StatsComponent from "@/components/common/StatsComponent";
 import ProjectManagement from "@/pages/ProjectManagment";
@@ -46,6 +46,7 @@ export default function Dashboard() {
     (state: RootState) => state.form.searchConfig
   );
   const queryClient = useQueryClient();
+  const [company, setCompany] = useState<CompanyDto | null>(null);
 
   // React Query for data fetching
   const { data: projects, isLoading: isProjectsLoading } = useQuery<
@@ -212,6 +213,19 @@ export default function Dashboard() {
     }
   };
 
+  useEffect(() => {
+    const fetchCompany = async () => {
+      try {
+        const companyData = await api.company.getCompany();
+        setCompany(companyData);
+      } catch (error) {
+        console.error("Failed to fetch company data:", error);
+      }
+    };
+
+    fetchCompany();
+  }, []);
+
   return (
     <div className="flex bg-white h-[96vh] w-[1836px] pb-2">
       <Sidebar onNavClick={setActiveSection} activeSection={activeSection} />
@@ -229,7 +243,12 @@ export default function Dashboard() {
         isLoading={isLoading}
         loadingText={loadingText}
       />
-      {isInviteModalOpen && <InviteMemberModal onClose={handleCloseModal} />}
+      {isInviteModalOpen && (
+        <InviteMemberModal
+          onClose={handleCloseModal}
+          companyDomain={company?.domain || ""}
+        />
+      )}
     </div>
   );
 }

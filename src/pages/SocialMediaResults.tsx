@@ -97,7 +97,7 @@ export default function SocialMediaResults() {
     };
 
     fetchCompany();
-  }, [project, dispatch]);
+  }, []);
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -245,7 +245,10 @@ export default function SocialMediaResults() {
             <ProjectAnalytics projectId={project?.id} />
           )}
           {isInviteModalOpen && (
-            <InviteMemberModal onClose={handleCloseModal} />
+            <InviteMemberModal
+              onClose={handleCloseModal}
+              companyDomain={company?.domain || ""}
+            />
           )}
         </>
       )}

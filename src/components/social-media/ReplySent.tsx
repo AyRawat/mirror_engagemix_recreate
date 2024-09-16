@@ -15,7 +15,7 @@ const ReplySent: React.FC<ReplySentProps> = ({
   <Card className="flex flex-col items-center pt-5 px-5 w-full rounded-bl-xl rounded-br-xl border border-gray-300 bg-purple-50">
     <CardContent className="flex flex-col items-start gap-5">
       <div className="flex items-start w-full h-18 gap-5">
-        <div className="flex-shrink-0 w-1/2 font-light leading-6 text-left">
+        <div className="flex-shrink-0 w-1/2 font-light leading-6 text-left text-base">
           {reply}
         </div>
         <div className="flex justify-end items-center flex-1 gap-2">
