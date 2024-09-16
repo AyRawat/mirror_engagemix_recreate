@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import LinkedInIcon from "@/assets/icons/linkedinIcon.svg";
 import RedditIcon from "@/assets/icons/redditIcon.svg";
 import HackernewsIcon from "@/assets/icons/hackernews.svg";

@@ -32,7 +32,7 @@ const sourceIconMap: { [key: string]: string } = {
   reddit: RedditIcon,
   // Add other sources and their corresponding icons here
 };
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PostCard: React.FC<PostCardProps> = ({
   post,
   keywords,
@@ -45,6 +45,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isReplyOpen, setReplyOpen] = useState(false);
   const [generatedReply, setGeneratedReply] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [customInstruction, setCustomInstruction] = useState("");
 
   const toggleExpand = () => {
@@ -77,6 +78,8 @@ const PostCard: React.FC<PostCardProps> = ({
   };
 
   const handleCloseReply = () => {
+    console.log(onReplyClick, customInstruction);
+
     setReplyOpen(false);
     setCustomInstruction("");
   };

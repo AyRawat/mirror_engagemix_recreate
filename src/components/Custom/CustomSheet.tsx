@@ -1,5 +1,5 @@
 // src/components/Custom/CustomSheet.tsx
-import React, { useState } from "react";
+import React from "react";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import ProductAnalysis from "@/components/forms/ProductAnalysis";
 import SearchConfiguration from "@/components/forms/SearchConfiguration";

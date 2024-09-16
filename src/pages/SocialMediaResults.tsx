@@ -1,6 +1,5 @@
 // src/pages/SocialMediaResults.tsx
 import { useState, useEffect, useMemo } from "react";
-import { useDispatch } from "@/hooks/DispatchHook";
 import Header from "@/components/layout/Header";
 import NavigationTabs from "@/components/social-media/NavigationTabs";
 import SocialMediaCounts from "@/components/social-media/SocialMediaCounts";
@@ -83,8 +82,6 @@ export default function SocialMediaResults() {
   };
 
   const [company, setCompany] = useState<CompanyDto | null>(null);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchCompany = async () => {

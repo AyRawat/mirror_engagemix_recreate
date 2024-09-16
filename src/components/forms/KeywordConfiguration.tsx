@@ -41,7 +41,6 @@ const KeywordConfiguration = ({
     keywordsData || existingKeywords || project?.keywords || []
   );
   const [newKeyword, setNewKeyword] = useState("");
-  const [helpText, setHelpText] = useState("");
   const [projectName, setLocalProjectName] = useState(
     projectNameData || project?.name
   );
