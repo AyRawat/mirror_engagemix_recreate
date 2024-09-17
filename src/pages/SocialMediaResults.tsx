@@ -1,5 +1,5 @@
 // src/pages/SocialMediaResults.tsx
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Header from "@/components/layout/Header";
 import NavigationTabs from "@/components/social-media/NavigationTabs";
 import SocialMediaCounts from "@/components/social-media/SocialMediaCounts";
@@ -7,11 +7,11 @@ import PostCard from "@/components/social-media/PostCard";
 import NoPostsCard from "@/components/social-media/NoPostsCard";
 import InviteMemberModal from "@/components/project/InviteMember";
 import ConfigurationSettings from "@/components/blocks/ConfigurationSettings";
-import { CompanyDto, PostResponseDto, ProjectDto } from "@/apis/types";
+import { PostResponseDto, ProjectDto } from "@/apis/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useLocation } from "react-router-dom";
 import ProjectAnalytics from "@/components/social-media/ProjectAnalytics";
-import { api } from "@/apis";
+import { useAuth } from "@/contexts/auth/AuthContext";
 import { usePosts } from "@/hooks/usePosts";
 import { PostSource } from "@/apis/types"; // Add this import
 
@@ -28,6 +28,7 @@ import FilterIcon from "@/assets/icons/filtericon.svg";
 export default function SocialMediaResults() {
   const location = useLocation();
   const project = location.state?.project as ProjectDto;
+  const { user } = useAuth();
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
@@ -81,21 +82,6 @@ export default function SocialMediaResults() {
   const loadMorePosts = () => {
     setPage((prevPage) => prevPage + 1);
   };
-
-  const [company, setCompany] = useState<CompanyDto | null>(null);
-
-  useEffect(() => {
-    const fetchCompany = async () => {
-      try {
-        const companyData = await api.company.getCompany();
-        setCompany(companyData);
-      } catch (error) {
-        console.error("Failed to fetch company data:", error);
-      }
-    };
-
-    fetchCompany();
-  }, []);
 
   const handleInviteClick = () => {
     setInviteModalOpen(true);
@@ -241,8 +227,8 @@ export default function SocialMediaResults() {
               </ScrollArea>
             </div>
           )}
-          {activeTab === "configuration" && company && (
-            <ConfigurationSettings project={project} company={company} />
+          {activeTab === "configuration" && user?.company && (
+            <ConfigurationSettings project={project} company={user.company} />
           )}
           {activeTab === "analytics" && (
             <ProjectAnalytics projectId={project?.id} />
@@ -250,7 +236,7 @@ export default function SocialMediaResults() {
           {isInviteModalOpen && (
             <InviteMemberModal
               onClose={handleCloseModal}
-              companyDomain={company?.domain || ""}
+              companyDomain={user?.company?.domain || ""}
             />
           )}
         </>
