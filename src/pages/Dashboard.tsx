@@ -227,9 +227,9 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex bg-white h-[96vh] w-[1836px] pb-2">
+    <div className="flex bg-white w-full">
       <Sidebar onNavClick={setActiveSection} activeSection={activeSection} />
-      <main className="flex-1 px-6 max-w-[1574px] mx-auto overflow-hidden">
+      <main className="flex-1 px-4 sm:px-6 lg:px-8 max-w-full mx-auto overflow-hidden">
         {renderContent()}
       </main>
       <CustomSheet
