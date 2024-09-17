@@ -34,6 +34,7 @@ export default function SocialMediaResults() {
   const [unfilteredCounts, setUnfilteredCounts] = useState<
     Record<PostSource, number>
   >({} as Record<PostSource, number>);
+  const [filteredCounts, setFilteredCounts] = useState<Record<PostSource, number>>({} as Record<PostSource, number>);
 
   const [repliesSent, setRepliesSent] = useState<{
     [postId: string]: string[];
@@ -127,7 +128,7 @@ export default function SocialMediaResults() {
   };
 
   const sourceCounts = useMemo(() => {
-    const counts: Record<PostSource, number> = {
+    const unfilteredCounts: Record<PostSource, number> = {
       twitter: 0,
       facebook: 0,
       linkedin: 0,
@@ -137,13 +138,21 @@ export default function SocialMediaResults() {
       hackernews: 0,
     };
 
+    const filteredCounts: Record<PostSource, number> = { ...unfilteredCounts };
+
     posts?.forEach((post) => {
-      counts[post.source] = (counts[post.source] || 0) + 1;
+      unfilteredCounts[post.source] = (unfilteredCounts[post.source] || 0) + 1;
+      
+      if (filterPostsByTime([post], selectedTimeFilter).length > 0) {
+        filteredCounts[post.source] = (filteredCounts[post.source] || 0) + 1;
+      }
     });
 
-    setUnfilteredCounts(counts);
-    return counts;
-  }, [posts]);
+    setUnfilteredCounts(unfilteredCounts);
+    setFilteredCounts(filteredCounts);
+
+    return { unfilteredCounts, filteredCounts };
+  }, [posts, selectedTimeFilter]);
 
   const keywords = project?.keywords || [];
 
@@ -189,13 +198,13 @@ export default function SocialMediaResults() {
             <div>
               <div className="flex justify-between items-center mb-4">
                 <SocialMediaCounts
-                  redditCount={unfilteredCounts.reddit}
-                  twitterCount={unfilteredCounts.twitter}
-                  facebookCount={unfilteredCounts.facebook}
-                  linkedinCount={unfilteredCounts.linkedin}
-                  instagramCount={unfilteredCounts.instagram}
-                  quoraCount={unfilteredCounts.quora}
-                  hackernewsCount={unfilteredCounts.hackernews}
+                  redditCount={sourceCounts.filteredCounts.reddit}
+                  twitterCount={sourceCounts.filteredCounts.twitter}
+                  facebookCount={sourceCounts.filteredCounts.facebook}
+                  linkedinCount={sourceCounts.filteredCounts.linkedin}
+                  instagramCount={sourceCounts.filteredCounts.instagram}
+                  quoraCount={sourceCounts.filteredCounts.quora}
+                  hackernewsCount={sourceCounts.filteredCounts.hackernews}
                   onPlatformClick={handlePlatformClick}
                   selectedPlatform={selectedPlatform?.toLowerCase()}
                 />
