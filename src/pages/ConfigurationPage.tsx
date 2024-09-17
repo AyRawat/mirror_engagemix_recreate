@@ -6,21 +6,16 @@ import KeywordConfiguration from "@/components/forms/KeywordConfiguration";
 import { StepIndicator } from "@/components/forms/StepIndicator";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/apis";
-import { CompanyDto, Source } from "@/apis/types";
+import { Source } from "@/apis/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
 import Loader from "@/components/common/Loader";
-import { useDispatch } from "@/hooks/DispatchHook";
-import { setProductData } from "@/store/formSlice";
-import { useAuth } from "@/contexts/auth/AuthContext";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { user } = useAuth();
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectName = useSelector((state: RootState) => state.form.projectName);
@@ -129,16 +124,6 @@ export function ConfigurationPage() {
       default:
         navigate("/dashboard");
     }
-  };
-
-  const prefillProductAnalysis = (company: CompanyDto) => {
-    dispatch(
-      setProductData({
-        companyName: company.name || "",
-        companyDomain: company.domain || "",
-        companyDescription: company.description || "",
-      })
-    );
   };
 
   return (

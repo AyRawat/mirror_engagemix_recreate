@@ -2,7 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductData } from "@/store/formSlice";
 import { RootState } from "@/store/store";
@@ -67,18 +67,6 @@ const ProductAnalysis = ({
     }
     return null;
   };
-
-  const memoizedValidateCompanyName = useCallback(validateCompanyName, []);
-  const memoizedValidateCompanyDomain = useCallback(validateCompanyDomain, []);
-  const memoizedValidateCompanyDescription = useCallback(
-    validateCompanyDescription,
-    []
-  );
-
-  const memoizedDispatch = useCallback(
-    (data: any) => dispatch(setProductData(data)),
-    [dispatch]
-  );
 
   useEffect(() => {
     if (company) {
