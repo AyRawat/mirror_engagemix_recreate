@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreateAccount from "@/components/blocks/CreateAccount";
 import ProductAnalysis from "@/components/forms/ProductAnalysis";
 import SearchConfiguration from "@/components/forms/SearchConfiguration";
@@ -11,11 +11,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
 import Loader from "@/components/common/Loader";
+import { useAuth } from "@/contexts/auth/AuthContext";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
+  const authContext = useAuth();
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectName = useSelector((state: RootState) => state.form.projectName);
@@ -126,9 +128,14 @@ export function ConfigurationPage() {
     }
   };
 
+  useEffect(() => {
+    if (authContext.isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, []);
   return (
     <>
-      <div className="h-screen flex pb-2 justify-center pt-5 pb-6">
+      <div className="h-screen flex justify-center pt-5 pb-6">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-8 w-full max-w-[1920px]">
           {/* Left Column - Social Media Post Card */}
           <div

@@ -91,8 +91,7 @@ const CreateAccount = ({ onNext }: { onNext: (step?: number) => void }) => {
 
   useEffect(() => {
     if (authContext.isAuthenticated) {
-      authContext.logout();
-      setIsLoginMode(true);
+      navigate("/dashboard");
     }
     dispatch(setAccountData({ email, password, firstName, lastName }));
   }, [email, password, firstName, lastName, dispatch]);

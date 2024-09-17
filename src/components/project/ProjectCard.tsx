@@ -74,12 +74,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   };
 
   return (
-    <Card className="mb-4 cursor-pointer border border-gray-300 rounded-2xl h-42">
+    <Card className="mb-4 border border-gray-300 rounded-2xl h-42">
       <CardContent className="p-3">
         <div className="flex justify-between items-start mb-2">
           <div className="flex items-center">
             <ExternalLink className="h-4 w-4 mr-2 text-gray-500" />
-            <span className="font-semibold" onClick={handleProjectClick}>
+            <span 
+              className="font-semibold cursor-pointer hover:underline" 
+              onClick={handleProjectClick}
+            >
               {project.name}
             </span>
           </div>
