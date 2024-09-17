@@ -160,7 +160,7 @@ export default function SocialMediaResults() {
   ];
 
   return (
-    <div className="mx-auto max-h-screen max-w-[96vw] w-[98vw] h-[95vh]">
+    <div className="flex flex-col h-screen pt-5 pb-6">
       {isLoading ? (
         <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
           <div className="flex flex-col items-center">
@@ -187,7 +187,7 @@ export default function SocialMediaResults() {
             onTimeFilterChange={setSelectedTimeFilter}
           />
           {activeTab === "results" && (
-            <div>
+            <div className="flex flex-col flex-grow overflow-hidden">
               <div className="flex justify-between items-center mb-4">
                 <SocialMediaCounts
                   redditCount={sourceCounts.filteredCounts.reddit}
@@ -201,8 +201,8 @@ export default function SocialMediaResults() {
                   selectedPlatform={selectedPlatform?.toLowerCase()}
                 />
               </div>
-              <ScrollArea className="max-h-[100vh] border border-gray-300 rounded-2xl">
-                <div className="p-3 h-[72vh]">
+              <ScrollArea className="flex-grow border border-gray-300 rounded-2xl">
+                <div className="p-3">
                   {paginatedPosts.length === 0 ? (
                     <NoPostsCard
                       headerText="No posts yet"

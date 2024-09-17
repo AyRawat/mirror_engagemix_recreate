@@ -15,7 +15,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ onNavClick, activeSection }) => (
-  <div className="w-[296px] bg-[#101928] text-white p-4 flex flex-col rounded-3xl overflow-hidden max-h-screen">
+  <div className="bg-[#101928] text-white p-4 flex flex-col rounded-3xl overflow-hidden h-full">
     <div className="mb-8 text-left">
       <img src={EngageMixLogo} alt="EngageMix" className="h-full w-full" />
     </div>

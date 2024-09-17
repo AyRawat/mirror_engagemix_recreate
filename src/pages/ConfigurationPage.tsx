@@ -128,7 +128,7 @@ export function ConfigurationPage() {
 
   return (
     <>
-      <div className="h-[96vh] flex pb-2 justify-center">
+      <div className="h-screen flex pb-2 justify-center pt-5 pb-6">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_8fr] gap-8 w-full max-w-[1920px]">
           {/* Left Column - Social Media Post Card */}
           <div

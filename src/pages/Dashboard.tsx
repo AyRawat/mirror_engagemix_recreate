@@ -207,17 +207,19 @@ export default function Dashboard() {
                 handleNewProject={handleNewProjectClick}
               />
             )}
-          </>
+        </>
         );
     }
   };
 
   return (
-    <div className="flex bg-white w-full">
-      <Sidebar onNavClick={setActiveSection} activeSection={activeSection} />
-      <main className="flex-1 px-4 sm:px-6 lg:px-8 max-w-full mx-auto overflow-hidden">
-        {renderContent()}
-      </main>
+    <div className="h-screen flex pb-2 justify-center pt-5 pb-6">
+      <div className="grid grid-cols-[296px_1fr] gap-8 w-full max-w-[1920px]">
+        <Sidebar onNavClick={setActiveSection} activeSection={activeSection} />
+        <main className="overflow-hidden pr-8">
+          {renderContent()}
+        </main>
+      </div>
       <CustomSheet
         isOpen={isSheetOpen}
         onClose={handleCloseSheet}
