@@ -15,6 +15,8 @@ export type TokenDto = {
 };
 
 export type UserDto = {
+  company?: CompanyDto;
+  isOnboardingDone?: boolean;
   id: string;
   email: string;
   name: string;

@@ -6,16 +6,21 @@ import KeywordConfiguration from "@/components/forms/KeywordConfiguration";
 import { StepIndicator } from "@/components/forms/StepIndicator";
 import { useNavigate } from "react-router-dom";
 import { api } from "@/apis";
-import { Source } from "@/apis/types";
+import { CompanyDto, Source } from "@/apis/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import KeywordCardBackground from "@/assets/Background/KeywordCardBackground.svg";
 import Loader from "@/components/common/Loader";
+import { useDispatch } from "@/hooks/DispatchHook";
+import { setProductData } from "@/store/formSlice";
+import { useAuth } from "@/contexts/auth/AuthContext";
 
 export function ConfigurationPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [showLoader, setShowLoader] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useAuth();
   const productData = useSelector((state: RootState) => state.form.productData);
   const keywordsData = useSelector((state: RootState) => state.form.keywords);
   const projectName = useSelector((state: RootState) => state.form.projectName);
@@ -26,12 +31,14 @@ export function ConfigurationPage() {
     (state: RootState) => state.form.projectDescription
   );
 
-  const handleNext = async () => {
+  const handleNext = async (skipTo?: number) => {
     if (currentStep >= 1) {
       setShowLoader(true);
       setTimeout(() => {
         setShowLoader(false);
-        if (currentStep === 4) {
+        if (skipTo) {
+          setCurrentStep(skipTo);
+        } else if (currentStep === 4) {
           handleFinalStep();
         } else {
           setCurrentStep(currentStep + 1);
@@ -124,6 +131,16 @@ export function ConfigurationPage() {
     }
   };
 
+  const prefillProductAnalysis = (company: CompanyDto) => {
+    dispatch(
+      setProductData({
+        companyName: company.name || "",
+        companyDomain: company.domain || "",
+        companyDescription: company.description || "",
+      })
+    );
+  };
+
   return (
     <>
       <div className="h-[96vh] flex pb-2 justify-center">
@@ -155,7 +172,7 @@ export function ConfigurationPage() {
               </div>
               <div
                 className={`mx-auto px-16 ${
-                 currentStep === 1 ||  currentStep === 3 || currentStep === 4
+                  currentStep === 1 || currentStep === 3 || currentStep === 4
                     ? "max-w-2xl pt-5"
                     : "max-w-xl py-20"
                 }`}

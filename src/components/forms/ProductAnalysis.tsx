@@ -2,18 +2,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductData } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 import { CompanyDto } from "@/apis/types";
 import { api } from "@/apis";
+import { useAuth } from "@/contexts/auth/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ProductAnalysis = ({
   onNext,
   onBack,
   isConfigSetting = false,
-  company,
+  company = useAuth().user?.company,
 }: {
   onNext: () => void;
   onBack: () => void;
@@ -21,6 +23,8 @@ const ProductAnalysis = ({
   company?: CompanyDto;
 }) => {
   const dispatch = useDispatch();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const productData = useSelector((state: RootState) => state.form.productData);
   const [companyName, setCompanyName] = useState(
     productData.companyName || company?.name
@@ -29,9 +33,7 @@ const ProductAnalysis = ({
     productData.companyDomain || company?.domain
   );
   const [companyDescription, setCompanyDescription] = useState(
-    productData.companyDescription ||
-      company?.description ||
-      "Travelcoup specializes in organizing group trips and providing comprehensive travel planning services. Whether you're looking to join a group trip, seek personal travel advice, or explore destinations, Kaijago aims to make travel planning hassle-free and enjoyable..."
+    productData.companyDescription || company?.description
   );
   const [companyNameError, setCompanyNameError] = useState<string | null>(null);
   const [companyDomainError, setCompanyDomainError] = useState<string | null>(
@@ -41,6 +43,7 @@ const ProductAnalysis = ({
     string | null
   >(null);
   const [isGeneratingDescription, setIsGeneratingDescription] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const validateCompanyName = (name: string): string | null => {
     if (!name) {
@@ -65,7 +68,30 @@ const ProductAnalysis = ({
     return null;
   };
 
+  const memoizedValidateCompanyName = useCallback(validateCompanyName, []);
+  const memoizedValidateCompanyDomain = useCallback(validateCompanyDomain, []);
+  const memoizedValidateCompanyDescription = useCallback(
+    validateCompanyDescription,
+    []
+  );
+
+  const memoizedDispatch = useCallback(
+    (data: any) => dispatch(setProductData(data)),
+    [dispatch]
+  );
+
   useEffect(() => {
+    if (company) {
+      setIsFormValid(true);
+    }
+    const nameError = validateCompanyName(companyName || "");
+    const domainError = validateCompanyDomain(companyDomain || "");
+    const descriptionError = validateCompanyDescription(
+      companyDescription || ""
+    );
+
+    setIsFormValid(!nameError && !domainError && !descriptionError);
+
     dispatch(
       setProductData({
         companyName: companyName || "",
@@ -88,7 +114,15 @@ const ProductAnalysis = ({
     setCompanyDescriptionError(descriptionError);
 
     if (!nameError && !domainError && !descriptionError) {
-      onNext();
+      if (user?.isOnboardingDone) {
+        navigate("/dashboard");
+      } else {
+        onNext();
+      }
+    } else {
+      if (!nameError && !domainError && !descriptionError) {
+        onNext();
+      }
     }
   };
 
@@ -107,6 +141,14 @@ const ProductAnalysis = ({
     } finally {
       setIsGeneratingDescription(false);
     }
+  };
+
+  const updateFormValidity = (
+    nameError: string | null,
+    domainError: string | null,
+    descriptionError: string | null
+  ) => {
+    setIsFormValid(!nameError && !domainError && !descriptionError);
   };
 
   return (
@@ -135,7 +177,13 @@ const ProductAnalysis = ({
             value={companyName}
             onChange={(e) => {
               setCompanyName(e.target.value);
-              setCompanyNameError(validateCompanyName(e.target.value));
+              const error = validateCompanyName(e.target.value);
+              setCompanyNameError(error);
+              updateFormValidity(
+                error,
+                companyDomainError,
+                companyDescriptionError
+              );
             }}
           />
           {companyNameError && (
@@ -160,7 +208,13 @@ const ProductAnalysis = ({
               value={companyDomain}
               onChange={(e) => {
                 setCompanyDomain(e.target.value);
-                setCompanyDomainError(validateCompanyDomain(e.target.value));
+                const error = validateCompanyDomain(e.target.value);
+                setCompanyDomainError(error);
+                updateFormValidity(
+                  companyNameError,
+                  error,
+                  companyDescriptionError
+                );
               }}
             />
             <Button
@@ -192,9 +246,9 @@ const ProductAnalysis = ({
             value={companyDescription}
             onChange={(e) => {
               setCompanyDescription(e.target.value);
-              setCompanyDescriptionError(
-                validateCompanyDescription(e.target.value)
-              );
+              const error = validateCompanyDescription(e.target.value);
+              setCompanyDescriptionError(error);
+              updateFormValidity(companyNameError, companyDomainError, error);
             }}
           />
           {companyDescriptionError && (
@@ -222,6 +276,7 @@ const ProductAnalysis = ({
               }}
               className="text-white w-full h-12"
               onClick={handleNext}
+              disabled={!isFormValid}
             >
               Continue
             </Button>

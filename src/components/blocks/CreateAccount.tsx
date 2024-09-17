@@ -10,9 +10,10 @@ import { setAccountData } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 import { RegisterRequestDto, UserDto, LoginRequestDto } from "@/apis/types";
 import { useAuth } from "@/contexts/auth/AuthContext";
-
-const CreateAccount = ({ onNext }: { onNext: () => void }) => {
+import { useNavigate } from "react-router-dom";
+const CreateAccount = ({ onNext }: { onNext: (step?: number) => void }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const authContext = useAuth();
   const accountData = useSelector((state: RootState) => state.form.accountData);
   const [email, setEmail] = useState(accountData.email);
@@ -24,6 +25,7 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
   const [firstNameError, setFirstNameError] = useState<string | null>(null);
   const [lastNameError, setLastNameError] = useState<string | null>(null);
   const [isLoginMode, setIsLoginMode] = useState(false);
+  const { user } = useAuth();
 
   const validateEmail = (email: string): string | null => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,13 +65,22 @@ const CreateAccount = ({ onNext }: { onNext: () => void }) => {
     },
     onSuccess: (data) => {
       if (isLoginMode) {
-        console.log("Login data ", data);
-        onNext();
+        if (user?.isOnboardingDone) {
+          navigate("/dashboard");
+        } else {
+          if (user?.company && user.company.name) {
+            onNext(3); // Skip to Keyword Configuration
+          } else {
+            onNext();
+          }
+        }
       } else {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
         dispatch(setToken({ accessToken: "", user: userData }));
-        onNext();
+        authContext.login({ email, password }).then(() => {
+          onNext();
+        });
       }
     },
     onError: (error) => {

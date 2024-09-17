@@ -48,6 +48,7 @@ const KeywordConfiguration = ({
     projectDescriptionData || project?.description
   );
   const [isFetchingKeywords, setIsFetchingKeywords] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const [projectNameError, setProjectNameError] = useState<string | null>(null);
   const [keywordError, setKeywordError] = useState<string | null>(null);
@@ -66,20 +67,31 @@ const KeywordConfiguration = ({
     return null;
   };
 
+  const checkFormValidity = () => {
+    const isValid =
+      projectName?.trim() !== "" &&
+      projectDescription?.trim() !== "" &&
+      keywords.length > 0;
+    setIsFormValid(isValid);
+  };
+
   useEffect(() => {
     if (keywords.length > 0) {
       dispatch(setKeywords(keywords));
     } else {
       dispatch(setKeywords(existingKeywords || []));
     }
+    checkFormValidity();
   }, [keywords, dispatch, existingKeywords]);
 
   useEffect(() => {
     dispatch(setProjectName(projectName || ""));
+    checkFormValidity();
   }, [projectName, dispatch]);
 
   useEffect(() => {
     dispatch(setProjectDescription(projectDescription ?? ""));
+    checkFormValidity();
   }, [projectDescription, dispatch]);
 
   const addKeyword = () => {
@@ -91,6 +103,7 @@ const KeywordConfiguration = ({
     setLocalKeywords([...keywords, newKeyword]);
     setNewKeyword("");
     setKeywordError(null);
+    checkFormValidity();
   };
 
   const removeKeyword = (keywordToRemove: string) => {
@@ -154,7 +167,10 @@ const KeywordConfiguration = ({
           className="w-full h-auto bg-gray-100 scrollbar-hide overflow-hidden"
           placeholder="Enter project description"
           value={projectDescription}
-          onChange={(e: any) => setLocalProjectDescription(e.target.value)}
+          onChange={(e: any) => {
+            setLocalProjectDescription(e.target.value);
+            checkFormValidity();
+          }}
         />
         {projectDescription && (
           <Button
@@ -251,6 +267,7 @@ const KeywordConfiguration = ({
             }}
             className="text-white w-full h-12"
             onClick={handleNext}
+            disabled={!isFormValid}
           >
             Save & continue
           </Button>

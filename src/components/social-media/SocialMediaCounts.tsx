@@ -16,7 +16,7 @@ interface SocialMediaCountsProps {
   redditCount: number;
   hackernewsCount: number;
   onPlatformClick: (platform: string) => void;
-  selectedPlatform: string | null;
+  selectedPlatform: string | undefined;
 }
 
 const SocialMediaCounts: React.FC<SocialMediaCountsProps> = ({

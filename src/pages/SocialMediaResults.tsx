@@ -192,7 +192,7 @@ export default function SocialMediaResults() {
                   quoraCount={sourceCounts.quora}
                   hackernewsCount={sourceCounts.hackernews}
                   onPlatformClick={handlePlatformClick}
-                  selectedPlatform={selectedPlatform}
+                  selectedPlatform={selectedPlatform?.toLowerCase()}
                 />
               </div>
               <ScrollArea className="max-h-[100vh] border border-gray-300 rounded-2xl">
