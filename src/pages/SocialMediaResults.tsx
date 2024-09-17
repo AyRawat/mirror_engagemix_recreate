@@ -31,6 +31,10 @@ export default function SocialMediaResults() {
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
+  const [unfilteredCounts, setUnfilteredCounts] = useState<
+    Record<PostSource, number>
+  >({} as Record<PostSource, number>);
+
   const [repliesSent, setRepliesSent] = useState<{
     [postId: string]: string[];
   }>({});
@@ -43,7 +47,7 @@ export default function SocialMediaResults() {
 
   const { data: posts, isLoading } = usePosts(project?.id);
 
-  const [selectedTimeFilter, setSelectedTimeFilter] = useState("day");
+  const [selectedTimeFilter, setSelectedTimeFilter] = useState("week");
 
   const filterPostsByTime = (posts: PostResponseDto[], timeFilter: string) => {
     const now = new Date().getTime() / 1000; // Current time in seconds
@@ -133,12 +137,13 @@ export default function SocialMediaResults() {
       hackernews: 0,
     };
 
-    filteredPosts.forEach((post) => {
+    posts?.forEach((post) => {
       counts[post.source] = (counts[post.source] || 0) + 1;
     });
 
+    setUnfilteredCounts(counts);
     return counts;
-  }, [filteredPosts]);
+  }, [posts]);
 
   const keywords = project?.keywords || [];
 
@@ -184,13 +189,13 @@ export default function SocialMediaResults() {
             <div>
               <div className="flex justify-between items-center mb-4">
                 <SocialMediaCounts
-                  redditCount={sourceCounts.reddit}
-                  twitterCount={sourceCounts.twitter}
-                  facebookCount={sourceCounts.facebook}
-                  linkedinCount={sourceCounts.linkedin}
-                  instagramCount={sourceCounts.instagram}
-                  quoraCount={sourceCounts.quora}
-                  hackernewsCount={sourceCounts.hackernews}
+                  redditCount={unfilteredCounts.reddit}
+                  twitterCount={unfilteredCounts.twitter}
+                  facebookCount={unfilteredCounts.facebook}
+                  linkedinCount={unfilteredCounts.linkedin}
+                  instagramCount={unfilteredCounts.instagram}
+                  quoraCount={unfilteredCounts.quora}
+                  hackernewsCount={unfilteredCounts.hackernews}
                   onPlatformClick={handlePlatformClick}
                   selectedPlatform={selectedPlatform?.toLowerCase()}
                 />

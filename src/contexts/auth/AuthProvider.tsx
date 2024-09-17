@@ -18,6 +18,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       TokenManager.setAccessToken(accessToken);
       setUser(user);
       setIsAuthenticated(true);
+      return user;
     } catch {
       TokenManager.setAccessToken("");
       setIsAuthenticated(false);

@@ -5,7 +5,7 @@ const AuthContext = createContext({
   user: null as UserDto | null,
   isAuthenticated: false,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  login: async (_: LoginRequestDto): Promise<void> => {},
+  login: async (_: LoginRequestDto): Promise<UserDto> => ({} as UserDto),
   logout: async () => {},
 });
 

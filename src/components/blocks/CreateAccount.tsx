@@ -65,10 +65,11 @@ const CreateAccount = ({ onNext }: { onNext: (step?: number) => void }) => {
     },
     onSuccess: (data) => {
       if (isLoginMode) {
-        if (user?.isOnboardingDone) {
+        const userData = data as UserDto;
+        if (userData.isOnboardingDone) {
           navigate("/dashboard");
         } else {
-          if (user?.company && user.company.name) {
+          if (userData.company && userData.company.name) {
             onNext(3); // Skip to Keyword Configuration
           } else {
             onNext();
@@ -78,7 +79,8 @@ const CreateAccount = ({ onNext }: { onNext: (step?: number) => void }) => {
         const userData = data as UserDto;
         dispatch(setUser({ email, name: `${firstName} ${lastName}` }));
         dispatch(setToken({ accessToken: "", user: userData }));
-        authContext.login({ email, password }).then(() => {
+        authContext.login({ email, password }).then((loggedInUser) => {
+          console.log("User data after login:", loggedInUser);
           onNext();
         });
       }
