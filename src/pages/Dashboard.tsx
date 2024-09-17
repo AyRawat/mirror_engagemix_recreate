@@ -207,18 +207,16 @@ export default function Dashboard() {
                 handleNewProject={handleNewProjectClick}
               />
             )}
-        </>
+          </>
         );
     }
   };
 
   return (
-    <div className="h-screen flex pb-2 justify-center pt-5 pb-6">
+    <div className="h-screen flex justify-center pt-5 pb-6">
       <div className="grid grid-cols-[296px_1fr] gap-8 w-full max-w-[1920px]">
         <Sidebar onNavClick={setActiveSection} activeSection={activeSection} />
-        <main className="overflow-hidden pr-8">
-          {renderContent()}
-        </main>
+        <main className="overflow-hidden pr-8">{renderContent()}</main>
       </div>
       <CustomSheet
         isOpen={isSheetOpen}

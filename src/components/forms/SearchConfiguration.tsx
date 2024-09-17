@@ -158,45 +158,43 @@ const SearchConfiguration = ({
             onValueChange={setSearchFrequency}
             className="space-y-2"
           >
-            <div
+            <label
               className={cn(
-                "h-16 flex items-center justify-between rounded-xl py-3 px-4",
+                "h-16 flex items-center justify-between rounded-xl py-3 px-4 cursor-pointer",
                 searchFrequency === "realtime"
                   ? "bg-blue-100 border-2 border-blue-500"
                   : "bg-gray-100 border border-gray-300"
               )}
             >
               <div>
-                <Label className="font-medium" htmlFor="realtime">
-                  Real time
-                </Label>
+                <span className="font-medium">Real time</span>
                 <p className="text-sm text-gray-500">
                   Monitor for new content as its published
                 </p>
               </div>
               <RadioGroupItem value="realtime" id="realtime" />
-            </div>
-            <div className=" h-16 flex space-x-2">
+            </label>
+            <div className="h-16 flex space-x-2">
               {["daily", "weekly"].map((option) => (
-                <div
+                <label
                   key={option}
                   className={cn(
-                    "flex-1 flex items-center justify-between rounded-xl py-3 px-4",
+                    "flex-1 flex items-center justify-between rounded-xl py-3 px-4 cursor-pointer",
                     searchFrequency === option
                       ? "bg-blue-100 border-2 border-blue-500"
                       : "bg-gray-100 border border-gray-300"
                   )}
                 >
                   <div>
-                    <Label className="font-medium" htmlFor={option}>
+                    <span className="font-medium">
                       {option.charAt(0).toUpperCase() + option.slice(1)}
-                    </Label>
+                    </span>
                     <p className="text-sm text-gray-500">
                       Search once {option === "daily" ? "a day" : "a week"}
                     </p>
                   </div>
                   <RadioGroupItem value={option} id={option} />
-                </div>
+                </label>
               ))}
             </div>
           </RadioGroup>
@@ -209,10 +207,10 @@ const SearchConfiguration = ({
             className="flex space-x-4"
           >
             {BrandToneOptions.map((option) => (
-              <div
+              <label
                 key={option.value}
                 className={cn(
-                  "flex-1 flex items-center justify-between rounded-xl py-2 px-4",
+                  "flex-1 flex items-center justify-between rounded-xl py-2 px-4 cursor-pointer",
                   brandTone === option.value
                     ? "bg-blue-100 border-2 border-blue-500"
                     : "bg-gray-100 border border-gray-300"
@@ -222,16 +220,14 @@ const SearchConfiguration = ({
                   <span role="img" aria-label={option.value} className="mr-2">
                     {option.emoji}
                   </span>
-                  <Label className="font-medium" htmlFor={option.value}>
-                    {option.label}
-                  </Label>
+                  <span className="font-medium">{option.label}</span>
                 </div>
                 <RadioGroupItem
                   className="ml-4"
                   value={option.value}
                   id={option.value}
                 />
-              </div>
+              </label>
             ))}
           </RadioGroup>
         </div>
