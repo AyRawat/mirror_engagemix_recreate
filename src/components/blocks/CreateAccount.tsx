@@ -25,7 +25,6 @@ const CreateAccount = ({ onNext }: { onNext: (step?: number) => void }) => {
   const [firstNameError, setFirstNameError] = useState<string | null>(null);
   const [lastNameError, setLastNameError] = useState<string | null>(null);
   const [isLoginMode, setIsLoginMode] = useState(false);
-  const { user } = useAuth();
 
   const validateEmail = (email: string): string | null => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -31,10 +31,6 @@ export default function SocialMediaResults() {
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("results");
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
-  const [unfilteredCounts, setUnfilteredCounts] = useState<
-    Record<PostSource, number>
-  >({} as Record<PostSource, number>);
-  const [filteredCounts, setFilteredCounts] = useState<Record<PostSource, number>>({} as Record<PostSource, number>);
 
   const [repliesSent, setRepliesSent] = useState<{
     [postId: string]: string[];
@@ -142,15 +138,11 @@ export default function SocialMediaResults() {
 
     posts?.forEach((post) => {
       unfilteredCounts[post.source] = (unfilteredCounts[post.source] || 0) + 1;
-      
+
       if (filterPostsByTime([post], selectedTimeFilter).length > 0) {
         filteredCounts[post.source] = (filteredCounts[post.source] || 0) + 1;
       }
     });
-
-    setUnfilteredCounts(unfilteredCounts);
-    setFilteredCounts(filteredCounts);
-
     return { unfilteredCounts, filteredCounts };
   }, [posts, selectedTimeFilter]);
 
