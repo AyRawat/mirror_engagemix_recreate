@@ -94,14 +94,14 @@ const SearchConfiguration = ({
   return (
     <div className="max-w-2xl text-left mx-auto">
       {!isConfigSetting && (
-        <h1 className="text-3xl font-bold mb-6">Configure your search</h1>
+        <h1 className="text-xl font-extrabold mb-6">Configure your search</h1>
       )}
       <div className="space-y-8">
         <div>
-          <h2 className="text-sm font-medium text-gray-700 mb-2 flex items-center">
+          <h2 className="text-sm font-medium text-gray-700 mb-2 flex items-center justify-between">
             Select platform to track{" "}
-            <span className="text-gray-400 ml-2">(You can select all)</span>
-            <div className="flex items-center ml-4">
+            {/* <span className="text-gray-400 ml-2">(You can select all)</span> */}
+            <div className="flex items-center ml-4 text-gray-400">
               <Label className="text-sm text-gray-700" htmlFor="selectAll">
                 Select All
               </Label>

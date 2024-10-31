@@ -13,10 +13,10 @@ export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
         <div key={step} className="flex items-center p-2">
           <div
             className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium",
+              "w-8 h-8 rounded-full flex flex-shrink-0 items-center justify-center text-sm font-medium",
               index + 1 === currentStep
-                ? "bg-blue-500 text-white"
-                : "border border-gray-300 rounded-full text-gray-600"
+                ? "border border-blue-500 text-blue-500"
+                : "border border-gray-300  text-gray-600"
             )}
           >
             {index + 1}
@@ -25,8 +25,8 @@ export function StepIndicator({ steps, currentStep }: StepIndicatorProps) {
             className={cn(
               "ml-2",
               index + 1 === currentStep
-                ? "text-blue-500 font-medium text-xs"
-                : "text-gray-600 text-xs"
+                ? "text-blue-500 font-bold text-xs "
+                : "text-gray-600 text-xs font-semibold"
             )}
           >
             {step}

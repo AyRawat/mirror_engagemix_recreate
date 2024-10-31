@@ -25,6 +25,7 @@ import {
   setProjectDescription,
 } from "@/store/formSlice";
 
+
 export default function Dashboard() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -169,6 +170,7 @@ export default function Dashboard() {
       ];
 
   const renderContent = () => {
+    
     switch (activeSection) {
       case "analytics":
         return <Analytics />;
