@@ -137,10 +137,12 @@ const KeywordConfiguration = ({
   return (
     <div className="text-left">
       {!isConfigSetting && (
-        <h1 className="text-xl text-[#344054] font-bold mb-6">
-          After analysing business info, here are some keywords you should
-          track. Feel free too add more
+        <div className="flex flex-col justify-start mb-6">
+        <h1 className="text-xl text-[#344054] leading-[29px] tracking-[-0.02em] font-semibold mb-1">
+         Suggested Keywords for you 
         </h1>
+        <span className="flex justify-start text-[#666666] leading-[23.2px] tracking-[-0.02em] text-base">You can also add or remove keywords</span>
+        </div>
       )}
       <div className="mb-6">
         <h2 className="text-sm font-medium text-gray-700 mb-2">Project Name</h2>
