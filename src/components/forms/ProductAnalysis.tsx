@@ -142,12 +142,15 @@ const ProductAnalysis = ({
   return (
     <div className="w-full">
       {!isConfigSetting && (
+        <div className="flex flex-col justify-start mb-7">
         <h1
-          className="text-xl text-left font-semibold letter-spacing mb-7 line-height-[25px]"
+          className="text-xl text-left font-semibold letter-spacing mb-1 line-height-[25px] "
           style={{ letterSpacing: "-0.4px" }}
         >
-          Tell us about your business
+         Input your website link 
         </h1>
+        <span className="flex justify-start text-base text-[#666666] leading-[23.2px] tracking-[-0.02em] font-normal">Our AI will analyse your link and give a description</span>
+        </div>
       )}
       <form className="space-y-4">
         <div>
