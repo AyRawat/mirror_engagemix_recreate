@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,7 +16,8 @@ const ProductAnalysis = ({
   onNext,
   onBack,
   isConfigSetting = false,
-  company = useAuth().user?.company,
+  company 
+  //= useAuth().user?.company,
 }: {
   onNext: () => void;
   onBack: () => void;

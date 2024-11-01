@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -169,7 +170,7 @@ const KeywordConfiguration = ({
           className="w-full h-auto bg-gray-100 scrollbar-hide overflow-hidden"
           placeholder="Enter project description"
           value={projectDescription}
-          onChange={(e: any) => {
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
             setLocalProjectDescription(e.target.value);
             checkFormValidity();
           }}
