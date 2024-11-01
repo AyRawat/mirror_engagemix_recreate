@@ -1,4 +1,3 @@
-import React from 'react'
 import WelcomeModalTemp from '@/assets/Dashboard/WelcomeModalTemp.svg';
 
 function WelcomeModal() {
